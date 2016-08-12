@@ -22,42 +22,20 @@
             </div>
         </div>
 
-        <div class="container-fluid">
+        <!--<div class="container-fluid">
             <div class="row">
                 <div class="col-xs-12 search_bar">
                     <input type="text" class="form-control search_input center-block" placeholder="通过 百度 来搜索">
                 </div>
             </div>
-        </div>
+        </div>-->
         
         <div id="SpeedDialContainer">
             
         </div>
-
-        <!--<div class="container SpeedDialBox">
-            <div class="row">
-                <div id="sd1" class="col-xs-12 col-sm-4 col-md-3 speeddial">
-                    <a href="http://www.baidu.com/">
-                        <img src="http://www.baidu.com/favicon.ico" alt="百度搜索">
-                        <span>百度搜索</span>
-                    </a>
-                    <div class="close_button" onclick="delete_speeddial(1);">
-                        <img src="images/delete.png">
-                    </div>
-                </div>
-                <div id="sd2" class="col-xs-12 col-sm-4 col-md-3 speeddial">
-                    <a href="http://www.baidu.com/">
-                        <img src="http://www.baidu.com/favicon.ico" alt="百度搜索">
-                        <span>百度搜索</span>
-                    </a>
-                    <div class="close_button" onclick="delete_speeddial(2);">
-                        <img src="images/delete.png">
-                    </div>
-                </div>
-            </div>
-        </div>-->
         
         <!-- Modal -->
+        <form id="newSD">
         <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
@@ -68,23 +46,27 @@
                     <div class="modal-body">
                         <div class="form-group">
                             <label for="exampleInputPassword1">名称：</label>
-                            <input type="text" class="form-control" id="new_name" placeholder="不填写则获取页面标题">
+                            <input type="text" class="form-control" id="new_name" placeholder="不填写则默认显示网址">
                         </div>
                         <div class="form-group">
                             <label for="exampleInputEmail1">网址：</label>
-                            <input type="text" class="form-control" id="new_url" placeholder="请填入网址">
+                            <input type="url" class="form-control" id="new_url" placeholder="请填入网址" required="required">
                         </div>
                     </div>
                     <div class="modal-footer">
+                        <button id="button_getPageInfo" type="button" class="btn btn-info">获取</button>
                         <button id="button_add_cancle" type="button" class="btn btn-default" data-dismiss="modal">取消</button>
                         <button id="button_add_speeddial" type="button" class="btn btn-primary">添加</button>
                     </div>
                 </div>
             </div>
         </div>
-
+        </form>
+        
         <script src="js/jquery-3.1.0.min.js"></script>
+        <script src="js/jquery.validate.min.js"></script>
         <script src="js/bootstrap.min.js"></script>
+        <scirpt src="js/purl.js"></scirpt>
         <script src="js/newtab.js"></script>
     </body>
 </html>
