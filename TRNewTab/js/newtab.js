@@ -11,14 +11,16 @@ function initData() {
 function loadData() {
     chrome.storage.sync.get("list",function(result){
         if (typeof result["list"] === "undefined") {
+            console.log("未找到设置，将初始化。");
             initData();
         } else {
             speedDialData = result;
+            
+            renderTemplate();
+
         }
     });
 }
-
-loadData();
 
 function saveData() {
     chrome.storage.sync.set(speedDialData, function(){
@@ -31,18 +33,20 @@ function generateTemplate() {
     <div class="container SpeedDialBox">
         <div class="row">
     `;
-    for (var i = 0; i < speedDialData["list"].length; i++) {
-        source += `
-            <div id="sd${i}" class="col-xs-12 col-sm-4 col-md-3 speeddial">
-                <a href="${speedDialData["list"][i].url}">
-                    <img src="${speedDialData["list"][i].url}/favicon.ico" alt="${speedDialData["list"][i].name}">
-                    <span>${speedDialData["list"][i].name}</span>
-                </a>
-                <div id="delete_button_${i}" class="close_button">
-                    <img src="images/delete.png">
+    if (typeof speedDialData !== "undefined") {
+        for (var i = 0; i < speedDialData["list"].length; i++) {
+            source += `
+                <div id="sd${i}" class="col-xs-12 col-sm-4 col-md-3 speeddial">
+                    <a href="${speedDialData["list"][i].url}">
+                        <img src="${speedDialData["list"][i].url}/favicon.ico" alt="${speedDialData["list"][i].name}">
+                        <span>${speedDialData["list"][i].name}</span>
+                    </a>
+                    <div id="delete_button_${i}" class="close_button">
+                        <img src="images/delete.png">
+                    </div>
                 </div>
-            </div>
-        `;
+            `;
+        }       
     }
     source += `
         </div>
@@ -96,6 +100,8 @@ function toggle_delete() {
 }
 
 $(document).ready(function(){
+    loadData();
+    
     renderTemplate();
 
     $("#edit_button").click(function(){
