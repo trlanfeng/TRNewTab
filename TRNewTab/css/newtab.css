@@ -125,3 +125,12 @@ body {
   width: 32px;
   height: 32px;
 }
+#newSD input {
+  border: 1px solid #EEE;
+}
+#newSD .modal-body {
+  padding: 20px 30px;
+}
+#newSD .modal-footer {
+  padding: 20px 30px;
+}
