@@ -1,7 +1,8 @@
 <html>
     <head>
         <meta charset="utf-8">
-        <link rel="stylesheet" href="css/bootstrap.min.css">
+        <link rel="stylesheet" href="bootstrap3/css/bootstrap.min.css">
+        <link rel="stylesheet" href="assets/css/ct-paper.css">
         <link rel="stylesheet" href="css/newtab.css">
     </head>
     <body>
@@ -11,24 +12,31 @@
                 <div class="control">
                     <button id="new_button" data-toggle="modal" data-target="#myModal">
                         <img src="./images/add.png">
+                        <span>新增</span>
                     </button>
                     <button id="edit_button">
                         <img src="./images/edit.png">
+                        <span>管理</span>
                     </button>
                     <button id="setting_button">
                         <img src="./images/setting.png">
+                        <span>设置</span>
                     </button>
                 </div>
             </div>
         </div>
 
-        <!--<div class="container-fluid">
+        <div class="container-fluid">
             <div class="row">
                 <div class="col-xs-12 search_bar">
-                    <input type="text" class="form-control search_input center-block" placeholder="通过 百度 来搜索">
+                    <div class="search_input center-block">
+                        <img src="images/default.png" alt="" class="search_icon">
+                        <input type="text" class="form-control" placeholder="通过 百度 来搜索">
+                        <button class="search_button">搜索</button>
+                    </div>
                 </div>
             </div>
-        </div>-->
+        </div>
         
         <div id="SpeedDialContainer">
             
@@ -62,11 +70,10 @@
             </div>
         </div>
         </form>
-        
+
         <script src="js/jquery-3.1.0.min.js"></script>
         <script src="js/jquery.validate.min.js"></script>
         <script src="js/bootstrap.min.js"></script>
-        <scirpt src="js/purl.js"></scirpt>
         <script src="js/newtab.js"></script>
     </body>
 </html>

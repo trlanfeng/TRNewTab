@@ -2,34 +2,86 @@ $.extend($.validator.messages, {
 	url: "请输入有效的网址"
 });
 
+var defaultSettings = {
+    "list":[
+    ],
+    "isSearchOpen": true,
+    "searchUrl":"",
+    "useBingImage": true,
+    "bingApiUrl": "http://fengyu.name/bing/index.php",
+    "bgUrl":"",
+    "searchUrl":"https://www.baidu.com/s?wd=",
+    "searchIcon":"https://www.baidu.com/favicon.ico",
+    "searchTitle":"百度"
+};
+
 var speedDialData;
+
+function checkSettings() {
+    for (var key in defaultSettings) {
+        if (typeof speedDialData[key] === "undefined") {
+            speedDialData[key] = defaultSettings[key];
+        }
+    }
+}
 
 function initData() {
     speedDialData = 
     {
-        "list":[
-        ]
+        // "list":[
+        // ],
+        "isSearchOpen": true,
+        "searchUrl":"",
+        "useBingImage": true,
+        "bingApiUrl": "http://fengyu.name/bing/index.php",
+        "bgUrl":"",
+        "searchUrl":"https://www.baidu.com/s?wd=",
+        "searchIcon":"https://www.baidu.com/favicon.ico",
+        "searchTitle":"百度"
     };
+    saveData();
 }
 
+// initData();
+
 function loadData() {
-    chrome.storage.sync.get("list",function(result){
-        if (typeof result["list"] === "undefined") {
+    chrome.storage.sync.get(function(result){
+        if (typeof result === "undefined") {
             console.log("未找到设置，将初始化。");
             initData();
         } else {
             speedDialData = result;
-            
+            checkSettings();
+            loadBackgroundImage();
             renderTemplate();
-
+            $(".search_input img").attr("src",speedDialData.searchIcon);
+            $(".search_input input").attr("placeholder","通过 "+speedDialData.searchTitle+" 搜索");
         }
     });
 }
 
 function saveData() {
+    console.log(speedDialData);
     chrome.storage.sync.set(speedDialData, function(){
         console.log("保存成功！");
     });
+}
+
+function loadBackgroundImage() {
+    if (speedDialData.useBingImage) {
+        $.get(speedDialData.bingApiUrl).then(function(response){
+            var obj = JSON.parse(response);
+            // console.log(response);
+            var bgUrl = obj.url;
+            $("body").css("background-image",'url('+bgUrl+')');
+        });
+    }
+}
+
+function getDomain(url) {
+    var domain = url.split("/");
+    domain = domain[0] + "//" + domain[2];
+    return domain;
 }
 
 function generateTemplate() {
@@ -39,8 +91,7 @@ function generateTemplate() {
     `;
     if (typeof speedDialData !== "undefined") {
         for (var i = 0; i < speedDialData["list"].length; i++) {
-            var domain = speedDialData["list"][i].url.split("/");
-            domain = domain[0] + "//" + domain[2];
+            var domain = getDomain(speedDialData["list"][i].url);
             source += `
                 <div id="sd${i}" class="col-xs-12 col-sm-4 col-md-3 speeddial">
                     <a href="${speedDialData["list"][i].url}">
@@ -62,6 +113,8 @@ function generateTemplate() {
 }
 
 function renderTemplate() {
+    // $('body').css('background-image','url('+ speedDialData.bgUrl+ ')')
+
     document.getElementById('SpeedDialContainer').innerHTML = generateTemplate(speedDialData);
 
     $(".speeddial img").on("error",function(){   
@@ -134,6 +187,13 @@ function toggle_delete() {
     $(".close_button").toggle();
 }
 
+function selectBackground() {
+    $("#setting_button").on('click',function(){
+
+    });
+    
+}
+
 $(document).ready(function(){
 
     loadData();
@@ -153,5 +213,21 @@ $(document).ready(function(){
     $("#button_getPageInfo").click(function(){
         var t = $("#iframe");
         console.log(document.getElementById("iframe").contentWindow.document.title);
+    });
+
+    $("#bgSelector").on('change',function(){
+        console.log("!23");
+        var f = $("#bgSelector")[0].files[0];
+        var src = window.URL.createObjectURL(f);
+        $("body").css("background-image",'url('+src+')');
+        speedDialData.bgUrl = src;
+        saveData();
+    });
+
+    $(".search_button").on('click',function(){
+        var su = speedDialData.searchUrl + $(".search_input input").val();
+        // console.log(speedDialData);
+        // console.log(su);
+        location.href = su;
     });
 });
