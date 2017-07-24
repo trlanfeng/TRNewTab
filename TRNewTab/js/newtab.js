@@ -12,7 +12,8 @@ var defaultSettings = {
     "bgUrl":"",
     "searchUrl":"https://www.baidu.com/s?wd=",
     "searchIcon":"https://www.baidu.com/favicon.ico",
-    "searchTitle":"百度"
+    "searchTitle":"百度",
+    "bgLastCheckDate": ""
 };
 
 var speedDialData;
@@ -26,7 +27,7 @@ function checkSettings() {
 }
 
 function initData() {
-    speedDialData = 
+    speedDialData =
     {
         // "list":[
         // ],
@@ -37,7 +38,8 @@ function initData() {
         "bgUrl":"",
         "searchUrl":"https://www.baidu.com/s?wd=",
         "searchIcon":"https://www.baidu.com/favicon.ico",
-        "searchTitle":"百度"
+        "searchTitle":"百度",
+        "bgLastCheckDate": ""
     };
     saveData();
 }
@@ -68,12 +70,19 @@ function saveData() {
 }
 
 function loadBackgroundImage() {
+    if (speedDialData.bgUrl != "") {
+        $("body").css("background-image",'url('+speedDialData.bgUrl+')');
+    }
+    //检测是否使用Bing壁纸，如果是的话检查是否需要更新URL
     if (speedDialData.useBingImage) {
+        if (new Date().getDate() == speedDialData.bgLastCheckDate) return;
+        //重新获取图片URL
         $.get(speedDialData.bingApiUrl).then(function(response){
             var obj = JSON.parse(response);
             // console.log(response);
-            var bgUrl = obj.url;
-            $("body").css("background-image",'url('+bgUrl+')');
+            speedDialData.bgUrl = obj.url;
+            $("body").css("background-image",'url('+speedDialData.bgUrl+')');
+            speedDialData.bgLastCheckDate = new Date().getDate();
         });
     }
 }
@@ -103,7 +112,7 @@ function generateTemplate() {
                     </div>
                 </div>
             `;
-        }       
+        }
     }
     source += `
         </div>
@@ -117,8 +126,8 @@ function renderTemplate() {
 
     document.getElementById('SpeedDialContainer').innerHTML = generateTemplate(speedDialData);
 
-    $(".speeddial img").on("error",function(){   
-         $(this).attr('src',"./images/default.png");   
+    $(".speeddial img").on("error",function(){
+         $(this).attr('src',"./images/default.png");
     });
 
     $(".close_button").click(function(){
@@ -153,7 +162,7 @@ function add_speeddial() {
     } else {
         $("#new_url").parent().removeClass("has-error");
     }
-    
+
     var name = $("#new_name").val();
     var url = $("#new_url").val();
     if ($("#new_name").val() == "") {
@@ -191,13 +200,13 @@ function selectBackground() {
     $("#setting_button").on('click',function(){
 
     });
-    
+
 }
 
 $(document).ready(function(){
 
     loadData();
-    
+
     renderTemplate();
 
     $("#edit_button").click(function(){
