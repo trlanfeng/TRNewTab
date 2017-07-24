@@ -22,6 +22,7 @@ body {
   border: 0;
   border-bottom: 2px solid transparent;
   background-color: transparent;
+  outline: none;
 }
 .control button span {
   font-size: 18px;
@@ -33,8 +34,10 @@ body {
   vertical-align: middle;
   margin-right: 5px;
 }
-.control button:hover {
+.control button:hover,
+.control button:focus {
   border-bottom: 2px solid white;
+  border: none;
 }
 .search_bar {
   margin-top: 50px;

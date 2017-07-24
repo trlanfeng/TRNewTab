@@ -200,7 +200,13 @@ function selectBackground() {
     $("#setting_button").on('click',function(){
 
     });
+}
 
+function searchKeywords() {
+    var su = speedDialData.searchUrl + $(".search_input input").val();
+    // console.log(speedDialData);
+    // console.log(su);
+    location.href = su;
 }
 
 $(document).ready(function(){
@@ -233,10 +239,12 @@ $(document).ready(function(){
         saveData();
     });
 
+    $('.search_input input').on('keydown',function(event){
+        if (event.keyCode == 13) {
+            searchKeywords();
+        }
+    });
     $(".search_button").on('click',function(){
-        var su = speedDialData.searchUrl + $(".search_input input").val();
-        // console.log(speedDialData);
-        // console.log(su);
-        location.href = su;
+        searchKeywords();
     });
 });
