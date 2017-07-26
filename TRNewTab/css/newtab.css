@@ -21,8 +21,10 @@ body {
   padding: 5px 0;
   border: 0;
   border-bottom: 2px solid transparent;
+  border-color: transparent;
   background-color: transparent;
   outline: none;
+  transition: border-color 0.2s;
 }
 .control button span {
   font-size: 18px;
@@ -34,10 +36,11 @@ body {
   vertical-align: middle;
   margin-right: 5px;
 }
-.control button:hover,
+.control button:hover {
+  border-color: white;
+}
 .control button:focus {
-  border-bottom: 2px solid white;
-  border: none;
+  outline: none;
 }
 .search_bar {
   margin-top: 50px;

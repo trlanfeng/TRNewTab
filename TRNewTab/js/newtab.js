@@ -13,7 +13,7 @@ var defaultSettings = {
     "searchUrl":"https://www.baidu.com/s?wd=",
     "searchIcon":"https://www.baidu.com/favicon.ico",
     "searchTitle":"百度",
-    "bgLastCheckDate": ""
+    "bgLastCheckDate": 0
 };
 
 var speedDialData;
@@ -39,7 +39,7 @@ function initData() {
         "searchUrl":"https://www.baidu.com/s?wd=",
         "searchIcon":"https://www.baidu.com/favicon.ico",
         "searchTitle":"百度",
-        "bgLastCheckDate": ""
+        "bgLastCheckDate": 0
     };
     saveData();
 }
@@ -83,6 +83,7 @@ function loadBackgroundImage() {
             speedDialData.bgUrl = obj.url;
             $("body").css("background-image",'url('+speedDialData.bgUrl+')');
             speedDialData.bgLastCheckDate = new Date().getDate();
+            saveData();
         });
     }
 }
