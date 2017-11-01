@@ -53,6 +53,8 @@ body {
   position: absolute;
   left: 15px;
   top: 10px;
+  width: 32px;
+  height: 32px;
 }
 .search_bar .search_input input {
   border-radius: 5px;
