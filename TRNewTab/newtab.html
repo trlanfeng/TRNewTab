@@ -1,9 +1,10 @@
+<!DOCTYPE html>
 <html>
     <head>
         <meta charset="utf-8">
-        <link rel="stylesheet" href="bootstrap3/css/bootstrap.min.css">
-        <link rel="stylesheet" href="css/ct-paper.css">
+        <link rel="stylesheet" href="bootstrap4/css/bootstrap.min.css">
         <link rel="stylesheet" href="css/newtab.css">
+        <title>新标签页</title>
     </head>
     <body>
 
@@ -28,7 +29,7 @@
 
         <div class="container-fluid">
             <div class="row">
-                <div class="col-xs-12 search_bar">
+                <div class="col search_bar">
                     <div class="search_input center-block">
                         <img src="images/default.png" alt="" class="search_icon">
                         <input type="text" class="form-control" placeholder="通过 百度 来搜索">
@@ -44,12 +45,12 @@
 
         <!-- Modal -->
         <form id="newSD">
-        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
+                        <h5 class="modal-title" id="myModalLabel">添加</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title" id="myModalLabel">添加</h4>
                     </div>
                     <div class="modal-body">
                         <div class="form-group">
@@ -73,7 +74,7 @@
 
         <script src="js/jquery-3.1.0.min.js"></script>
         <script src="js/jquery.validate.min.js"></script>
-        <script src="bootstrap3/js/bootstrap.min.js"></script>
+        <script src="bootstrap4/js/bootstrap.bundle.min.js"></script>
         <script src="js/newtab.js"></script>
     </body>
 </html>

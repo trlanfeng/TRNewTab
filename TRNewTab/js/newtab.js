@@ -104,7 +104,7 @@ function generateTemplate() {
         for (var i = 0; i < speedDialData["list"].length; i++) {
             var domain = getDomain(speedDialData["list"][i].url);
             source += `
-                <div id="sd${i}" class="col-xs-12 col-sm-4 col-md-3 speeddial">
+                <div id="sd${i}" class="col speeddial">
                     <a href="${speedDialData["list"][i].url}">
                         <img src="${domain}/favicon.ico" alt="${speedDialData["list"][i].name}">
                         <span>${speedDialData["list"][i].name}</span>
