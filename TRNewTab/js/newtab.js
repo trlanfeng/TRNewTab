@@ -63,7 +63,7 @@ function loadData() {
 }
 
 function saveData() {
-    console.log(speedDialData);
+    // console.log(speedDialData);
     chrome.storage.sync.set(speedDialData, function () {
         console.log("保存成功！");
     });
@@ -231,11 +231,11 @@ $(document).ready(function () {
 
     $("#button_getPageInfo").click(function () {
         var t = $("#iframe");
-        console.log(document.getElementById("iframe").contentWindow.document.title);
+        // console.log(document.getElementById("iframe").contentWindow.document.title);
     });
 
     $("#bgSelector").on('change', function () {
-        console.log("!23");
+        // console.log("!23");
         var f = $("#bgSelector")[0].files[0];
         var src = window.URL.createObjectURL(f);
         $("body").css("background-image", 'url(' + src + ')');
