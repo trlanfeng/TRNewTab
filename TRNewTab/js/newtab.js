@@ -8,7 +8,7 @@ var defaultSettings = {
     "isSearchOpen": true,
     "searchUrl": "",
     "useBingImage": true,
-    "bingApiUrl": "http://fengyu.name/bing/index.php",
+    "bingApiUrl": "https://www.bing.com/HPImageArchive.aspx?format=js&idx=0&n=1&mkt=en-US",
     "bgUrl": "",
     "searchUrl": "https://www.baidu.com/s?wd=",
     "searchIcon": "https://www.baidu.com/favicon.ico",
@@ -34,7 +34,7 @@ function initData() {
             "isSearchOpen": true,
             "searchUrl": "",
             "useBingImage": true,
-            "bingApiUrl": "http://fengyu.name/bing/index.php",
+            "bingApiUrl": "https://www.bing.com/HPImageArchive.aspx?format=js&idx=0&n=1&mkt=en-US",
             "bgUrl": "",
             "searchUrl": "https://www.baidu.com/s?wd=",
             "searchIcon": "https://www.baidu.com/favicon.ico",
@@ -78,9 +78,10 @@ function loadBackgroundImage() {
         if (new Date().getDate() == speedDialData.bgLastCheckDate) return;
         //重新获取图片URL
         $.get(speedDialData.bingApiUrl).then(function (response) {
-            var obj = JSON.parse(response);
+            // var obj = JSON.parse(response);
+            var obj = response;
             // console.log(response);
-            speedDialData.bgUrl = obj.url;
+            speedDialData.bgUrl = "https://www.bing.com" + obj.images[0].url;
             $("body").css("background-image", 'url(' + speedDialData.bgUrl + ')');
             speedDialData.bgLastCheckDate = new Date().getDate();
             saveData();
