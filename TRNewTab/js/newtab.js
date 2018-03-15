@@ -7,8 +7,9 @@ var defaultSettings = {
     ],
     "isSearchOpen": true,
     "searchUrl": "",
-    "useBingImage": true,
+    "useBingImage": false,
     "bingApiUrl": "https://www.bing.com/HPImageArchive.aspx?format=js&idx=0&n=1&mkt=en-US",
+    "bgThirdPartyUrl": "https://www.ryongyon.com/bing/",
     "bgUrl": "",
     "searchUrl": "https://www.baidu.com/s?wd=",
     "searchIcon": "https://www.baidu.com/favicon.ico",
@@ -27,20 +28,7 @@ function checkSettings() {
 }
 
 function initData() {
-    speedDialData =
-        {
-            // "list":[
-            // ],
-            "isSearchOpen": true,
-            "searchUrl": "",
-            "useBingImage": true,
-            "bingApiUrl": "https://www.bing.com/HPImageArchive.aspx?format=js&idx=0&n=1&mkt=en-US",
-            "bgUrl": "",
-            "searchUrl": "https://www.baidu.com/s?wd=",
-            "searchIcon": "https://www.baidu.com/favicon.ico",
-            "searchTitle": "百度",
-            "bgLastCheckDate": 0
-        };
+    speedDialData = defaultSettings;
     saveData();
 }
 
@@ -70,13 +58,10 @@ function saveData() {
 }
 
 function loadBackgroundImage() {
-    if (speedDialData.bgUrl != "") {
-        $("body").css("background-image", 'url(' + speedDialData.bgUrl + ')');
-    }
     //检测是否使用Bing壁纸，如果是的话检查是否需要更新URL
     if (speedDialData.useBingImage) {
         if (new Date().getDate() == speedDialData.bgLastCheckDate) return;
-        //重新获取图片URL
+        //重新获取图片URL（从bing加载）
         $.get(speedDialData.bingApiUrl).then(function (response) {
             // var obj = JSON.parse(response);
             var obj = response;
@@ -86,6 +71,8 @@ function loadBackgroundImage() {
             speedDialData.bgLastCheckDate = new Date().getDate();
             saveData();
         });
+    } else {
+        $("body").css("background-image", 'url(' + speedDialData.bgThirdPartyUrl + ')');
     }
 }
 
@@ -124,7 +111,6 @@ function generateTemplate() {
 }
 
 function renderTemplate() {
-    // $('body').css('background-image','url('+ speedDialData.bgUrl+ ')')
 
     document.getElementById('SpeedDialContainer').innerHTML = generateTemplate(speedDialData);
 

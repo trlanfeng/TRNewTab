@@ -1,6 +1,10 @@
 * {
   font-family: Helvetica, 'Hiragino Sans GB', 'Microsoft Yahei', '微软雅黑', Arial, sans-serif;
 }
+html,
+body {
+  height: 100%;
+}
 body {
   background-color: #333;
   background-position: center center;
@@ -61,10 +65,6 @@ body {
   max-width: 900px;
   height: 52px;
   padding-left: 60px;
-}
-.search_bar .search_input:hover,
-.search_bar .search_input:focus {
-  box-shadow: 0 0 20px 0 #333;
 }
 .search_bar .search_input button {
   position: absolute;
