@@ -5,6 +5,10 @@
 
 开源、简洁、快速、易用、可同步、无广告。
 
+## 下载地址
+
+* [最新测试版：1.1.8](https://gitee.com/trlanfeng/TRNewTab/releases/1.1.8-beta)
+
 ## 未来目标
 
 * [ ] 右键快速添加到快速拨号
