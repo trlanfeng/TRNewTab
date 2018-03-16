@@ -2,61 +2,6 @@ $.extend($.validator.messages, {
     url: "请输入有效的网址"
 });
 
-var defaultSettings = {
-    "list": [
-    ],
-    "isSearchOpen": true,
-    "searchUrl": "",
-    "useBingImage": false,
-    "bingApiUrl": "https://www.bing.com/HPImageArchive.aspx?format=js&idx=0&n=1&mkt=en-US",
-    "bgThirdPartyUrl": "https://www.ryongyon.com/bing/",
-    "bgUrl": "",
-    "searchUrl": "https://www.baidu.com/s?wd=",
-    "searchIcon": "https://www.baidu.com/favicon.ico",
-    "searchTitle": "百度",
-    "bgLastCheckDate": 0
-};
-
-var speedDialData;
-
-function checkSettings() {
-    for (var key in defaultSettings) {
-        if (typeof speedDialData[key] === "undefined") {
-            speedDialData[key] = defaultSettings[key];
-        }
-    }
-}
-
-function initData() {
-    speedDialData = defaultSettings;
-    saveData();
-}
-
-// initData();
-
-function loadData() {
-    chrome.storage.sync.get(function (result) {
-        if (typeof result === "undefined") {
-            console.log("未找到设置，将初始化。");
-            initData();
-        } else {
-            speedDialData = result;
-            checkSettings();
-            loadBackgroundImage();
-            renderTemplate();
-            $(".search_input img").attr("src", speedDialData.searchIcon);
-            $(".search_input input").attr("placeholder", "通过 " + speedDialData.searchTitle + " 搜索");
-        }
-    });
-}
-
-function saveData() {
-    // console.log(speedDialData);
-    chrome.storage.sync.set(speedDialData, function () {
-        console.log("保存成功！");
-    });
-}
-
 function loadBackgroundImage() {
     //检测是否使用Bing壁纸，如果是的话检查是否需要更新URL
     if (speedDialData.useBingImage) {
@@ -74,12 +19,6 @@ function loadBackgroundImage() {
     } else {
         $("body").css("background-image", 'url(' + speedDialData.bgThirdPartyUrl + ')');
     }
-}
-
-function getDomain(url) {
-    var domain = url.split("/");
-    domain = domain[0] + "//" + domain[2];
-    return domain;
 }
 
 function generateTemplate() {
@@ -201,7 +140,13 @@ function searchKeywords() {
 
 $(document).ready(function () {
 
-    loadData();
+    loadData(function () {
+        checkSettings();
+        loadBackgroundImage();
+        renderTemplate();
+        $(".search_input img").attr("src", speedDialData.searchIcon);
+        $(".search_input input").attr("placeholder", "通过 " + speedDialData.searchTitle + " 搜索");
+    });
 
     renderTemplate();
 
