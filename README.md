@@ -9,6 +9,10 @@
 
 * [最新测试版：1.1.8](https://gitee.com/trlanfeng/TRNewTab/releases/1.1.8-beta)
 
+## 安装方法
+
+将crx文件保存到本地后，打开chrome的扩展程序页面，将crx拖入安装。直接通过链接安装的话，会检测来源，非chrome.google.com/webstore官方商店来源的都装不了。
+
 ## 未来目标
 
 * [ ] 右键快速添加到快速拨号
