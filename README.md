@@ -7,7 +7,9 @@
 
 ## 下载地址
 
-* [最新测试版：1.1.8](https://gitee.com/trlanfeng/TRNewTab/releases/1.1.8-beta)
+* [最新版本CRX](https://gitee.com/trlanfeng/TRNewTab/releases)
+
+* [Chrome商店扩展地址](https://chrome.google.com/webstore/detail/%E5%B9%BB%E8%93%9D%E6%96%B0%E6%A0%87%E7%AD%BE%E9%A1%B5/eomaebekeoblgkldpodljjlpodfinmbd?hl=zh-CN)
 
 ## 安装方法
 
