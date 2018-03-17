@@ -1,9 +1,10 @@
+//bgType： 0使用第三方壁纸，1使用必应官方壁纸，2使用自定义网络壁纸，3使用自定义本地地址
+
 var defaultSettings = {
     "list": [
     ],
     "isSearchOpen": true,
-    "searchUrl": "",
-    "useBingImage": false,
+    "bgType": 0,
     "bingApiUrl": "https://www.bing.com/HPImageArchive.aspx?format=js&idx=0&n=1&mkt=en-US",
     "bgThirdPartyUrl": "https://www.ryongyon.com/bing/",
     "bgUrl": "",
@@ -11,6 +12,10 @@ var defaultSettings = {
     "searchIcon": "https://www.baidu.com/favicon.ico",
     "searchTitle": "百度",
     "bgLastCheckDate": 0
+};
+
+var localSettings = {
+    "bgLocalUrl": ""
 };
 
 var speedDialData;
@@ -32,8 +37,6 @@ function initData() {
 
 function loadData(callback) {
     chrome.storage.sync.get(function (result) {
-        console.log('---1---');
-        console.log(result);
         if (!result.list) {
             console.log("未找到设置，将初始化。");
             initData();
@@ -52,7 +55,24 @@ function saveData() {
     chrome.storage.sync.set(speedDialData, function () {
         console.log("保存成功！");
     });
-    localStorage.setItem("speedDialData",JSON.stringify(speedDialData));
+    // localStorage.setItem("speedDialData",JSON.stringify(speedDialData));
+}
+
+function loadLocalData(callback) {
+    chrome.storage.local.get(function (result) {
+        if (result) {
+            localSettings = result;
+        }
+        if (callback) {
+            callback();
+        }
+    });
+}
+
+function saveLocalData() {
+    chrome.storage.local.set(localSettings, function () {
+        console.log("保存成功！");
+    });
 }
 
 function getDomain(url) {

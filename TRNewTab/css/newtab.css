@@ -133,6 +133,6 @@ body {
   width: 32px;
   height: 32px;
 }
-#newSD .modal-dialog {
+.modal-dialog {
   margin-top: 200px;
 }

@@ -3,21 +3,36 @@ $.extend($.validator.messages, {
 });
 
 function loadBackgroundImage() {
-    //检测是否使用Bing壁纸，如果是的话检查是否需要更新URL
-    if (speedDialData.useBingImage) {
-        if (new Date().getDate() == speedDialData.bgLastCheckDate) return;
-        //重新获取图片URL（从bing加载）
-        $.get(speedDialData.bingApiUrl).then(function (response) {
-            // var obj = JSON.parse(response);
-            var obj = response;
-            // console.log(response);
-            speedDialData.bgUrl = "https://www.bing.com" + obj.images[0].url;
+    switch (speedDialData.bgType) {
+        // 使用第三方壁纸
+        case 0:
+            $("body").css("background-image", 'url(' + speedDialData.bgThirdPartyUrl + ')');
+            break;
+        // 使用必应官方地址
+        case 1:
+            if (new Date().getDate() == speedDialData.bgLastCheckDate) {
+                $("body").css("background-image", 'url(' + speedDialData.bgUrl + ')');
+                return;
+            }
+            //重新获取图片URL（从bing加载）
+            $.get(speedDialData.bingApiUrl).then(function (response) {
+                // var obj = JSON.parse(response);
+                var obj = response;
+                // console.log(response);
+                speedDialData.bgUrl = "https://www.bing.com" + obj.images[0].url;
+                $("body").css("background-image", 'url(' + speedDialData.bgUrl + ')');
+                speedDialData.bgLastCheckDate = new Date().getDate();
+                saveData();
+            });
+            break;
+        // 使用网络图片地址
+        case 2:
             $("body").css("background-image", 'url(' + speedDialData.bgUrl + ')');
-            speedDialData.bgLastCheckDate = new Date().getDate();
-            saveData();
-        });
-    } else {
-        $("body").css("background-image", 'url(' + speedDialData.bgThirdPartyUrl + ')');
+            break;
+        // 使用本地图片
+        case 3:
+            $("body").css("background-image", 'url(' + localSettings.bgLocalUrl + ')');
+            break;
     }
 }
 
@@ -30,7 +45,7 @@ function generateTemplate() {
         for (var i = 0; i < speedDialData["list"].length; i++) {
             var domain = getDomain(speedDialData["list"][i].url);
             source += `
-                <div id="sd${i}" class="col speeddial">
+                <div id="sd${i}" class="col-md-6 col-lg-4 col-xl-3 speeddial">
                     <a href="${speedDialData["list"][i].url}">
                         <img src="${domain}/favicon.ico" alt="${speedDialData["list"][i].name}">
                         <span>${speedDialData["list"][i].name}</span>
@@ -129,6 +144,14 @@ function selectBackground() {
     });
 }
 
+function toggle_settings() {
+    $("#modal_settings").modal('toggle');
+}
+
+function save_settings() {
+
+}
+
 function searchKeywords() {
     var su = speedDialData.searchUrl + encodeURIComponent($(".search_input input").val());
     // su = encodeURI(su);
@@ -138,42 +161,20 @@ function searchKeywords() {
     location.href = su;
 }
 
-$(document).ready(function () {
-
-    loadData(function () {
-        checkSettings();
-        loadBackgroundImage();
-        renderTemplate();
-        $(".search_input img").attr("src", speedDialData.searchIcon);
-        $(".search_input input").attr("placeholder", "通过 " + speedDialData.searchTitle + " 搜索");
-    });
-
-    renderTemplate();
-
-    $("#edit_button").click(function () {
-        toggle_delete();
-    });
-    $("#button_add_cancle").click(function () {
-        add_cancle()
-    });
-    $("#button_add_speeddial").click(function () {
-        add_speeddial();
-    });
-
-    $("#button_getPageInfo").click(function () {
-        var t = $("#iframe");
-        // console.log(document.getElementById("iframe").contentWindow.document.title);
-    });
-
-    $("#bgSelector").on('change', function () {
-        // console.log("!23");
-        var f = $("#bgSelector")[0].files[0];
-        var src = window.URL.createObjectURL(f);
-        $("body").css("background-image", 'url(' + src + ')');
-        speedDialData.bgUrl = src;
+// 绑定搜索相关事件
+function bindSearch() {
+    $("#search_title").on('change', function () {
+        speedDialData.searchTitle = $(this).val();
         saveData();
     });
-
+    $("#search_url").on('change', function () {
+        speedDialData.searchUrl = $(this).val();
+        saveData();
+    });
+    $("#search_icon").on('change', function () {
+        speedDialData.searchIcon = $(this).val();
+        saveData();
+    });
     $('.search_input input').on('keydown', function (event) {
         if (event.keyCode == 13) {
             searchKeywords();
@@ -182,4 +183,107 @@ $(document).ready(function () {
     $(".search_button").on('click', function () {
         searchKeywords();
     });
+    $(".switch-search").on('change', function () {
+        var result = $(this)[0].checked;
+        speedDialData.isSearchOpen = result;
+        saveData();
+        if (result) {
+            $(".search_settings").show();
+            $(".search_box").show();
+        } else {
+            $(".search_settings").hide();
+            $(".search_box").hide();
+        }
+    });
+    $(".switch-search")[0].checked = speedDialData.isSearchOpen;
+    $(".switch-search").change();
+    $("#search_title").val(speedDialData.searchTitle);
+    $("#search_url").val(speedDialData.searchUrl);
+    $("#search_icon").val(speedDialData.searchIcon);
+    $(".search_input img").attr("src", speedDialData.searchIcon);
+    $(".search_input input").attr("placeholder", "通过 " + speedDialData.searchTitle + " 搜索");
+    var switch_search = new Switchery($(".switch-search")[0], {
+        className: 'switchery float-right'
+    });
+
+    if (speedDialData.isSearchOpen) {
+        $(".search_box").show();
+    } else {
+        $(".search_box").hide();
+    }
+}
+
+// 绑定背景相关事件
+function bindBg() {
+    $("#bgTypeSelector").on('change', function () {
+        speedDialData.bgType = parseInt($(this).val());
+        switch (speedDialData.bgType) {
+            // 使用第三方壁纸
+            case 0:
+                $(".networkImage,.localImage").hide();
+                break;
+            // 使用必应官方地址
+            case 1:
+                $(".networkImage,.localImage").hide();
+                break;
+            // 使用网络图片地址
+            case 2:
+                $(".localImage").hide();
+                $(".networkImage").show();
+                break;
+            // 使用本地图片
+            case 3:
+                $(".networkImage").hide();
+                $(".localImage").show();
+                break;
+        }
+        saveData();
+    });
+    $("#bgSelector").on('change', function () {
+        // console.log("!23");
+        var f = $("#bgSelector")[0].files[0];
+        var src = window.URL.createObjectURL(f);
+        $("body").css("background-image", 'url(' + src + ')');
+        localSettings.bgLocalUrl = src;
+        saveLocalData();
+    });
+    $("#networkImageUrl").on('change',function() {
+        speedDialData.bgUrl = $(this).val();
+        saveData();
+    });
+    $("#bgTypeSelector").val(speedDialData.bgType).change();
+    $("#networkImageUrl").val(speedDialData.bgUrl).change();
+}
+
+// 绑定快速拨号相关事件
+function bindSpeedDial() {
+    $("#button_add_cancle").click(function () {
+        add_cancle()
+    });
+
+    $("#button_add_speeddial").click(function () {
+        add_speeddial();
+    });
+}
+
+$(document).ready(function () {
+
+    loadLocalData();
+    loadData(function () {
+        checkSettings();
+        loadBackgroundImage();
+        renderTemplate();
+        bindSearch();
+        bindBg();
+        bindSpeedDial();
+    });
+
+    $("#edit_button").click(function () {
+        toggle_delete();
+    });
+
+    $("#setting_button").on('click', function () {
+        toggle_settings();
+    });
+
 });

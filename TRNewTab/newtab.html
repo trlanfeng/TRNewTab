@@ -1,56 +1,61 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="utf-8">
-        <link rel="stylesheet" href="bootstrap4/css/bootstrap.min.css">
-        <link rel="stylesheet" href="css/newtab.css">
-        <title>新标签页</title>
-    </head>
-    <body>
 
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col control">
-                    <button id="new_button" data-toggle="modal" data-target="#myModal">
-                        <img src="./images/add.png">
-                        <span>新增</span>
-                    </button>
-                    <button id="edit_button">
-                        <img src="./images/edit.png">
-                        <span>管理</span>
-                    </button>
-                    <button id="setting_button">
-                        <img src="./images/setting.png">
-                        <span>设置</span>
-                    </button>
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="bootstrap4/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/newtab.css">
+    <link rel="stylesheet" href="switchery/switchery.min.css">
+    <title>🌐 新标签页</title>
+</head>
+
+<body>
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col control">
+                <button id="new_button" data-toggle="modal" data-target="#myModal">
+                    <img src="./images/add.png">
+                    <span>新增</span>
+                </button>
+                <button id="edit_button">
+                    <img src="./images/edit.png">
+                    <span>管理</span>
+                </button>
+                <button id="setting_button">
+                    <img src="./images/setting.png">
+                    <span>设置</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="container search_box">
+        <div class="row">
+            <div class="col search_bar">
+                <div class="search_input mx-auto">
+                    <img src="images/default.png" alt="" class="search_icon">
+                    <input type="text" class="form-control" placeholder="通过 百度 来搜索">
+                    <button class="search_button">搜索</button>
                 </div>
             </div>
         </div>
+    </div>
 
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col search_bar">
-                    <div class="search_input mx-auto">
-                        <img src="images/default.png" alt="" class="search_icon">
-                        <input type="text" class="form-control" placeholder="通过 百度 来搜索">
-                        <button class="search_button">搜索</button>
-                    </div>
-                </div>
-            </div>
-        </div>
+    <div id="SpeedDialContainer">
 
-        <div id="SpeedDialContainer">
+    </div>
 
-        </div>
-
-        <!-- Modal -->
-        <form id="newSD">
+    <!-- Modal -->
+    <form id="newSD">
         <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="myModalLabel">添加</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
                     </div>
                     <div class="modal-body">
                         <div class="form-group">
@@ -70,12 +75,92 @@
                 </div>
             </div>
         </div>
-        </form>
+    </form>
 
-        <script src="js/jquery-3.1.0.min.js"></script>
-        <script src="js/jquery.validate.min.js"></script>
-        <script src="bootstrap4/js/bootstrap.bundle.min.js"></script>
-        <script src="js/common.js"></script>
-        <script src="js/newtab.js"></script>
-    </body>
+    <!-- Settings Modal -->
+    <div class="modal fade" id="modal_settings" tabindex="-1" role="dialog" aria-labelledby="modal_settings_label" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <ul class="nav nav-pills" id="myTab" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">常规</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">搜索</a>
+                        </li>
+                    </ul>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col">
+                                <div class="tab-content" id="myTabContent">
+                                    <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                                        <div class="form-group">
+                                            <label>壁纸类型：</label>
+                                            <select id="bgTypeSelector" class="form-control">
+                                                <option value="0">使用第三方壁纸（每日更换）</option>
+                                                <option value="1">使用必应官方地址（每日更换，无法缓存）</option>
+                                                <option value="2">使用网络图片地址</option>
+                                                <option value="3">使用本地图片</option>
+                                            </select>
+                                        </div>
+                                        <div class="networkImage">
+                                            <div class="form-group">
+                                                <label>网络图片地址：</label>
+                                                <input type="text" class="form-control" id="networkImageUrl" placeholder="请填写网络图片地址">
+                                            </div>
+                                        </div>
+                                        <div class="localImage">
+                                            <div class="form-group">
+                                                <label>选择本地图片：</label>
+                                                <input type="file" class="form-control-file" id="bgSelector">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                                        <div class="form-group">
+                                            <label>是否开启搜索：</label>
+                                            <input type="checkbox" class="switch-search float-right" checked>
+                                        </div>
+                                        <div class="search_settings">
+                                            <div class="form-group">
+                                                <label>搜索名称：</label>
+                                                <input type="text" class="form-control" id="search_title" placeholder="请填写搜索名称">
+                                            </div>
+                                            <div class="form-group">
+                                                <label>搜索地址：</label>
+                                                <input type="text" class="form-control" id="search_url" placeholder="请填写搜索地址">
+                                            </div>
+                                            <div class="form-group">
+                                                <label>图标地址：</label>
+                                                <input type="text" class="form-control" id="search_icon" placeholder="请填写图标地址">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <!-- <button id="button_add_cancle" type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                    <button id="button_add_speeddial" type="button" class="btn btn-primary">添加</button> -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/jquery-3.1.0.min.js"></script>
+    <script src="switchery/switchery.min.js"></script>
+    <script src="js/jquery.validate.min.js"></script>
+    <script src="bootstrap4/js/bootstrap.bundle.min.js"></script>
+    <script src="js/common.js"></script>
+    <script src="js/newtab.js"></script>
+</body>
+
 </html>
