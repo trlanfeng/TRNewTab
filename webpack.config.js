@@ -15,7 +15,7 @@ module.exports = {
     },
     module: {
         rules: [{
-                test: /\.js$/,
+                test: /\.(js|jsx)$/,
                 use: 'babel-loader'
             },
             {
@@ -40,6 +40,12 @@ module.exports = {
             template: 'popup.html',
             filename: 'popup.html',
             chunks: ['popup']
-        })
-    ]
+        }),
+        new webpack.NamedModulesPlugin(),
+        new webpack.HotModuleReplacementPlugin()
+    ],
+    devServer: {
+        contentBase: './dist',
+        hot: true
+    }
 }
