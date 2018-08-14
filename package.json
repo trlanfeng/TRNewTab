@@ -1,25 +1,20 @@
 {
   "name": "TRNewTab",
-  "version": "1.0.0",
+  "version": "2.0.0",
+  "description": "开源、简洁、快速、易用、可同步、无广告的新标签页。",
   "main": "index.js",
   "repository": "https://gitee.com/trlanfeng/TRNewTab.git",
   "author": "孤月蓝风 <trlanfeng@foxmail.com>",
   "license": "MIT",
-  "scripts": {
-    "dev": "webpack-dev-server --inline --progress"
-  },
   "dependencies": {
-    "css-loader": "^1.0.0",
-    "html-webpack-plugin": "^3.2.0",
-    "less-loader": "^4.1.0",
     "vue": "^2.5.17",
-    "vue-loader": "^15.2.6",
-    "vue-template-compiler": "^2.5.17",
-    "webpack": "^4.16.4"
+    "vue-hot-reload-api": "^2.3.0",
+    "vuedraggable": "^2.16.0"
   },
   "devDependencies": {
-    "less": "^3.8.0",
-    "webpack-cli": "^3.1.0",
-    "webpack-dev-server": "^3.1.5"
+    "@vue/component-compiler-utils": "^2.1.2",
+    "less": "^3.8.1",
+    "typescript": "^3.0.1",
+    "vue-template-compiler": "^2.5.17"
   }
 }

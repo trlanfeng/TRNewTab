@@ -2,3 +2,5 @@
 /TRNewTab.zip
 /node_modules
 /.vscode
+/.cache
+/dist
