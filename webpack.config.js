@@ -3,6 +3,7 @@
 const path = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const VueLoaderPlugin = require('vue-loader/lib/plugin')
 
 module.exports = {
     entry: {
@@ -15,20 +16,24 @@ module.exports = {
     },
     module: {
         rules: [{
-                test: /\.(js|jsx)$/,
-                use: 'babel-loader'
-            },
-            {
-                test: /\.less$/,
-                use: [{
-                    loader: "style-loader"
-                }, {
-                    loader: "css-loader"
-                }, {
-                    loader: "less-loader"
-                }]
+            test: /\.vue$/,
+            loader: 'vue-loader'
+        }, {
+            test: /\.ts$/,
+            loader: 'ts-loader',
+            options: {
+                appendTsSuffixTo: [/\.vue$/]
             }
-        ]
+        }, {
+            test: /\.less$/,
+            use: [{
+                loader: "vue-style-loader"
+            }, {
+                loader: "css-loader"
+            }, {
+                loader: "less-loader"
+            }]
+        }]
     },
     plugins: [
         new HtmlWebpackPlugin({
@@ -42,7 +47,8 @@ module.exports = {
             chunks: ['popup']
         }),
         new webpack.NamedModulesPlugin(),
-        new webpack.HotModuleReplacementPlugin()
+        new webpack.HotModuleReplacementPlugin(),
+        new VueLoaderPlugin()
     ],
     devServer: {
         contentBase: './dist',

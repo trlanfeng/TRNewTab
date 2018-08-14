@@ -1,7 +1,13 @@
-import React from "react";
-import ReactDom from "react-dom";
-import "./assets/css/newtab.less";
+import Vue from 'vue';
+import App from './components/newtab/Newtab.vue';
+import './assets/css/newtab.less'
 
-import Newtab from './components/newtab/Newtab.jsx'
+Vue.config.productionTip = false;
 
-ReactDom.render(<Newtab />, document.querySelector("#root"));
+new Vue({
+  render: h => h(App)
+}).$mount('#app');
+
+if (module.hot) {
+  module.hot.accept();
+}

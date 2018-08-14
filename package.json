@@ -1,27 +1,25 @@
 {
   "name": "TRNewTab",
   "version": "1.0.0",
-  "private": true,
+  "main": "index.js",
+  "repository": "https://gitee.com/trlanfeng/TRNewTab.git",
+  "author": "孤月蓝风 <trlanfeng@foxmail.com>",
   "license": "MIT",
   "scripts": {
-    "dev": "webpack-dev-server --hot"
+    "dev": "webpack-dev-server --inline --progress"
   },
   "dependencies": {
-    "babel-cli": "6",
-    "babel-loader": "^7.1.5",
-    "babel-preset-react-app": "3",
+    "css-loader": "^1.0.0",
     "html-webpack-plugin": "^3.2.0",
-    "less": "^3.7.1",
     "less-loader": "^4.1.0",
-    "react": "^16.4.1",
-    "react-dom": "^16.4.1",
-    "react-hot-loader": "^4.3.3"
+    "vue": "^2.5.17",
+    "vue-loader": "^15.2.6",
+    "vue-template-compiler": "^2.5.17",
+    "webpack": "^4.16.4"
   },
   "devDependencies": {
-    "css-loader": "^1.0.0",
-    "style-loader": "^0.21.0",
-    "webpack": "^4.16.1",
-    "webpack-cli": "^3.0.8",
-    "webpack-dev-server": "^3.1.4"
+    "less": "^3.8.0",
+    "webpack-cli": "^3.1.0",
+    "webpack-dev-server": "^3.1.5"
   }
 }
