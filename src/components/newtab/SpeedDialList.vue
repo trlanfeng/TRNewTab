@@ -1,10 +1,11 @@
 <template>
   <div id="SpeedDialContainer">
     <draggable v-model="sddata.list" :options="draggableOptions" class="SpeedDialBox">
-      <div v-for="(item,index) in sddata.list" :key="index" class="speeddial col-3 col-md-3 col-lg-3">
+      <div v-for="(item,index) in sddata.list" :key="index" class="speeddial col-12 col-sm-4 col-md-3 col-lg-3">
         <a :href="item.url" class="block" :title="item.name">
           <div class="icon">
-            <img :src="item.url | getFavIconUrl" :alt="item.name" @load="imgLoad($event)">
+            <img class="drag_handle" v-if="isEditMode" src="../../assets/icons/move.svg" alt="拖拽移动">
+            <img class="icon_img" :src="item.url | getFavIconUrl" :alt="item.name" @load="imgLoad($event)" @error="imgError($event)">
             <span class="word">{{item.name | getFirstWord}}</span>
           </div>
           <span class="title">{{item.name}}</span>
@@ -28,13 +29,19 @@ export default Vue.extend({
     return {
       sddata,
       draggableOptions: {
-        animation: 250
-      }
+        animation: 250,
+        handle: '.icon',
+        sort: true
+      },
+      isEditMode: true
     };
   },
   methods: {
     imgLoad(e): void {
-      e.target.style.display = "inline";
+      e.target.style.display = "inline-block";
+    },
+    imgError(e): void {
+      e.target.style.display = "none";
     }
   },
   mounted() {},
@@ -53,7 +60,8 @@ export default Vue.extend({
 <style lang="less" scoped>
 .SpeedDialBox {
   max-width: 1200px;
-  margin: 50px auto 0;
+  margin: 0 auto;
+  padding: 50px 0 100px;
   display: flex;
   flex-wrap: wrap;
   .speeddial {
@@ -83,7 +91,16 @@ export default Vue.extend({
         height: 32px;
         margin-right: 10px;
         overflow: hidden;
-        img {
+        .drag_handle {
+          width: 32px;
+          height: 32px;
+          color: #333;
+          fill: #333;
+          path {
+            fill: #333;
+          }
+        }
+        .icon_img {
           display: none;
           width: 32px;
           height: 32px;
