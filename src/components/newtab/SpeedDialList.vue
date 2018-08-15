@@ -33,18 +33,18 @@ export default Vue.extend({
     };
   },
   methods: {
-    imgLoad(e) {
-      e.target.style.display = "inline"
+    imgLoad(e): void {
+      e.target.style.display = "inline";
     }
   },
   mounted() {},
   filters: {
-    getFavIconUrl(url) {
-      var domain = url.split("/");
-      domain = domain[0] + "//" + domain[2];
+    getFavIconUrl(url: string): string {
+      let domainArr = url.split("/");
+      let domain = domainArr[0] + "//" + domainArr[2];
       return domain + "/favicon.ico";
     },
-    getFirstWord(title: string) {
+    getFirstWord(title: string): string {
       return title.substr(0, 1).toUpperCase();
     }
   }
@@ -92,7 +92,7 @@ export default Vue.extend({
         .word {
           display: inline-block;
           font-size: 24px;
-          background-color: #0090FF;
+          background-color: #0090ff;
           color: white;
           width: 32px;
           height: 32px;

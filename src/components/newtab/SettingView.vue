@@ -1,5 +1,5 @@
 <template>
-      <!-- Settings Modal -->
+    <!-- Settings Modal -->
     <div class="modal fade" id="modal_settings" tabindex="-1" role="dialog" aria-labelledby="modal_settings_label" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -78,11 +78,8 @@
     </div>
 </template>
 <script lang="ts">
-import Vue from 'vue'
-export default Vue.extend({
-    
-})
+import Vue from "vue";
+export default Vue.extend({});
 </script>
 <style lang="less" scoped>
-
 </style>

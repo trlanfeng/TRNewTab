@@ -1,13 +1,12 @@
 <template>
   <div>
     <TopBar></TopBar>
-    <SearchBox></SearchBox>
+    <SearchBox v-if="isSearchBoxShow"></SearchBox>
     <SpeedDialList></SpeedDialList>
   </div>
 </template>
 <script lang="ts">
-import data from "../../assets/testdata";
-import { DataManager } from "../../assets/js/DataManager";
+import DataManager from "../../assets/js/DataManager";
 import Vue from "vue";
 import SpeedDialList from "./SpeedDialList.vue";
 import SearchBox from "./SearchBox.vue";
@@ -18,7 +17,14 @@ export default Vue.extend({
     SearchBox,
     TopBar
   },
-  mounted() {}
+  data() {
+    return {
+      isSearchBoxShow: false
+    };
+  },
+  mounted() {
+    this.isSearchBoxShow = DataManager.isSearchOpen;
+  }
 });
 </script>
 
