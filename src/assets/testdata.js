@@ -1,4 +1,4 @@
-var data = {
+var testdata = {
   "bgLastCheckDate": 14,
   "bgThirdPartyUrl": "https://www.ryongyon.com/bing/",
   "bgType": 0,
@@ -123,4 +123,4 @@ var data = {
   "useBingImage": false
 }
 
-export default data;
+export default testdata;

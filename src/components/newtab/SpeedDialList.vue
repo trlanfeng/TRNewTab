@@ -1,16 +1,16 @@
 <template>
   <div id="SpeedDialContainer">
-    <draggable v-model="sddata.list" :options="draggableOptions" class="SpeedDialBox">
+    <draggable v-model="sddata.list" :options="draggableOptions" class="SpeedDialBox" @end="sdMoved">
       <div v-for="(item,index) in sddata.list" :key="index" class="speeddial col-12 col-sm-4 col-md-3 col-lg-3">
         <a :href="item.url" class="block" :title="item.name">
           <div class="icon">
-            <img class="drag_handle" v-if="isEditMode" src="../../assets/icons/move.svg" alt="拖拽移动">
+            <img class="drag_handle" v-if="isEditMode" src="../../assets/icons/drag.png" alt="拖拽移动">
             <img class="icon_img" :src="item.url | getFavIconUrl" :alt="item.name" @load="imgLoad($event)" @error="imgError($event)">
             <span class="word">{{item.name | getFirstWord}}</span>
           </div>
           <span class="title">{{item.name}}</span>
         </a>
-        <div :id="'delete_button_'+index" class="close_button">
+        <div :id="'delete_button_'+index" v-if="isEditMode" class="close_button">
           <img src="../../assets/images/delete.png">
         </div>
       </div>
@@ -18,7 +18,6 @@
   </div>
 </template>
 <script lang="ts">
-import sddata from "../../assets/testdata";
 import Vue from "vue";
 import draggable from "vuedraggable";
 export default Vue.extend({
@@ -26,15 +25,7 @@ export default Vue.extend({
     draggable
   },
   data() {
-    return {
-      sddata,
-      draggableOptions: {
-        animation: 250,
-        handle: '.icon',
-        sort: true
-      },
-      isEditMode: true
-    };
+    return {};
   },
   methods: {
     imgLoad(e): void {
@@ -42,9 +33,24 @@ export default Vue.extend({
     },
     imgError(e): void {
       e.target.style.display = "none";
+    },
+    sdMoved(e): void {
+      // this.$store.commit("moveItem", { from: e.oldIndex, to: e.newIndex });
+      this.$store.commit("moveItem", { arr:[1,2,3,4,5], from: 4, to: 1 });
     }
   },
   mounted() {},
+  computed: {
+    isEditMode() {
+      return this.$store.state.isEditMode;
+    },
+    sddata() {
+      return this.$store.state.testdata;
+    },
+    draggableOptions() {
+      return this.$store.state.draggableOptions;
+    }
+  },
   filters: {
     getFavIconUrl(url: string): string {
       let domainArr = url.split("/");
@@ -127,7 +133,7 @@ export default Vue.extend({
       }
     }
     .close_button {
-      display: none;
+      // display: none;
       width: 32px;
       height: 32px;
       position: absolute;

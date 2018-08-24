@@ -6,7 +6,7 @@
           <img src="../../assets/images/add.png">
           <span>新增</span>
         </button>
-        <button id="edit_button">
+        <button id="edit_button" @click="toggleEditMode()">
           <img src="../../assets/images/edit.png">
           <span>管理</span>
         </button>
@@ -19,11 +19,14 @@
   </div>
 </template>
 <script lang="ts">
-import Vue from 'vue'
+import Vue from "vue";
 export default Vue.extend({
-    
-})
+  methods: {
+    toggleEditMode(mode: boolean) {
+      this.$store.commit("toggleEditMode");
+    }
+  }
+});
 </script>
 <style lang="less" scoped>
-
 </style>
