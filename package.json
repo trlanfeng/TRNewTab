@@ -6,7 +6,11 @@
   "repository": "https://gitee.com/trlanfeng/TRNewTab.git",
   "author": "孤月蓝风 <trlanfeng@foxmail.com>",
   "license": "MIT",
+  "scripts": {
+    "dev": "parcel ./src/newtab.html ./src/popup.html && copy ./template/* ./dist"
+  },
   "dependencies": {
+    "assets": "^3.0.0",
     "bootstrap": "^4.1.3",
     "vue": "^2.5.17",
     "vue-hot-reload-api": "^2.3.0",
