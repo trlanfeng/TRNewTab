@@ -16,6 +16,17 @@ body {
     border-color: #d9534f !important;
 }
 
+.bg {
+    position: fixed;
+    top: -20px;
+    bottom: -20px;
+    left: -20px;
+    right: -20px;
+    z-index: -1;
+    background-position: center;
+    // filter: blur(20px);
+}
+
 .topbar {
     padding: 20px;
     text-align: right;
@@ -58,7 +69,7 @@ body {
     position: relative;
     .search_icon {
         position: absolute;
-        left: 25px;
+        left: 30px;
         top: 10px;
         width: 32px;
         height: 32px;
@@ -111,10 +122,10 @@ body {
     display: flex;
     flex-wrap: wrap;
     .speeddial {
-        transition: all 0.5s;
         position: relative;
         margin-top: 20px;
         .block {
+            transition: all 0.2s;
             display: flex;
             height: 52px;
             align-items: center;
@@ -196,4 +207,20 @@ body {
     left: 0;
     right: 0;
     background-color: rgba(0, 0, 0, 0.7);
+}
+
+.switcher_box {
+    display: flex;
+    align-items: center;
+    label {
+        flex: 1;
+    }
+    .switcher {
+        display: flex !important;
+        justify-content: flex-end;
+    }
+}
+
+.nav-item {
+    cursor: pointer;
 }

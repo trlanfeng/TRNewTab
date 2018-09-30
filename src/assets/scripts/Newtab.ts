@@ -1,8 +1,10 @@
-import DataManager from "../js/DataManager";
 import draggable from "vuedraggable";
 import Vue from "vue";
+import axios from 'axios'
+import vueSlider from 'vue-slider-component'
+import ToggleButton from 'vue-js-toggle-button'
 
-// import sddata from '../testdata'
+Vue.use(ToggleButton)
 
 var defaultSettings = {
     "list": [
@@ -14,17 +16,18 @@ var defaultSettings = {
     "searchUrl": "https://www.baidu.com/s?wd=",
     "searchIcon": "https://www.baidu.com/favicon.ico",
     "searchTitle": "百度",
-    "bgLastCheckDate": 0
+    "bgLastCheckDate": 0,
+    "bgBlur": 0
 };
 
 const Newtab = Vue.extend({
     components: {
-        draggable
+        draggable,
+        vueSlider
     },
     data() {
         return {
             keywords: "",
-            isSearchBoxShow: false,
             isSettingShow: false,
             isEditMode: false,
             isCreateShow: false,
@@ -34,65 +37,83 @@ const Newtab = Vue.extend({
                 // sort: true,
                 disabled: true
             },
-            userdata: {},
+            userdata: defaultSettings,
             create_url: "",
-            create_name: ""
+            create_name: "",
+            settingIndex: 0
         };
     },
     mounted() {
-        this.loadData();
+        this.loadData(this.loadBackgroundImage);
+    },
+    watch: {
+        userdata: {
+            handler(newVal, oldVal) {
+                this.saveData();
+            },
+            deep: true
+        }
+    },
+    computed: {
+        bgStyle: {
+            get() {
+                let inner_width = (-2 * parseInt(this.userdata.bgBlur)) + 'px';
+                return {
+                    backgroundImage: 'url(' + this.userdata.bgUrl + ')',
+                    filter: 'blur(' + this.userdata.bgBlur + 'px)',
+                    top: inner_width,
+                    bottom: inner_width,
+                    left: inner_width,
+                    right: inner_width
+                }
+            }
+        }
     },
     methods: {
-        initData() {
-            this.userdata = defaultSettings;
-            this.saveData();
-        },
         pullFromRemote() {
             chrome.storage.sync.get((result) => {
                 if (!result.list) {
-                    console.log("未找到设置，将初始化。");
-                    this.initData();
+                    console.log("未找到设置，将使用默认设置");
                 } else {
-                    console.log(result);
+                    // console.log("下载成功！");
                     this.userdata = result;
                 }
             });
         },
         pushToRemote() {
             chrome.storage.sync.set(this.userdata, function () {
-                console.log("保存成功！");
+                // console.log("上传成功！");
             });
         },
-        loadData() {
+        loadData(callback) {
             chrome.storage.local.get((result) => {
                 if (!result.list) {
                     this.pullFromRemote();
                 } else {
-                    console.log(result);
+                    // console.log("加载成功！")
                     this.userdata = result;
                 }
+                if (callback) callback();
             });
         },
         saveData() {
             chrome.storage.local.set(this.userdata, () => {
-                console.log("保存成功！");
+                // console.log("保存成功！");
                 this.pushToRemote();
             });
         },
         createSpeedDial() {
             let newspeeddial = {
                 name: this.create_name,
-                url: this.create_url,
-                order: this.userdata.list.length
+                url: this.create_url
             };
-            console.log('newspeeddial', newspeeddial);
             this.userdata["list"].push(newspeeddial);
-            this.saveData();
             this.create_name = '';
             this.create_url = '';
+            this.isCreateShow = false;
         },
         search() {
-            let searchUrl = DataManager.searchUrl + this.keywords;
+            let searchUrl = this.userdata.searchUrl + encodeURIComponent(this.keywords);
             location.href = searchUrl;
         },
         imgLoad(e): void {
@@ -101,24 +122,53 @@ const Newtab = Vue.extend({
         imgError(e): void {
             e.target.style.display = "none";
         },
-        sdMoved(e): void {
-            // e.oldIndex;
-            // e.newIndex;
-            let sd = this.userdata.list.splice(e.oldIndex, 1);
-            this.userdata.list.splice(e.newIndex, 0, sd[0]);
-            this.saveData();
+        moveItem(e): void {
+        },
+        removeItem(index: number) {
+            this.userdata.list.splice(index, 1);
         },
         toggleEditMode(state) {
             this.isEditMode = !this.isEditMode;
             this.draggableOptions.disabled = !this.isEditMode;
         },
-        getDomain(url) {
-            var domain = url.split("/");
-            domain = domain[0] + "//" + domain[2];
-            return domain;
+        loadBackgroundImage() {
+            switch (this.userdata.bgType) {
+                // 使用第三方壁纸
+                case 0:
+                case 1:
+                    if (new Date().getDate() == this.userdata.bgLastCheckDate) {
+                        return;
+                    }
+                    //重新获取图片URL（从bing加载）
+                    axios.get(this.userdata.bingApiUrl).then((response) => {
+                        var obj: any = response;
+                        this.userdata.bgUrl = "https://www.bing.com" + obj.data.images[0].url;
+                        this.userdata.bgLastCheckDate = new Date().getDate();
+                    });
+                    break;
+                // 使用网络图片地址
+                case 2:
+                    break;
+                // 使用本地图片
+                case 3:
+                    break;
+            }
+        },
+        localBackground(e) {
+            var f = e.target.files[0];
+            var src = window.URL.createObjectURL(f);
+            this.userdata.bgUrl = src;
+        },
+        bgTypeChange() {
+            this.userdata.bgLastCheckDate = 0;
         }
     },
     filters: {
+        getDomain(url: string): string {
+            let domainArr = url.split("/");
+            let domain = domainArr[0] + "//" + domainArr[2];
+            return domain;
+        },
         getFavIconUrl(url: string): string {
             let domainArr = url.split("/");
             let domain = domainArr[0] + "//" + domainArr[2];

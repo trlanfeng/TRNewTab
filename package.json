@@ -7,18 +7,23 @@
   "author": "孤月蓝风 <trlanfeng@foxmail.com>",
   "license": "MIT",
   "scripts": {
-    "dev": "parcel ./src/newtab.html ./src/popup.html && copy ./template/* ./dist"
+    "dev": "parcel ./src/newtab.html ./src/popup.html;copy ./template/* ./dist",
+    "build": "parcel build ./src/newtab.html ./src/popup.html && xcopy .\\template\\* .\\dist /S /Y"
   },
   "dependencies": {
     "assets": "^3.0.0",
+    "axios": "^0.18.0",
     "bootstrap": "^4.1.3",
     "vue": "^2.5.17",
     "vue-hot-reload-api": "^2.3.0",
+    "vue-js-toggle-button": "^1.3.0",
+    "vue-slider-component": "^2.7.8",
     "vuedraggable": "^2.16.0",
     "vuex": "^3.0.1"
   },
   "devDependencies": {
     "@vue/component-compiler-utils": "^2.1.2",
+    "cssnano": "^4.1.4",
     "less": "^3.8.1",
     "typescript": "^3.0.1",
     "vue-template-compiler": "^2.5.17"
