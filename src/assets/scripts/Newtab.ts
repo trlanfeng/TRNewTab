@@ -17,7 +17,7 @@ var defaultSettings = {
     "searchIcon": "https://www.baidu.com/favicon.ico",
     "searchTitle": "百度",
     "bgLastCheckDate": 0,
-    "bgBlur": 0
+    "bgBlur": 20
 };
 
 const Newtab = Vue.extend({
