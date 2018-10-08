@@ -1,14 +1,14 @@
 {
   "name": "TRNewTab",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "开源、简洁、快速、易用、可同步、无广告的新标签页。",
   "main": "index.js",
   "repository": "https://gitee.com/trlanfeng/TRNewTab.git",
   "author": "孤月蓝风 <trlanfeng@foxmail.com>",
   "license": "MIT",
   "scripts": {
-    "dev": "parcel ./src/newtab.html ./src/popup.html;copy ./template/* ./dist",
-    "build": "parcel build ./src/newtab.html ./src/popup.html && xcopy .\\template\\* .\\dist /S /Y"
+    "dev": "parcel ./src/newtab.html ./src/popup.html",
+    "build": "rmdir dist /s /q && parcel build ./src/newtab.html ./src/popup.html && xcopy .\\template\\* .\\dist /S /Y"
   },
   "dependencies": {
     "assets": "^3.0.0",

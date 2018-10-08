@@ -1,7 +1,7 @@
 {
     "manifest_version": 2,
     "name": "幻蓝新标签页",
-    "version": "2.0.0",
+    "version": "2.0.1",
     "description": "开源、简洁、快速、易用、可同步、无广告的新标签页。",
     "icons": {
         "16": "images/icon16.png",
