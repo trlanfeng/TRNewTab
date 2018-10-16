@@ -1,5 +1,6 @@
 * {
-    font-family: Helvetica, "Hiragino Sans GB", "Microsoft Yahei", "微软雅黑", Arial, sans-serif;
+    font-family: Helvetica, "Hiragino Sans GB", "Microsoft Yahei", "微软雅黑",
+        Arial, sans-serif;
 }
 
 html,
@@ -122,79 +123,109 @@ body {
     display: flex;
     flex-wrap: wrap;
     .speeddial {
-        position: relative;
         margin-top: 20px;
-        .block {
-            transition: all 0.2s;
-            display: flex;
-            height: 52px;
-            align-items: center;
-            padding: 10px;
-            color: #333;
-            background-color: white;
-            border-radius: 5px;
-            text-decoration: none;
-            overflow: hidden;
-            &:hover,
-            &:focus {
-                text-decoration: none;
-                box-shadow: 0 0 20px 0 #333;
-                span {
-                    text-decoration: none;
-                }
-            }
-            .icon {
-                width: 32px;
-                height: 32px;
-                margin-right: 10px;
-                overflow: hidden;
-                .drag_handle {
-                    width: 32px;
-                    height: 32px;
-                    color: #333;
-                    fill: #333;
-                    path {
-                        fill: #333;
-                    }
-                }
-                .icon_img {
-                    display: none;
-                    width: 32px;
-                    height: 32px;
-                    background-color: white;
-                }
-                .word {
-                    display: inline-block;
-                    font-size: 24px;
-                    background-color: #0090ff;
-                    color: white;
-                    width: 32px;
-                    height: 32px;
-                    text-align: center;
-                    line-height: 32px;
-                    border-radius: 3px;
-                }
-            }
-            .title {
-                flex: 1;
-                white-space: nowrap;
-                font-size: 14px;
-                text-overflow: ellipsis;
-                overflow: hidden;
+        background-color: white;
+        border-radius: 5px;
+        overflow: hidden;
+        transition: all 0.2s;
+        cursor: pointer;
+        &.move {
+            cursor: move !important;
+            a {
+                cursor: move !important;
             }
         }
-        .close_button {
-            // display: none;
-            width: 32px;
-            height: 32px;
-            position: absolute;
-            top: 10px;
-            right: 24px; // background: linear-gradient(to left, rgba(255,255,255,0.3), transparent);
-            background-color: white;
-            cursor: pointer;
-            img {
+        &:hover,
+        &:focus {
+            text-decoration: none;
+            box-shadow: 0 0 20px 0 #333;
+            span {
+                text-decoration: none;
+            }
+        }
+        .info {
+            position: relative;
+            .block {
+                transition: all 0.2s;
+                display: flex;
+                height: 52px;
+                align-items: center;
+                padding: 10px;
+                color: #333;
+                text-decoration: none;
+                overflow: hidden;
+                .icon {
+                    width: 32px;
+                    height: 32px;
+                    margin-right: 10px;
+                    overflow: hidden;
+                    .drag_handle {
+                        width: 32px;
+                        height: 32px;
+                        color: #333;
+                        fill: #333;
+                        path {
+                            fill: #333;
+                        }
+                    }
+                    .icon_img {
+                        display: none;
+                        width: 32px;
+                        height: 32px;
+                        background-color: white;
+                    }
+                    .word {
+                        display: inline-block;
+                        font-size: 24px;
+                        background-color: #0090ff;
+                        color: white;
+                        width: 32px;
+                        height: 32px;
+                        text-align: center;
+                        line-height: 32px;
+                        border-radius: 3px;
+                    }
+                }
+                .title {
+                    flex: 1;
+                    white-space: nowrap;
+                    font-size: 14px;
+                    text-overflow: ellipsis;
+                    overflow: hidden;
+                }
+            }
+            .close_button {
+                // display: none;
                 width: 32px;
                 height: 32px;
+                position: absolute;
+                top: 10px;
+                right: 10px; // background: linear-gradient(to left, rgba(255,255,255,0.3), transparent);
+                background-color: white;
+                cursor: pointer !important;
+                img {
+                    width: 32px;
+                    height: 32px;
+                }
+            }
+        }
+        .other {
+            height: 30px;
+            display: flex;
+            border-top: 1px solid #eee;
+            .drag {
+                width: 40px;
+                padding-left: 10px;
+                .drag_handle {
+                    max-width: 16px;
+                    max-height: 16px;
+                }
+            }
+            .link {
+                flex: 1;
+                font-size: 12px;
+                line-height: 28px;
+                color: #999;
             }
         }
     }

@@ -33,7 +33,7 @@ const Newtab = Vue.extend({
             isCreateShow: false,
             draggableOptions: {
                 animation: 250,
-                handle: ".icon",
+                handle: ".speeddial",
                 // sort: true,
                 disabled: true
             },
@@ -94,6 +94,7 @@ const Newtab = Vue.extend({
                     this.userdata = result;
                 }
                 if (callback) callback();
+                console.log(result);
             });
         },
         saveData() {

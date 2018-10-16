@@ -15,11 +15,13 @@ var defaultSettings = {
 var userdata = JSON.parse(JSON.stringify(defaultSettings));
 
 function addToSpeedDial(info, tab) {
-    userdata.list.push({
-        name: tab.title,
-        url: tab.url
+    loadData(() => {
+        userdata.list.push({
+            name: tab.title,
+            url: tab.url
+        });
+        saveData();
     });
-    saveData();
 }
 
 var contexts = ["page"];
@@ -49,13 +51,14 @@ function pushToRemote() {
         // console.log("上传成功！");
     });
 }
-function loadData() {
+function loadData(callback) {
     chrome.storage.local.get(result => {
         if (!result.list) {
             pullFromRemote();
         } else {
             userdata = result;
         }
+        if (callback) callback();
     });
 }
 function saveData() {
