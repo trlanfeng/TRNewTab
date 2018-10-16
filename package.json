@@ -7,7 +7,7 @@
   "author": "孤月蓝风 <trlanfeng@foxmail.com>",
   "license": "MIT",
   "scripts": {
-    "dev": "parcel ./src/newtab.html ./src/popup.html",
+    "dev": "parcel ./src/newtab.html ./src/popup.html ./src/background.js",
     "build": "rmdir dist /s /q && parcel build ./src/newtab.html ./src/popup.html && xcopy .\\template\\* .\\dist /S /Y"
   },
   "dependencies": {
