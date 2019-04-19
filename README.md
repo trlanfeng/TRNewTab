@@ -19,7 +19,7 @@
 
 * [Chrome商店扩展地址](https://chrome.google.com/webstore/detail/%E5%B9%BB%E8%93%9D%E6%96%B0%E6%A0%87%E7%AD%BE%E9%A1%B5/eomaebekeoblgkldpodljjlpodfinmbd?hl=zh-CN)
 
-* [最新版本CRX](https://gitee.com/trlanfeng/TRNewTab/releases)
+* 最新版本CRX 见 release
 
 ## 安装方法
 
@@ -40,6 +40,8 @@
 * [x] 增加自定义搜索引擎
 
 * [ ] 增加不同搜索引擎的快速搜索
+
+* [ ] 导出 / 导入 / 迁移 / 备份
 
 本项目为开源项目，git地址：https://gitee.com/trlanfeng/TRNewTab
 
