@@ -43,8 +43,6 @@
 
 * [ ] 导出 / 导入 / 迁移 / 备份
 
-本项目为开源项目，git地址：https://gitee.com/trlanfeng/TRNewTab
-
 ## 更新记录
 
 ### 2.0.2 - 2018.10.16
