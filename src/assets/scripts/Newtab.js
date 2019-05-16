@@ -117,15 +117,15 @@ const Newtab = Vue.extend({
             let searchUrl = this.userdata.searchUrl + encodeURIComponent(this.keywords);
             location.href = searchUrl;
         },
-        imgLoad(e): void {
+        imgLoad(e) {
             e.target.style.display = "inline-block";
         },
-        imgError(e): void {
+        imgError(e) {
             e.target.style.display = "none";
         },
-        moveItem(e): void {
+        moveItem(e) {
         },
-        removeItem(index: number) {
+        removeItem(index) {
             this.userdata.list.splice(index, 1);
         },
         toggleEditMode(state) {
@@ -142,7 +142,7 @@ const Newtab = Vue.extend({
                     }
                     //重新获取图片URL（从bing加载）
                     axios.get(this.userdata.bingApiUrl).then((response) => {
-                        var obj: any = response;
+                        var obj = response;
                         this.userdata.bgUrl = "https://www.bing.com" + obj.data.images[0].url;
                         this.userdata.bgLastCheckDate = new Date().getDate();
                     });
@@ -165,17 +165,17 @@ const Newtab = Vue.extend({
         }
     },
     filters: {
-        getDomain(url: string): string {
+        getDomain(url) {
             let domainArr = url.split("/");
             let domain = domainArr[0] + "//" + domainArr[2];
             return domain;
         },
-        getFavIconUrl(url: string): string {
+        getFavIconUrl(url) {
             let domainArr = url.split("/");
             let domain = domainArr[0] + "//" + domainArr[2];
             return domain + "/favicon.ico";
         },
-        getFirstWord(title: string): string {
+        getFirstWord(title) {
             return title.substr(0, 1).toUpperCase();
         }
     }
