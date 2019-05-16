@@ -1,30 +1,19 @@
 <template>
     <div class="list-group list-group-flush" style="width:200px;">
-        <button @click="getCurrentTabInfo" type="button" class="list-group-item list-group-item-action">
-            添加到快速拨号
-        </button>
+    <button
+      @click="getCurrentTabInfo"
+      type="button"
+      class="list-group-item list-group-item-action"
+    >添加到快速拨号</button>
     </div>
 </template>
-<script lang="ts">
+<script>
 import Vue from "vue";
-var defaultSettings = {
-    list: [],
-    isSearchOpen: true,
-    bgType: 1,
-    bingApiUrl:
-        "https://www.bing.com/HPImageArchive.aspx?format=js&idx=0&n=1&mkt=en-US",
-    bgUrl: "",
-    searchUrl: "https://www.baidu.com/s?wd=",
-    searchIcon: "https://www.baidu.com/favicon.ico",
-    searchTitle: "百度",
-    bgLastCheckDate: 0,
-    bgBlur: 20
-};
-export default Vue.extend({
-    data() {
-        return {
-            userdata: defaultSettings
-        };
+export default {
+  computed: {
+    userdata() {
+      return this.$store.state.defaultConfig;
+    }
     },
     mounted() {
         this.loadData();
@@ -86,5 +75,5 @@ export default Vue.extend({
             });
         }
     }
-});
+};
 </script>

@@ -1,1 +1,0 @@
-declare var chrome: any;
