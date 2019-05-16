@@ -5,12 +5,18 @@ const newtab = {
   import() {
 
   },
-  loadData(callback) {
+  loadData() {
     return new Promise(function (resolve, reject) {
-      chrome.storage.local.get(result => {
-				console.log('TCL: loadData -> result', result);
-        
-      });
+      try {
+        chrome.storage.local.get(result => {
+          resolve(result);
+        });
+      } catch (e) {
+        console.log('TCL: loadData -> e', e);
+        reject(e);
+      }
     });
   }
 }
+
+export default newtab;

@@ -209,7 +209,7 @@ import draggable from "vuedraggable";
 import Vue from "vue";
 import axios from "axios";
 import vueSlider from "vue-slider-component";
-import newtab from '../libs/newtab';
+import newtab from "../libs/newtab";
 
 export default {
   components: {
@@ -230,12 +230,15 @@ export default {
       },
       create_url: "",
       create_name: "",
-      settingIndex: 0
+      settingIndex: 0,
+      userdata: {}
     };
   },
   mounted() {
-    this.loadData(this.loadBackgroundImage);
-    newtab.loadData();
+    this.userdata = this.$store.state.defaultConfig;
+    newtab.loadData().then(() => {
+      this.loadBackgroundImage();
+    });
   },
   watch: {
     userdata: {
@@ -246,9 +249,6 @@ export default {
     }
   },
   computed: {
-    userdata() {
-      return this.$store.state.defaultConfig;
-    },
     bgStyle: {
       get() {
         let inner_width = -2 * parseInt(this.userdata.bgBlur) + "px";
