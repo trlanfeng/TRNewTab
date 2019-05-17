@@ -1,4 +1,4 @@
-const newtab = {
+const DataManager = {
   export() {
 
   },
@@ -19,4 +19,4 @@ const newtab = {
   }
 }
 
-export default newtab;
+export default DataManager;

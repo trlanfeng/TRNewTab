@@ -209,7 +209,8 @@ import draggable from "vuedraggable";
 import Vue from "vue";
 import axios from "axios";
 import vueSlider from "vue-slider-component";
-import newtab from "../libs/newtab";
+import DataManager from "../libs/DataManager";
+import ImageManager from "../libs/ImageManager";
 
 export default {
   components: {
@@ -236,7 +237,7 @@ export default {
   },
   mounted() {
     this.userdata = this.$store.state.defaultConfig;
-    newtab.loadData().then(() => {
+    DataManager.loadData().then(() => {
       this.loadBackgroundImage();
     });
   },
@@ -269,14 +270,14 @@ export default {
         if (!result.list) {
           console.log("未找到设置，将使用默认设置");
         } else {
-          // console.log("下载成功！");
+          console.log("下载成功！");
           this.userdata = result;
         }
       });
     },
     pushToRemote() {
       chrome.storage.sync.set(this.userdata, function() {
-        // console.log("上传成功！");
+        console.log("上传成功！");
       });
     },
     loadData(callback) {
@@ -284,7 +285,7 @@ export default {
         if (!result.list) {
           this.pullFromRemote();
         } else {
-          // console.log("加载成功！")
+          console.log("加载成功！");
           this.userdata = result;
         }
         if (callback) callback();
@@ -337,8 +338,11 @@ export default {
           //重新获取图片URL（从bing加载）
           axios.get(this.userdata.bingApiUrl).then(response => {
             var obj = response;
-            this.userdata.bgUrl =
-              "https://www.bing.com" + obj.data.images[0].url;
+            let bgUrl = "https://www.bing.com" + obj.data.images[0].url;
+            ImageManager.Instance.LoadImage(bgUrl, () => {
+							console.log("TCL: loadBackgroundImage -> bgUrl", bgUrl)
+              this.userdata.bgUrl = bgUrl;
+            });
             this.userdata.bgLastCheckDate = new Date().getDate();
           });
           break;
