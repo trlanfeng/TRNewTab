@@ -29,7 +29,9 @@
     <div id="SpeedDialContainer">
       <draggable
         v-model="userdata.list"
-        :options="draggableOptions"
+        :animation="250"
+        handle=".speeddial"
+        :disabled="true"
         class="SpeedDialBox"
         @end="moveItem"
       >
@@ -223,12 +225,6 @@ export default {
       isSettingShow: false,
       isEditMode: false,
       isCreateShow: false,
-      draggableOptions: {
-        animation: 250,
-        handle: ".speeddial",
-        // sort: true,
-        disabled: true
-      },
       create_url: "",
       create_name: "",
       settingIndex: 0,
@@ -340,7 +336,7 @@ export default {
             var obj = response;
             let bgUrl = "https://www.bing.com" + obj.data.images[0].url;
             ImageManager.Instance.LoadImage(bgUrl, () => {
-							console.log("TCL: loadBackgroundImage -> bgUrl", bgUrl)
+              console.log("TCL: loadBackgroundImage -> bgUrl", bgUrl);
               this.userdata.bgUrl = bgUrl;
             });
             this.userdata.bgLastCheckDate = new Date().getDate();
