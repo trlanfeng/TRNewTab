@@ -117,6 +117,13 @@
               <li class="nav-item">
                 <span class="nav-link" :class="{active:settingIndex==1}" @click="settingIndex=1">搜索</span>
               </li>
+              <li class="nav-item">
+                <span
+                  class="nav-link"
+                  :class="{active:settingIndex==2}"
+                  @click="settingIndex=2"
+                >导入 / 导出</span>
+              </li>
             </ul>
             <button type="button" class="close" @click="isSettingShow=false">
               <span aria-hidden="true">&times;</span>
@@ -200,6 +207,19 @@
                 </div>
               </div>
             </div>
+            <div class="tab-pane" v-show="settingIndex==2">
+              <textarea
+                name="migrateData"
+                id="migrateData"
+                class="form-control"
+                cols="30"
+                rows="10"
+                style="margin-bottom:10px;"
+                v-model="migrateData"
+              ></textarea>
+              <button type="button" class="btn btn-primary" @click="exportData">导出</button>
+              <button type="button" class="btn btn-danger" @click="importToRemote">导入</button>
+            </div>
           </div>
         </div>
       </div>
@@ -225,6 +245,7 @@ export default {
       isSettingShow: false,
       isEditMode: false,
       isCreateShow: false,
+      migrateData: "",
       create_url: "",
       create_name: "",
       settingIndex: 0,
@@ -233,7 +254,7 @@ export default {
   },
   mounted() {
     this.userdata = this.$store.state.defaultConfig;
-    DataManager.loadData().then(() => {
+    DataManager.GetRemote().then(() => {
       this.loadBackgroundImage();
     });
   },
@@ -357,6 +378,27 @@ export default {
     },
     bgTypeChange() {
       this.userdata.bgLastCheckDate = 0;
+    },
+    exportData() {
+      this.isMigrateReadOnly = false;
+      DataManager.GetRemote().then(res => {
+        this.migrateData = JSON.stringify(res);
+        this.isMigrateShow = true;
+      });
+    },
+    importToRemote() {
+      let data = {};
+      try {
+        data = JSON.parse(this.migrateData);
+      } catch (e) {
+        window.alert("需要导入的数据有误，请检查");
+        return;
+      }
+      if (window.confirm("导入将覆盖现有的数据，且不可恢复，是否确认操作？")) {
+        DataManager.SetRemote(data).then(() => {
+          console.log("importToRemote");
+        });
+      }
     }
   },
   filters: {

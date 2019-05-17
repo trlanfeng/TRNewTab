@@ -1,14 +1,8 @@
 const DataManager = {
-  export() {
-
-  },
-  import() {
-
-  },
-  loadData() {
+  GetRemote() {
     return new Promise(function (resolve, reject) {
       try {
-        chrome.storage.local.get(result => {
+        chrome.storage.sync.get(result => {
           resolve(result);
         });
       } catch (e) {
@@ -16,6 +10,18 @@ const DataManager = {
         reject(e);
       }
     });
+  },
+  SetRemote(data) {
+    return new Promise(function (resolve, reject) {
+      try {
+        chrome.storage.sync.set(data, () => {
+          resolve();
+        })
+      } catch (e) {
+        console.log("TCL: SetData -> e", e);
+        reject(e);
+      }
+    })
   }
 }
 
