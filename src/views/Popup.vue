@@ -10,11 +10,6 @@
 <script>
 import DataManager from "../libs/DataManager";
 export default {
-  mounted() {
-    DataManager.GetData().then(res => {
-      this.$store.commit("SetData", res);
-    });
-  },
   methods: {
     getCurrentTabInfo() {
       chrome.tabs.query({ currentWindow: true, active: true }, tabs => {
@@ -24,8 +19,9 @@ export default {
           name: tabs[0].title,
           url: tabs[0].url
         };
-        this.$store.commit("AddSpeedDial", speedDial);
-        window.close();
+        DataManager.AddSpeedDial(speedDial).then(() => {
+          window.close();
+        });
       });
     }
   }

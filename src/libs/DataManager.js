@@ -44,12 +44,23 @@ const DataManager = {
     })
   },
   AddSpeedDial(speedDial) {
-    let list = [];
-    this.GetData().then(res => {
-      list = res.list;
-      list.push(speedDial);
-      this.SetData({ list });
-    })
+    const _this = this;
+    return new Promise(function (resolve, reject) {
+      try {
+        let list = [];
+        _this.GetData().then(res => {
+          list = res.list;
+          list.push(speedDial);
+        }).then(() => {
+          return _this.SetData({ list })
+        }).then(() => {
+          resolve();
+        });
+      } catch (e) {
+        console.log("TCL: AddSpeedDial -> e", e)
+        reject();
+      }
+    });
   }
 }
 
