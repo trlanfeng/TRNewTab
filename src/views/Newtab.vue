@@ -1,20 +1,7 @@
 <template>
   <div>
     <div class="bg" :style="bgStyle"></div>
-    <div class="topbar">
-      <button @click="isCreateShow=true">
-        <img src="../assets/images/add.png">
-        <span>新增</span>
-      </button>
-      <button @click="toggleEditMode()">
-        <img src="../assets/images/edit.png">
-        <span>管理</span>
-      </button>
-      <button @click="isSettingShow=true">
-        <img src="../assets/images/setting.png">
-        <span>设置</span>
-      </button>
-    </div>
+    <TopBar @on-command="topBarCommand"></TopBar>
     <div class="search_box" v-show="userdata.isSearchOpen">
       <img :src="userdata.searchIcon" :alt="userdata.searchTitle" class="search_icon">
       <input
@@ -233,11 +220,14 @@ import axios from "axios";
 import vueSlider from "vue-slider-component";
 import DataManager from "../libs/DataManager";
 import ImageManager from "../libs/ImageManager";
+// components
+import TopBar from "../components/TopBar.vue";
 
 export default {
   components: {
     draggable,
-    vueSlider
+    vueSlider,
+    TopBar
   },
   data() {
     return {
@@ -253,15 +243,17 @@ export default {
     };
   },
   mounted() {
-    this.userdata = this.$store.state.defaultConfig;
-    DataManager.GetRemote().then(() => {
+    this.userdata = this.$store.state.data;
+    DataManager.GetData().then(res => {
+      this.userdata = res;
+      this.$store.commit("SetData", res);
       this.loadBackgroundImage();
     });
   },
   watch: {
     userdata: {
       handler(newVal, oldVal) {
-        this.saveData();
+        this.$store.commit("SetData", newVal);
       },
       deep: true
     }
@@ -282,38 +274,18 @@ export default {
     }
   },
   methods: {
-    pullFromRemote() {
-      chrome.storage.sync.get(result => {
-        if (!result.list) {
-          console.log("未找到设置，将使用默认设置");
-        } else {
-          console.log("下载成功！");
-          this.userdata = result;
-        }
-      });
-    },
-    pushToRemote() {
-      chrome.storage.sync.set(this.userdata, function() {
-        console.log("上传成功！");
-      });
-    },
-    loadData(callback) {
-      chrome.storage.local.get(result => {
-        if (!result.list) {
-          this.pullFromRemote();
-        } else {
-          console.log("加载成功！");
-          this.userdata = result;
-        }
-        if (callback) callback();
-        console.log(result);
-      });
-    },
-    saveData() {
-      chrome.storage.local.set(this.userdata, () => {
-        // console.log("保存成功！");
-        this.pushToRemote();
-      });
+    topBarCommand(cmd) {
+      switch (cmd) {
+        case "create":
+          this.isCreateShow = true;
+          break;
+        case "setting":
+          this.isSettingShow = true;
+          break;
+        case "edit":
+          this.toggleEditMode();
+          break;
+      }
     },
     createSpeedDial() {
       let newspeeddial = {
@@ -381,7 +353,7 @@ export default {
     },
     exportData() {
       this.isMigrateReadOnly = false;
-      DataManager.GetRemote().then(res => {
+      DataManager.GetData().then(res => {
         this.migrateData = JSON.stringify(res);
         this.isMigrateShow = true;
       });
