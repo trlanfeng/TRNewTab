@@ -2,17 +2,7 @@
   <div>
     <div class="bg" :style="bgStyle"></div>
     <TopBar @on-command="topBarCommand"></TopBar>
-    <div class="search_box" v-show="userdata.isSearchOpen">
-      <img :src="userdata.searchIcon" :alt="userdata.searchTitle" class="search_icon">
-      <input
-        type="text"
-        @keyup.enter="search"
-        class="form-control"
-        v-model="keywords"
-        :placeholder="'通过 '+ userdata.searchTitle +' 来搜索'"
-      >
-      <button class="search_button" @click="search">搜索</button>
-    </div>
+    <SearchBar v-show="userdata.isSearchOpen"></SearchBar>
     <div id="SpeedDialContainer">
       <draggable
         v-model="userdata.list"
@@ -56,43 +46,7 @@
         </div>
       </draggable>
     </div>
-    <div class="create_box my-modal" v-show="isCreateShow">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title">添加</h5>
-            <button type="button" class="close" @click="isCreateShow=false">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <div class="modal-body">
-            <div class="form-group">
-              <label>名称：</label>
-              <input
-                type="text"
-                class="form-control"
-                v-model="create_name"
-                placeholder="不填写则默认显示网址"
-              >
-            </div>
-            <div class="form-group">
-              <label>网址：</label>
-              <input
-                type="url"
-                class="form-control"
-                v-model="create_url"
-                placeholder="请填入网址"
-                required="required"
-              >
-            </div>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-default" @click="isCreateShow=false">取消</button>
-            <button type="button" class="btn btn-primary" @click="createSpeedDial">添加</button>
-          </div>
-        </div>
-      </div>
-    </div>
+    <CreateBox :visible.sync="isCreateShow" v-show="isCreateShow"></CreateBox>
     <div class="setting_box my-modal" v-show="isSettingShow">
       <div class="modal-dialog">
         <div class="modal-content">
@@ -222,22 +176,23 @@ import DataManager from "../libs/DataManager";
 import ImageManager from "../libs/ImageManager";
 // components
 import TopBar from "../components/TopBar.vue";
+import SearchBar from "../components/SearchBox.vue";
+import CreateBox from '../components/CreateBox.vue';
 
 export default {
   components: {
     draggable,
     vueSlider,
-    TopBar
+    TopBar,
+    SearchBar,
+    CreateBox
   },
   data() {
     return {
-      keywords: "",
       isSettingShow: false,
       isEditMode: false,
       isCreateShow: false,
       migrateData: "",
-      create_url: "",
-      create_name: "",
       settingIndex: 0,
       userdata: {}
     };
@@ -286,21 +241,6 @@ export default {
           this.toggleEditMode();
           break;
       }
-    },
-    createSpeedDial() {
-      let newspeeddial = {
-        name: this.create_name,
-        url: this.create_url
-      };
-      this.userdata["list"].push(newspeeddial);
-      this.create_name = "";
-      this.create_url = "";
-      this.isCreateShow = false;
-    },
-    search() {
-      let searchUrl =
-        this.userdata.searchUrl + encodeURIComponent(this.keywords);
-      location.href = searchUrl;
     },
     imgLoad(e) {
       e.target.style.display = "inline-block";

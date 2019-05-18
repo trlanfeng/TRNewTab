@@ -17,6 +17,9 @@ const store = new Vuex.Store({
       // Vue.set(state.data, payload.key, payload.value);
       state.data[payload.key] = payload.value;
       DataManager.SetData(state.data);
+    },
+    AddSpeedDial(state, payload) {
+      state.data.list.push(payload);
     }
   }
 })
