@@ -1,26 +1,23 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
+import DataManager from './DataManager';
 
 Vue.use(Vuex);
 
 const store = new Vuex.Store({
   state: {
-    defaultConfig: {
-      list: [],
-      isSearchOpen: true,
-      bgType: 1,
-      bingApiUrl:
-        "https://www.bing.com/HPImageArchive.aspx?format=js&idx=0&n=1&mkt=en-US",
-      bgUrl: "",
-      searchUrl: "https://www.baidu.com/s?wd=",
-      searchIcon: "https://www.baidu.com/favicon.ico",
-      searchTitle: "百度",
-      bgLastCheckDate: 0,
-      bgBlur: 20
-    }
+    data: DataManager.defaultConfig
   },
   mutations: {
-
+    SetData(state, payload) {
+      state.data = payload;
+      DataManager.SetData(state.data);
+    },
+    SetByKey(state, payload) {
+      // Vue.set(state.data, payload.key, payload.value);
+      state.data[payload.key] = payload.value;
+      DataManager.SetData(state.data);
+    }
   }
 })
 

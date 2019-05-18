@@ -218,7 +218,7 @@
                 v-model="migrateData"
               ></textarea>
               <button type="button" class="btn btn-primary" @click="exportData">导出</button>
-              <button type="button" class="btn btn-danger" @click="importToRemote">导入</button>
+              <button type="button" class="btn btn-danger" @click="importData">导入</button>
             </div>
           </div>
         </div>
@@ -386,7 +386,7 @@ export default {
         this.isMigrateShow = true;
       });
     },
-    importToRemote() {
+    importData() {
       let data = {};
       try {
         data = JSON.parse(this.migrateData);

@@ -8,20 +8,23 @@
   </div>
 </template>
 <script>
+import DataManager from "../libs/DataManager";
 import Vue from "vue";
 export default {
-  computed: {
-    userdata() {
-      return this.$store.state.defaultConfig;
-    }
+  data() {
+    return {
+      userdata: {}
+    };
   },
   mounted() {
-    this.loadData();
+    DataManager.GetData().then(res => {
+      this.userdata = res;
+    });
   },
   watch: {
     userdata: {
       handler(newVal, oldVal) {
-        this.saveData();
+        DataManager.SetData(newVal);
       },
       deep: true
     }
@@ -31,48 +34,15 @@ export default {
       chrome.tabs.query({ currentWindow: true, active: true }, tabs => {
         // console.log(tabs[0].title);
         // console.log(tabs[0].url);
-        this.add_speeddial(tabs[0].title, tabs[0].url);
+        this.addSpeedDial(tabs[0].title, tabs[0].url);
       });
     },
-    add_speeddial(title, url) {
-      var newspeeddial = {
+    addSpeedDial(title, url) {
+      this.userdata["list"].push({
         name: title,
         url: url
-      };
-      this.userdata["list"].push(newspeeddial);
+      });
       window.close();
-    },
-    pullFromRemote() {
-      chrome.storage.sync.get(result => {
-        if (!result.list) {
-          console.log("未找到设置，将使用默认设置");
-        } else {
-          // console.log("下载成功！");
-          this.userdata = result;
-        }
-      });
-    },
-    pushToRemote() {
-      chrome.storage.sync.set(this.userdata, function() {
-        // console.log("上传成功！");
-      });
-    },
-    loadData(callback) {
-      chrome.storage.local.get(result => {
-        if (!result.list) {
-          this.pullFromRemote();
-        } else {
-          // console.log("加载成功！")
-          this.userdata = result;
-        }
-        if (callback) callback();
-      });
-    },
-    saveData() {
-      chrome.storage.local.set(this.userdata, () => {
-        // console.log("保存成功！");
-        this.pushToRemote();
-      });
     }
   }
 };
