@@ -20,6 +20,7 @@ const store = new Vuex.Store({
     },
     AddSpeedDial(state, payload) {
       state.data.list.push(payload);
+      DataManager.SetData(state.data);
     }
   }
 })

@@ -9,40 +9,24 @@
 </template>
 <script>
 import DataManager from "../libs/DataManager";
-import Vue from "vue";
 export default {
-  data() {
-    return {
-      userdata: {}
-    };
-  },
   mounted() {
     DataManager.GetData().then(res => {
-      this.userdata = res;
+      this.$store.commit("SetData", res);
     });
-  },
-  watch: {
-    userdata: {
-      handler(newVal, oldVal) {
-        DataManager.SetData(newVal);
-      },
-      deep: true
-    }
   },
   methods: {
     getCurrentTabInfo() {
       chrome.tabs.query({ currentWindow: true, active: true }, tabs => {
         // console.log(tabs[0].title);
         // console.log(tabs[0].url);
-        this.addSpeedDial(tabs[0].title, tabs[0].url);
+        let speedDial = {
+          name: tabs[0].title,
+          url: tabs[0].url
+        };
+        this.$store.commit("AddSpeedDial", speedDial);
+        window.close();
       });
-    },
-    addSpeedDial(title, url) {
-      this.userdata["list"].push({
-        name: title,
-        url: url
-      });
-      window.close();
     }
   }
 };
