@@ -42,6 +42,14 @@ const DataManager = {
         reject(e);
       }
     })
+  },
+  AddSpeedDial(speedDial) {
+    let list = [];
+    this.GetData().then(res => {
+      list = res.list;
+      list.push(speedDial);
+      this.SetData({ list });
+    })
   }
 }
 
