@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="bg" :style="bgStyle"></div>
+    <div class="bg" :style="[bgStyle,bgImage]"></div>
     <TopBar @on-command="topBarCommand"></TopBar>
     <SearchBar v-show="userdata.isSearchOpen"></SearchBar>
     <div id="SpeedDialContainer">
@@ -47,124 +47,7 @@
       </draggable>
     </div>
     <CreateBox :visible.sync="isCreateShow" v-show="isCreateShow"></CreateBox>
-    <div class="setting_box my-modal" v-show="isSettingShow">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <ul class="nav nav-pills">
-              <li class="nav-item">
-                <span class="nav-link" :class="{active:settingIndex==0}" @click="settingIndex=0">壁纸</span>
-              </li>
-              <li class="nav-item">
-                <span class="nav-link" :class="{active:settingIndex==1}" @click="settingIndex=1">搜索</span>
-              </li>
-              <li class="nav-item">
-                <span
-                  class="nav-link"
-                  :class="{active:settingIndex==2}"
-                  @click="settingIndex=2"
-                >导入 / 导出</span>
-              </li>
-            </ul>
-            <button type="button" class="close" @click="isSettingShow=false">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <div class="modal-body">
-            <div class="tab-pane" v-show="settingIndex==0">
-              <div class="form-group">
-                <label>壁纸类型：</label>
-                <select class="form-control" v-model="userdata.bgType" @change="bgTypeChange">
-                  <!-- <option value="0">使用第三方壁纸（每日更换）</option> -->
-                  <option :value="1">使用必应官方地址（每日更换）</option>
-                  <option :value="2">使用网络图片地址</option>
-                  <option :value="3">使用本地图片</option>
-                </select>
-              </div>
-              <div class="networkImage" v-show="userdata.bgType==2">
-                <div class="form-group">
-                  <label>网络图片地址：</label>
-                  <input
-                    type="text"
-                    class="form-control"
-                    v-model="userdata.bgUrl"
-                    placeholder="请填写网络图片地址"
-                  >
-                </div>
-              </div>
-              <div class="localImage" v-show="userdata.bgType==3">
-                <div class="form-group">
-                  <label>选择本地图片：</label>
-                  <input type="file" @change="localBackground($event)" class="form-control-file">
-                </div>
-              </div>
-              <div class="blur_range">
-                <div class="form-group">
-                  <label for="customRange1">模糊度：{{userdata.bgBlur}}</label>
-                  <input
-                    type="range"
-                    min="0"
-                    max="100"
-                    step="1"
-                    v-model="userdata.bgBlur"
-                    class="custom-range"
-                    id="customRange1"
-                  >
-                </div>
-              </div>
-            </div>
-            <div class="tab-pane" v-show="settingIndex==1">
-              <div class="form-group switcher_box">
-                <label for="switcher">是否开启搜索：</label>
-                <input id="switcher" type="checkbox" v-model="userdata.isSearchOpen">
-              </div>
-              <div class="search_settings">
-                <div class="form-group">
-                  <label>搜索名称：</label>
-                  <input
-                    type="text"
-                    class="form-control"
-                    v-model="userdata.searchTitle"
-                    placeholder="请填写搜索名称"
-                  >
-                </div>
-                <div class="form-group">
-                  <label>搜索地址：</label>
-                  <input
-                    type="text"
-                    class="form-control"
-                    v-model="userdata.searchUrl"
-                    placeholder="请填写搜索地址（例如：https://www.baidu.com/s?wd=）"
-                  >
-                </div>
-                <div class="form-group">
-                  <label>图标地址：</label>
-                  <input
-                    type="text"
-                    class="form-control"
-                    v-model="userdata.searchIcon"
-                    placeholder="请填写图标地址（例如：https://www.baidu.com/favicon.ico）"
-                  >
-                </div>
-              </div>
-            </div>
-            <div class="tab-pane" v-show="settingIndex==2">
-              <textarea
-                name="migrateData"
-                id="migrateData"
-                class="form-control"
-                cols="30"
-                rows="10"
-                style="margin-bottom:10px;"
-                v-model="migrateData"
-              ></textarea>
-              <button type="button" class="btn btn-primary" @click="exportData">导出</button>
-              <button type="button" class="btn btn-danger" @click="importData">导入</button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+    <SettingBox :visible.sync="isSettingShow" v-show="isSettingShow" @on-command="settingCommand"></SettingBox>
   </div>
 </template>
 <script>
@@ -177,7 +60,8 @@ import ImageManager from "../libs/ImageManager";
 // components
 import TopBar from "../components/TopBar.vue";
 import SearchBar from "../components/SearchBox.vue";
-import CreateBox from '../components/CreateBox.vue';
+import CreateBox from "../components/CreateBox.vue";
+import SettingBox from "../components/SettingBox.vue";
 
 export default {
   components: {
@@ -185,7 +69,8 @@ export default {
     vueSlider,
     TopBar,
     SearchBar,
-    CreateBox
+    CreateBox,
+    SettingBox
   },
   data() {
     return {
@@ -194,15 +79,16 @@ export default {
       isCreateShow: false,
       migrateData: "",
       settingIndex: 0,
-      userdata: {}
+      userdata: {},
+      bgUrl: ""
     };
   },
-  mounted() {
+  created() {
     this.userdata = this.$store.state.data;
     DataManager.GetData().then(res => {
       this.userdata = res;
       this.$store.commit("SetData", res);
-      this.loadBackgroundImage();
+      this.changeBackground(res.bgUrl);
     });
   },
   watch: {
@@ -218,7 +104,6 @@ export default {
       get() {
         let inner_width = -2 * parseInt(this.userdata.bgBlur) + "px";
         return {
-          backgroundImage: "url(" + this.userdata.bgUrl + ")",
           filter: "blur(" + this.userdata.bgBlur + "px)",
           top: inner_width,
           bottom: inner_width,
@@ -226,6 +111,11 @@ export default {
           right: inner_width
         };
       }
+    },
+    bgImage() {
+      return {
+        backgroundImage: "url(" + this.bgUrl + ")"
+      };
     }
   },
   methods: {
@@ -239,6 +129,13 @@ export default {
           break;
         case "edit":
           this.toggleEditMode();
+          break;
+      }
+    },
+    settingCommand(cmd, data) {
+      switch (cmd) {
+        case "bgImage":
+          this.changeBackground(data);
           break;
       }
     },
@@ -256,61 +153,10 @@ export default {
       this.isEditMode = !this.isEditMode;
       this.draggableOptions.disabled = !this.isEditMode;
     },
-    loadBackgroundImage() {
-      switch (this.userdata.bgType) {
-        // 使用第三方壁纸
-        case 0:
-        case 1:
-          if (new Date().getDate() == this.userdata.bgLastCheckDate) {
-            return;
-          }
-          //重新获取图片URL（从bing加载）
-          axios.get(this.userdata.bingApiUrl).then(response => {
-            var obj = response;
-            let bgUrl = "https://www.bing.com" + obj.data.images[0].url;
-            ImageManager.Instance.LoadImage(bgUrl, () => {
-              console.log("TCL: loadBackgroundImage -> bgUrl", bgUrl);
-              this.userdata.bgUrl = bgUrl;
-            });
-            this.userdata.bgLastCheckDate = new Date().getDate();
-          });
-          break;
-        // 使用网络图片地址
-        case 2:
-          break;
-        // 使用本地图片
-        case 3:
-          break;
-      }
-    },
-    localBackground(e) {
-      var f = e.target.files[0];
-      var src = window.URL.createObjectURL(f);
-      this.userdata.bgUrl = src;
-    },
-    bgTypeChange() {
-      this.userdata.bgLastCheckDate = 0;
-    },
-    exportData() {
-      this.isMigrateReadOnly = false;
-      DataManager.GetData().then(res => {
-        this.migrateData = JSON.stringify(res);
-        this.isMigrateShow = true;
+    changeBackground(url) {
+      ImageManager.Instance.LoadImage(url, () => {
+        this.bgUrl = url;
       });
-    },
-    importData() {
-      let data = {};
-      try {
-        data = JSON.parse(this.migrateData);
-      } catch (e) {
-        window.alert("需要导入的数据有误，请检查");
-        return;
-      }
-      if (window.confirm("导入将覆盖现有的数据，且不可恢复，是否确认操作？")) {
-        DataManager.SetRemote(data).then(() => {
-          console.log("importToRemote");
-        });
-      }
     }
   },
   filters: {

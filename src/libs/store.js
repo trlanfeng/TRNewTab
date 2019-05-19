@@ -18,6 +18,12 @@ const store = new Vuex.Store({
       state.data[payload.key] = payload.value;
       DataManager.SetData(state.data);
     },
+    SetByObj(state, payload) {
+      Object.keys(payload).forEach(item => {
+        state.data[item] = payload[item];
+      });
+      DataManager.SetData(state.data);
+    },
     AddSpeedDial(state, payload) {
       state.data.list.push(payload);
       DataManager.SetData(state.data);
