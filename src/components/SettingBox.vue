@@ -116,6 +116,7 @@
   </div>
 </template>
 <script>
+import DataManager from "../libs/DataManager";
 export default {
   data() {
     const isSearchOpen = this.$store.state.data.isSearchOpen;
