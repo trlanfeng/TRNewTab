@@ -183,8 +183,9 @@ export default {
         return;
       }
       if (window.confirm("导入将覆盖现有的数据，且不可恢复，是否确认操作？")) {
-        DataManager.SetRemote(data).then(() => {
-          console.log("importToRemote");
+        DataManager.SetData(data).then(() => {
+          this.hideBox();
+          window.location.reload();
         });
       }
     },
