@@ -8,7 +8,7 @@
         v-model="userdata.list"
         :animation="250"
         handle=".speeddial"
-        :disabled="true"
+        :disabled="isDraggableDisabled"
         class="SpeedDialBox"
         @end="moveItem"
       >
@@ -77,6 +77,7 @@ export default {
       isSettingShow: false,
       isEditMode: false,
       isCreateShow: false,
+      isDraggableDisabled: false,
       migrateData: "",
       settingIndex: 0,
       userdata: {},
@@ -151,7 +152,7 @@ export default {
     },
     toggleEditMode(state) {
       this.isEditMode = !this.isEditMode;
-      this.draggableOptions.disabled = !this.isEditMode;
+      this.isDraggableDisabled = !this.isEditMode;
     },
     changeBackground(url) {
       ImageManager.Instance.LoadImage(url, () => {
