@@ -20,16 +20,7 @@
           <div class="speeddial" :class="{move:isEditMode}">
             <div class="info">
               <a :href="item.url" class="block" :title="item.name">
-                <div class="icon">
-                  <img
-                    class="icon_img"
-                    :src="item.url | getFavIconUrl"
-                    :alt="item.name"
-                    @load="imgLoad($event)"
-                    @error="imgError($event)"
-                  >
-                  <span class="word">{{item.name | getFirstWord}}</span>
-                </div>
+                <Icon :name="item.name" :url="item.url"></Icon>
                 <span class="title">{{item.name}}</span>
               </a>
               <div @click="removeItem(index)" v-if="isEditMode" class="close_button">
@@ -62,6 +53,7 @@ import TopBar from "../components/TopBar.vue";
 import SearchBar from "../components/SearchBox.vue";
 import CreateBox from "../components/CreateBox.vue";
 import SettingBox from "../components/SettingBox.vue";
+import Icon from "../components/Icon.vue";
 
 export default {
   components: {
@@ -70,7 +62,8 @@ export default {
     TopBar,
     SearchBar,
     CreateBox,
-    SettingBox
+    SettingBox,
+    Icon
   },
   data() {
     return {
@@ -155,7 +148,7 @@ export default {
       this.isDraggableDisabled = !this.isEditMode;
     },
     changeBackground(url) {
-      ImageManager.Instance.LoadImage(url, () => {
+      ImageManager.Instance.LoadImage(url).then(() => {
         this.bgUrl = url;
       });
     }

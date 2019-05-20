@@ -15,14 +15,25 @@ class ImageManager {
       return new Image();
     }
   }
-  LoadImage(src, callback) {
-    const imageElement = this.GetImageElement();
-    imageElement.onload = () => {
-      console.log('load finish');
-      this.ImageElementList.push(imageElement);
-      callback();
-    }
-    imageElement.src = src;
+  LoadImage(src) {
+    const _this = this;
+    return new Promise(function (resolve, reject) {
+      try {
+        const imageElement = _this.GetImageElement();
+        imageElement.onload = () => {
+          imageElement.src = '';
+          imageElement.onload = () => { };
+          _this.ImageElementList.push(imageElement);
+          resolve();
+        }
+        imageElement.onerror = (err) => {
+          reject(err);
+        }
+        imageElement.src = src;
+      } catch (e) {
+        reject(e);
+      }
+    });
   }
 }
 
