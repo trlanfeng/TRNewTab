@@ -1,7 +1,7 @@
 {
     "manifest_version": 2,
     "name": "幻蓝新标签页",
-    "version": "2.1.4",
+    "version": "2.1.5",
     "description": "开源、简洁、快速、易用、可同步、无广告的新标签页。",
     "icons": {
         "16": "images/icon16.png",
@@ -15,7 +15,9 @@
         "default_popup": "popup.html"
     },
     "background": {
-        "scripts": ["background.js"]
+        "scripts": [
+            "background.js"
+        ]
     },
     "permissions": [
         "storage",
@@ -24,5 +26,6 @@
         "tabs",
         "contextMenus"
     ],
-    "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAmQpG4qhzmLueAHZ7qFWVfW7/g9SWI66+ALaiVXUpJiBMohJEa1fSe4SNfv0/Rvm+24Xhot2nKyhxMU1kuTVxL80ExTOhrNreBjURBwa66ph/n312euYtFPOeXKc6X4GDXTZrHftWqEWp7TjKRA4wqxG4DCDqASDmqBYjDiZM80w61t7XhEXsE3kR3DC87WSzPiP6Dplg/1BvCmYg7B+qOli3aJApFdrzMgtIvE9+EqISjH7FPMhtytQ7a2TVGKELQxDsy2P9baIj1kDF+/rgbO/E+4u5ACVV8wMB/DYQAxhGfJSMLE2CnbeUkl+RyVNS3J69IFfHlEd3CIEZZxQBfwIDAQAB"
+    "update_url": "https://clients2.google.com/service/update2/crx",
+    "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAzGPVRNVM2Rl9pZ0WzzI6JmYTV4VXsEfyRM857SojsS8veiIELRV5qwZoFDW5iEk9Nta/YhVqLiZ0z1Zp3raFdX0TN1hNmhXhYKhSyv3mKYJcnR1Ukj4rbYTUcX4S+BaT4bSKPtFHEnpCaIlj8Kk7FcZA6oOdgqb1gODlxq2dWTXNRBIanSVTPiA0bTnxGynwuY1+jxJ3oi29YCYjoUnJudY8EQjbpanmrh1yVozRf4g0+tZJ1CESLFnFRN8TEFbO/zwotBXssTDFrp55Ku7OfCo+/z3M16KLHo2/pkU5IjLc7j7RIIpqDluyXSQOPthTpYg9TdSKtlp8qAOJz53LpwIDAQAB"
 }
