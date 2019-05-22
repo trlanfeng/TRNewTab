@@ -19,9 +19,13 @@ export default {
           name: tabs[0].title,
           url: tabs[0].url
         };
-        DataManager.AddSpeedDial(speedDial).then(() => {
-          window.close();
-        });
+        DataManager.AddSpeedDial(speedDial)
+          .then(() => {
+            window.close();
+          })
+          .catch(err => {
+            console.log("TCL: getCurrentTabInfo -> err", err);
+          });
       });
     }
   }

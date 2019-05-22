@@ -8,7 +8,8 @@
   "license": "MIT",
   "scripts": {
     "dev": "parcel ./src/newtab.html ./src/popup.html ./src/background.js",
-    "build": "rm -rf ./dist && parcel build ./src/newtab.html ./src/popup.html ./src/background.js && cp -rf ./template/* ./dist"
+    "build": "rm -rf ./dist && parcel build ./src/newtab.html ./src/popup.html ./src/background.js && cp -rf ./template/* ./dist",
+    "build-windows": "rmdir dist /s /q && parcel build ./src/newtab.html ./src/popup.html ./src/background.js && xcopy .\\template\\* .\\dist /S /Y"
   },
   "dependencies": {
     "@babel/preset-env": "^7.4.4",

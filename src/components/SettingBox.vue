@@ -26,7 +26,7 @@
           <div class="tab-pane" v-show="settingIndex==0">
             <div class="form-group">
               <label>壁纸类型：</label>
-              <select class="form-control" v-model="bgType" @change="bgTypeChange">
+              <select class="form-control" v-model="bgType">
                 <!-- <option value="0">使用第三方壁纸（每日更换）</option> -->
                 <option :value="1">使用必应官方地址（每日更换）</option>
                 <option :value="2">使用网络图片地址</option>
@@ -117,6 +117,7 @@
 </template>
 <script>
 import DataManager from "../libs/DataManager";
+import axios from "axios";
 export default {
   data() {
     const isSearchOpen = this.$store.state.data.isSearchOpen;
@@ -139,6 +140,7 @@ export default {
   created() {
     this.bgType = this.$store.state.data.bgType;
     this.bgUrl = this.$store.state.data.bgUrl;
+    if (!this.bgUrl) this.bgTypeChange();
     this.bgBlur = this.$store.state.data.bgBlur;
   },
   watch: {
@@ -161,6 +163,9 @@ export default {
       this.$store.commit("SetByObj", {
         searchIcon: this.searchIcon
       });
+    },
+    bgType(newVal, oldVal) {
+      this.bgTypeChange();
     }
   },
   methods: {
@@ -169,10 +174,14 @@ export default {
     },
     exportData() {
       this.isMigrateReadOnly = false;
-      DataManager.GetData().then(res => {
-        this.migrateData = JSON.stringify(res);
-        this.isMigrateShow = true;
-      });
+      DataManager.GetData()
+        .then(res => {
+          this.migrateData = JSON.stringify(res);
+          this.isMigrateShow = true;
+        })
+        .catch(err => {
+          console.log("TCL: exportData -> err", err);
+        });
     },
     importData() {
       let data = {};
@@ -183,32 +192,39 @@ export default {
         return;
       }
       if (window.confirm("导入将覆盖现有的数据，且不可恢复，是否确认操作？")) {
-        DataManager.SetData(data).then(() => {
-          this.hideBox();
-          window.location.reload();
-        });
+        DataManager.SetData(data)
+          .then(() => {
+            this.hideBox();
+            window.location.reload();
+          })
+          .catch(err => {
+            console.log("TCL: importData -> err", err);
+          });
       }
     },
-    bgTypeChange(evt) {
-      this.bgType = evt.target.value;
+    bgTypeChange() {
       if (Number(this.bgType) < 2) {
-        this.getBingImage().then(res => {
-          this.bgUrlChange(res);
-          this.bgLastCheckDate = +new Date();
-        });
+        this.getBingImage()
+          .then(res => {
+            this.bgUrlChange(res);
+            this.bgLastCheckDate = +new Date();
+          })
+          .catch(err => {
+            console.log("TCL: bgTypeChange -> err", err);
+          });
       } else {
         this.bgLastCheckDate = 0;
       }
     },
     blurChange(evt) {
       this.bgBlur = evt.target.value;
-      this.$store.emit("SetByObj", {
+      this.$store.commit("SetByObj", {
         bgBlur: this.bgBlur
       });
     },
     bgUrlChange(url) {
       this.bgUrl = url;
-      this.$store.emit("SetByObj", {
+      this.$store.commit("SetByObj", {
         bgUrl: this.bgUrl,
         bgType: this.bgType,
         bgLastCheckDate: this.bgLastCheckDate
@@ -224,9 +240,10 @@ export default {
       if (+new Date() == this.$store.state.data.bgLastCheckDate) {
         return;
       }
+      const _this = this;
       return new Promise(function(resolve, reject) {
         try {
-          axios.get(this.$store.state.bingApiUrl).then(response => {
+          axios.get(_this.$store.state.data.bingApiUrl).then(response => {
             var obj = response;
             let bgUrl = "https://www.bing.com" + obj.data.images[0].url;
             resolve(bgUrl);
