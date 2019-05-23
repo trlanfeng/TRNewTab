@@ -44,7 +44,6 @@
 <script>
 import draggable from "vuedraggable";
 import Vue from "vue";
-import axios from "axios";
 import vueSlider from "vue-slider-component";
 import DataManager from "../libs/DataManager";
 import ImageManager from "../libs/ImageManager";
@@ -79,11 +78,15 @@ export default {
   },
   created() {
     this.userdata = this.$store.state.data;
-    DataManager.GetData().then(res => {
-      this.userdata = res;
-      this.$store.commit("SetData", res);
-      this.changeBackground(res.bgUrl);
-    });
+    DataManager.GetData()
+      .then(res => {
+        this.userdata = res;
+        this.$store.commit("SetData", res);
+        this.changeBackground(res.bgUrl);
+      })
+      .catch(err => {
+        console.log("TCL: created -> err", err);
+      });
   },
   watch: {
     userdata: {
@@ -148,9 +151,13 @@ export default {
       this.isDraggableDisabled = !this.isEditMode;
     },
     changeBackground(url) {
-      ImageManager.Instance.LoadImage(url).then(() => {
-        this.bgUrl = url;
-      });
+      ImageManager.Instance.LoadImage(url)
+        .then(() => {
+          this.bgUrl = url;
+        })
+        .catch(err => {
+          console.log("TCL: changeBackground -> err", err);
+        });
     }
   },
   filters: {
