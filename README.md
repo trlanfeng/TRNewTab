@@ -19,7 +19,7 @@
 
 * [Chrome商店扩展地址](https://chrome.google.com/webstore/detail/%E5%B9%BB%E8%93%9D%E6%96%B0%E6%A0%87%E7%AD%BE%E9%A1%B5/eomaebekeoblgkldpodljjlpodfinmbd?hl=zh-CN)
 
-* 最新版本CRX 见 release
+* 最新版本CRX（不再更新，可自行打包）
 
 ## 安装方法
 
@@ -45,11 +45,13 @@
 
 ## 更新记录
 
+### 2.1.7 - 2019.05.31
+
+1. 修复排序后网站图标异常的问题
+
 ### 2.1.5 - 2019.05.22
 
-1. 支持360极速浏览器
-
-2. 修复大量重构后设置页面的BUG
+1. 修复大量重构后设置页面的BUG
 
 ### 2.1.1 - 2019.05.19
 
