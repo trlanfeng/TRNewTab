@@ -1,7 +1,11 @@
 <template>
   <div class="icon">
-    <img class="icon_img" :src="iconUrl" :alt="name" v-show="isIconShow">
-    <span class="word" v-show="!isIconShow">{{name | getFirstWord}}</span>
+    <transition name="fade">
+      <img class="icon_img" :src="iconUrl" :alt="name" v-show="isIconShow" />
+    </transition>
+    <transition name="fade">
+      <span class="word" v-show="!isIconShow">{{name | getFirstWord}}</span>
+    </transition>
   </div>
 </template>
 <script>
@@ -31,16 +35,10 @@ export default {
   methods: {
     getFavIconUrl(url) {
       let domainArr = url.split("/");
-      let domain = domainArr[0] + "//" + domainArr[2];
-      return domain + "/favicon.ico";
+      return `https://api.faviconkit.com/${domainArr[2]}/144`;
     }
   },
   filters: {
-    getDomain(url) {
-      let domainArr = url.split("/");
-      let domain = domainArr[0] + "//" + domainArr[2];
-      return domain;
-    },
     getFirstWord(title) {
       return title.substr(0, 1).toUpperCase();
     }
@@ -48,4 +46,12 @@ export default {
 };
 </script>
 <style lang="less" scoped>
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s;
+}
+.fade-enter,
+.fade-leave-to {
+  opacity: 0;
+}
 </style>

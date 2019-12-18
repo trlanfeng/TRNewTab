@@ -51,6 +51,7 @@ export default {
       this.$emit("update:visible", false);
     },
     addToList() {
+      this.getIcon();
       let speedDial = {
         name: this.speedDialTitle,
         url: this.speedDialUrl

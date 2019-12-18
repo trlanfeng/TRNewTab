@@ -23,13 +23,21 @@
                 <Icon :name="item.name" :url="item.url"></Icon>
                 <span class="title">{{item.name}}</span>
               </a>
-              <div @click="removeItem(index)" v-if="isEditMode" class="close_button">
-                <img src="../assets/images/delete.png">
+              <div
+                @click="removeItem(index)"
+                v-if="isEditMode"
+                class="close_button"
+              >
+                <img src="../assets/images/delete.png" />
               </div>
             </div>
             <div class="other" v-if="isEditMode">
               <div class="drag">
-                <img class="drag_handle" src="../assets/icons/drag.png" alt="拖拽移动">
+                <img
+                  class="drag_handle"
+                  src="../assets/icons/drag.png"
+                  alt="拖拽移动"
+                />
               </div>
               <div class="link">{{item.url}}</div>
             </div>
@@ -38,7 +46,11 @@
       </draggable>
     </div>
     <CreateBox :visible.sync="isCreateShow" v-show="isCreateShow"></CreateBox>
-    <SettingBox :visible.sync="isSettingShow" v-show="isSettingShow" @on-command="settingCommand"></SettingBox>
+    <SettingBox
+      :visible.sync="isSettingShow"
+      v-show="isSettingShow"
+      @on-command="settingCommand"
+    ></SettingBox>
   </div>
 </template>
 <script>
@@ -142,7 +154,7 @@ export default {
     imgError(e) {
       e.target.style.display = "none";
     },
-    moveItem(e) {},
+    moveItem(e) { },
     removeItem(index) {
       this.userdata.list.splice(index, 1);
     },
@@ -160,20 +172,5 @@ export default {
         });
     }
   },
-  filters: {
-    getDomain(url) {
-      let domainArr = url.split("/");
-      let domain = domainArr[0] + "//" + domainArr[2];
-      return domain;
-    },
-    getFavIconUrl(url) {
-      let domainArr = url.split("/");
-      let domain = domainArr[0] + "//" + domainArr[2];
-      return domain + "/favicon.ico";
-    },
-    getFirstWord(title) {
-      return title.substr(0, 1).toUpperCase();
-    }
-  }
 };
 </script>
