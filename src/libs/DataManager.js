@@ -19,7 +19,13 @@ const DataManager = {
         chrome.storage.sync.get(result => {
           console.log('读取成功');
           if (Object.keys(result).length == 0) {
-            resolve(_this.defaultConfig);
+            chrome.storage.local.get(resultLocal => {
+              if (Object.keys(resultLocal).length == 0) {
+                resolve(_this.defaultConfig);
+              } else {
+                resolve(resultLocal);
+              }
+            });
           } else {
             resolve(result);
           }
@@ -36,7 +42,10 @@ const DataManager = {
         chrome.storage.sync.set(data, () => {
           console.log('保存成功');
           resolve();
-        })
+        });
+        chrome.storage.local.set(data, () => {
+          console.log('本地备份成功');
+        });
       } catch (e) {
         console.log("TCL: SetData -> e", e);
         reject(e);

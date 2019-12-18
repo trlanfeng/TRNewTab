@@ -23,13 +23,6 @@
                 class="nav-link"
                 :class="{active:settingIndex==2}"
                 @click="settingIndex=2"
-              >备份</span>
-            </li>
-            <li class="nav-item">
-              <span
-                class="nav-link"
-                :class="{active:settingIndex==3}"
-                @click="settingIndex=3"
               >导入 / 导出</span>
             </li>
           </ul>
@@ -122,19 +115,6 @@
             </div>
           </div>
           <div class="tab-pane" v-show="settingIndex==2">
-            <div class="history">
-              <ul class="list-group">
-                <li class="list-group-item history_item">
-                  <p>2018年10月11日（25个）</p>
-                  <button type="button" class="btn btn-outline-primary btn-sm">
-                    <i class="iconfont iconreloadtime"></i>
-                    恢复
-                  </button>
-                </li>
-              </ul>
-            </div>
-          </div>
-          <div class="tab-pane" v-show="settingIndex==3">
             <textarea
               name="migrateData"
               id="migrateData"
