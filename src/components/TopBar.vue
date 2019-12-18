@@ -1,15 +1,15 @@
 <template>
   <div class="topbar">
     <button @click="showCreate()">
-      <img src="../assets/images/add.png">
+      <i class="iconfont iconplus-circle"></i>
       <span>新增</span>
     </button>
     <button @click="toggleEditMode()">
-      <img src="../assets/images/edit.png">
+      <i class="iconfont iconcompass"></i>
       <span>管理</span>
     </button>
     <button @click="showSetting()">
-      <img src="../assets/images/setting.png">
+      <i class="iconfont iconsetting"></i>
       <span>设置</span>
     </button>
   </div>
@@ -47,17 +47,14 @@ export default {
     background-color: transparent;
     outline: none;
     transition: border-color 0.2s;
-
+    .iconfont {
+      font-size: 24px;
+      vertical-align: middle;
+      margin-right: 5px;
+    }
     span {
       font-size: 18px;
       vertical-align: middle;
-    }
-
-    img {
-      width: 24px;
-      height: 24px;
-      vertical-align: middle;
-      margin-right: 5px;
     }
 
     &:hover {

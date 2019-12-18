@@ -1,220 +1,220 @@
 * {
-    font-family: Helvetica, "Hiragino Sans GB", "Microsoft Yahei", "微软雅黑",
-        Arial, sans-serif;
+  font-family: Helvetica, "Hiragino Sans GB", "Microsoft Yahei", "微软雅黑",
+    Arial, sans-serif;
 }
 
 html,
 body {
-    height: 100%;
+  height: 100%;
 }
 
 body {
-    background-color   : #333;
-    background-position: center center;
+  background-color: #333;
+  background-position: center center;
 }
 
 .danger-border {
-    border-color: #d9534f !important;
+  border-color: #d9534f !important;
 }
 
 .bg {
-    position           : fixed;
-    top                : -20px;
-    bottom             : -20px;
-    left               : -20px;
-    right              : -20px;
-    z-index            : -1;
-    background-position: center;
-    // filter          : blur(20px);
+  position: fixed;
+  top: -20px;
+  bottom: -20px;
+  left: -20px;
+  right: -20px;
+  z-index: -1;
+  background-position: center;
+  // filter          : blur(20px);
 }
 
 .modal-dialog {
-    margin-top: 200px;
+  margin-top: 200px;
 }
 
 @keyframes shake {
-    0% {
-        transform: rotate(-0.5deg);
-    }
+  0% {
+    transform: rotate(-0.5deg);
+  }
 
-    25% {
-        transform: rotate(0.5deg);
-    }
+  25% {
+    transform: rotate(0.5deg);
+  }
 
-    50% {
-        transform: rotate(-0.5deg);
-    }
+  50% {
+    transform: rotate(-0.5deg);
+  }
 
-    75% {
-        transform: rotate(0.5deg);
-    }
+  75% {
+    transform: rotate(0.5deg);
+  }
 
-    100% {
-        transform: rotate(-0.5deg);
-    }
+  100% {
+    transform: rotate(-0.5deg);
+  }
 }
 
 .SpeedDialBox {
-    max-width: 1200px;
-    margin   : 0 auto;
-    padding  : 50px 0 100px;
-    display  : flex;
-    flex-wrap: wrap;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 50px 0 100px;
+  display: flex;
+  flex-wrap: wrap;
 
-    .speeddial {
-        margin-top      : 20px;
-        background-color: white;
-        border-radius   : 5px;
-        overflow        : hidden;
-        transition      : all 0.2s;
-        cursor          : pointer;
+  .speeddial {
+    margin-top: 20px;
+    background-color: white;
+    border-radius: 5px;
+    overflow: hidden;
+    transition: all 0.2s;
+    cursor: pointer;
 
-        &.move {
-            cursor: move !important;
+    &.move {
+      cursor: move !important;
 
-            a {
-                cursor: move !important;
-            }
-        }
-
-        &:hover,
-        &:focus {
-            text-decoration: none;
-            box-shadow     : 0 0 10px #333;
-
-            span {
-                text-decoration: none;
-            }
-        }
-
-        .info {
-            position: relative;
-
-            .block {
-                transition     : all 0.2s;
-                display        : flex;
-                height         : 52px;
-                align-items    : center;
-                padding        : 10px;
-                color          : #333;
-                text-decoration: none;
-                overflow       : hidden;
-
-                .icon {
-                    width       : 32px;
-                    height      : 32px;
-                    margin-right: 10px;
-                    overflow    : hidden;
-
-                    .drag_handle {
-                        width : 32px;
-                        height: 32px;
-                        color : #333;
-                        fill  : #333;
-
-                        path {
-                            fill: #333;
-                        }
-                    }
-
-                    .icon_img {
-                        // display         : none;
-                        width              : 32px;
-                        height             : 32px;
-                        background-color   : white;
-                    }
-
-                    .word {
-                        display         : inline-block;
-                        font-size       : 24px;
-                        background-color: #0090ff;
-                        color           : white;
-                        width           : 32px;
-                        height          : 32px;
-                        text-align      : center;
-                        line-height     : 32px;
-                        border-radius   : 3px;
-                    }
-                }
-
-                .title {
-                    flex         : 1;
-                    white-space  : nowrap;
-                    font-size    : 14px;
-                    text-overflow: ellipsis;
-                    overflow     : hidden;
-                }
-            }
-
-            .close_button {
-                // display      : none;
-                width           : 32px;
-                height          : 32px;
-                position        : absolute;
-                top             : 10px;
-                right           : 10px; // background: linear-gradient(to left, rgba(255,255,255,0.3), transparent);
-                background-color: white;
-                cursor          : pointer !important;
-
-                img {
-                    width : 32px;
-                    height: 32px;
-                }
-            }
-        }
-
-        .other {
-            height    : 30px;
-            display   : flex;
-            border-top: 1px solid #eee;
-
-            .drag {
-                width       : 40px;
-                padding-left: 10px;
-
-                .drag_handle {
-                    max-width : 16px;
-                    max-height: 16px;
-                }
-            }
-
-            .link {
-                flex       : 1;
-                font-size  : 12px;
-                line-height: 28px;
-                color      : #999;
-            }
-        }
+      a {
+        cursor: move !important;
+      }
     }
+
+    &:hover,
+    &:focus {
+      text-decoration: none;
+      box-shadow: 0 0 10px #333;
+
+      span {
+        text-decoration: none;
+      }
+    }
+
+    .info {
+      position: relative;
+
+      .block {
+        transition: all 0.2s;
+        display: flex;
+        height: 52px;
+        align-items: center;
+        padding: 10px;
+        color: #333;
+        text-decoration: none;
+        overflow: hidden;
+
+        .icon {
+          width: 32px;
+          height: 32px;
+          margin-right: 10px;
+          overflow: hidden;
+
+          .drag_handle {
+            width: 32px;
+            height: 32px;
+            color: #333;
+            fill: #333;
+
+            path {
+              fill: #333;
+            }
+          }
+
+          .icon_img {
+            // display         : none;
+            width: 32px;
+            height: 32px;
+            background-color: white;
+          }
+
+          .word {
+            display: inline-block;
+            font-size: 24px;
+            background-color: #0090ff;
+            color: white;
+            width: 32px;
+            height: 32px;
+            text-align: center;
+            line-height: 32px;
+            border-radius: 3px;
+          }
+        }
+
+        .title {
+          flex: 1;
+          white-space: nowrap;
+          font-size: 14px;
+          text-overflow: ellipsis;
+          overflow: hidden;
+        }
+      }
+
+      .close_button {
+        // display      : none;
+        width: 28px;
+        height: 32px;
+        position: absolute;
+        top: 10px;
+        right: 10px; // background: linear-gradient(to left, rgba(255,255,255,0.3), transparent);
+        background-color: white;
+        cursor: pointer !important;
+
+        img {
+          width: 32px;
+          height: 32px;
+        }
+      }
+    }
+
+    .other {
+      height: 30px;
+      display: flex;
+      border-top: 1px solid #eee;
+
+      .drag {
+        width: 40px;
+        padding-left: 10px;
+
+        .drag_handle {
+          max-width: 16px;
+          max-height: 16px;
+        }
+      }
+
+      .link {
+        flex: 1;
+        font-size: 12px;
+        line-height: 28px;
+        color: #999;
+      }
+    }
+  }
 }
 
 .my-modal {
-    position        : fixed;
-    top             : 0;
-    bottom          : 0;
-    left            : 0;
-    right           : 0;
-    background-color: rgba(0, 0, 0, 0.7);
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: rgba(0, 0, 0, 0.7);
 }
 
 .switcher_box {
-    display    : flex;
-    align-items: center;
+  display: flex;
+  align-items: center;
 
-    label {
-        flex: 1;
-    }
+  label {
+    flex: 1;
+  }
 
-    .switcher {
-        display        : flex !important;
-        justify-content: flex-end;
-    }
+  .switcher {
+    display: flex !important;
+    justify-content: flex-end;
+  }
 }
 
 .nav-item {
-    cursor: pointer;
+  cursor: pointer;
 }
 
 .sortable-chosen {
-    opacity: .5;
+  opacity: 0.5;
 }

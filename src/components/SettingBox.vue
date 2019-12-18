@@ -5,16 +5,31 @@
         <div class="modal-header">
           <ul class="nav nav-pills">
             <li class="nav-item">
-              <span class="nav-link" :class="{active:settingIndex==0}" @click="settingIndex=0">壁纸</span>
+              <span
+                class="nav-link"
+                :class="{active:settingIndex==0}"
+                @click="settingIndex=0"
+              >壁纸</span>
             </li>
             <li class="nav-item">
-              <span class="nav-link" :class="{active:settingIndex==1}" @click="settingIndex=1">搜索</span>
+              <span
+                class="nav-link"
+                :class="{active:settingIndex==1}"
+                @click="settingIndex=1"
+              >搜索</span>
             </li>
             <li class="nav-item">
               <span
                 class="nav-link"
                 :class="{active:settingIndex==2}"
                 @click="settingIndex=2"
+              >备份</span>
+            </li>
+            <li class="nav-item">
+              <span
+                class="nav-link"
+                :class="{active:settingIndex==3}"
+                @click="settingIndex=3"
               >导入 / 导出</span>
             </li>
           </ul>
@@ -42,13 +57,17 @@
                   :value="bgUrl"
                   @change="bgUrlChange($event.target.value)"
                   placeholder="请填写网络图片地址"
-                >
+                />
               </div>
             </div>
             <div class="localImage" v-show="bgType==3">
               <div class="form-group">
                 <label>选择本地图片：</label>
-                <input type="file" @change="localBackground($event)" class="form-control-file">
+                <input
+                  type="file"
+                  @change="localBackground($event)"
+                  class="form-control-file"
+                />
               </div>
             </div>
             <div class="blur_range">
@@ -63,19 +82,24 @@
                   @change="blurChange"
                   class="custom-range"
                   id="customRange1"
-                >
+                />
               </div>
             </div>
           </div>
           <div class="tab-pane" v-show="settingIndex==1">
             <div class="form-group switcher_box">
               <label for="switcher">是否开启搜索：</label>
-              <input id="switcher" type="checkbox" v-model="isSearchOpen">
+              <input id="switcher" type="checkbox" v-model="isSearchOpen" />
             </div>
             <div class="search_settings">
               <div class="form-group">
                 <label>搜索名称：</label>
-                <input type="text" class="form-control" v-model="searchTitle" placeholder="请填写搜索名称">
+                <input
+                  type="text"
+                  class="form-control"
+                  v-model="searchTitle"
+                  placeholder="请填写搜索名称"
+                />
               </div>
               <div class="form-group">
                 <label>搜索地址：</label>
@@ -84,7 +108,7 @@
                   class="form-control"
                   v-model="searchUrl"
                   placeholder="请填写搜索地址（例如：https://www.baidu.com/s?wd=）"
-                >
+                />
               </div>
               <div class="form-group">
                 <label>图标地址：</label>
@@ -93,11 +117,24 @@
                   class="form-control"
                   v-model="searchIcon"
                   placeholder="请填写图标地址（例如：https://www.baidu.com/favicon.ico）"
-                >
+                />
               </div>
             </div>
           </div>
           <div class="tab-pane" v-show="settingIndex==2">
+            <div class="history">
+              <ul class="list-group">
+                <li class="list-group-item history_item">
+                  <p>2018年10月11日（25个）</p>
+                  <button type="button" class="btn btn-outline-primary btn-sm">
+                    <i class="iconfont iconreloadtime"></i>
+                    恢复
+                  </button>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div class="tab-pane" v-show="settingIndex==3">
             <textarea
               name="migrateData"
               id="migrateData"
@@ -241,7 +278,7 @@ export default {
         return;
       }
       const _this = this;
-      return new Promise(function(resolve, reject) {
+      return new Promise(function (resolve, reject) {
         try {
           axios.get(_this.$store.state.data.bingApiUrl).then(response => {
             var obj = response;
@@ -258,4 +295,12 @@ export default {
 };
 </script>
 <style lang="less" scoped>
+.history_item {
+  display: flex;
+  align-items: center;
+  p {
+    flex: 1;
+    margin: 0;
+  }
+}
 </style>

@@ -28,16 +28,17 @@
                 v-if="isEditMode"
                 class="close_button"
               >
-                <img src="../assets/images/delete.png" />
+                <i class="iconfont icondelete"></i>
               </div>
             </div>
             <div class="other" v-if="isEditMode">
               <div class="drag">
-                <img
+                <i class="drag_handle iconfont icondrag"></i>
+                <!-- <img
                   class="drag_handle"
-                  src="../assets/icons/drag.png"
+                  src="../assets/icons/drag.svg"
                   alt="拖拽移动"
-                />
+                />-->
               </div>
               <div class="link">{{item.url}}</div>
             </div>
@@ -54,6 +55,8 @@
   </div>
 </template>
 <script>
+//iconfont
+import '/assets/icons/iconfont.css';
 import draggable from "vuedraggable";
 import Vue from "vue";
 import vueSlider from "vue-slider-component";
@@ -174,3 +177,16 @@ export default {
   },
 };
 </script>
+<style lang="less" scoped>
+.iconfont {
+  font-size: 18px;
+}
+.close_button {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  .iconfont {
+    color: #EB3323;
+  }
+}
+</style>
