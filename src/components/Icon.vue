@@ -35,7 +35,7 @@ export default {
   methods: {
     getFavIconUrl(url) {
       let domainArr = url.split("/");
-      return `https://api.faviconkit.com/${domainArr[2]}/144`;
+      return `http://trlanfeng.xicp.net/${domainArr[2]}/144`;
     }
   },
   filters: {
