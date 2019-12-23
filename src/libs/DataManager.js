@@ -17,16 +17,22 @@ const DataManager = {
     return new Promise(function (resolve, reject) {
       try {
         chrome.storage.sync.get(result => {
-          console.log('读取成功');
           if (Object.keys(result).length == 0) {
+            console.log('读取 chrome.storage.sync 失败');
             chrome.storage.local.get(resultLocal => {
               if (Object.keys(resultLocal).length == 0) {
-                resolve(_this.defaultConfig);
+                console.log('读取 chrome.storage.local 失败');
+                console.log('尝试读取 window.localStorage');
+                const config = localStorage.getItem('data');
+                console.log('TR: GetData -> config', config);
+                resolve(config || _this.defaultConfig);
               } else {
+                console.log('读取 chrome.storage.local 成功');
                 resolve(resultLocal);
               }
             });
           } else {
+            console.log('读取 chrome.storage.sync 成功');
             resolve(result);
           }
         });
@@ -46,6 +52,8 @@ const DataManager = {
         chrome.storage.local.set(data, () => {
           console.log('本地备份成功');
         });
+        localStorage.setItem('data', data);
+        console.log('localStorage备份成功');
       } catch (e) {
         console.log("TCL: SetData -> e", e);
         reject(e);
