@@ -178,15 +178,4 @@ export default {
 };
 </script>
 <style lang="less" scoped>
-.iconfont {
-  font-size: 18px;
-}
-.close_button {
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  .iconfont {
-    color: #EB3323;
-  }
-}
 </style>

@@ -25,33 +25,10 @@ body {
   right: -20px;
   z-index: -1;
   background-position: center;
-  // filter          : blur(20px);
 }
 
 .modal-dialog {
   margin-top: 200px;
-}
-
-@keyframes shake {
-  0% {
-    transform: rotate(-0.5deg);
-  }
-
-  25% {
-    transform: rotate(0.5deg);
-  }
-
-  50% {
-    transform: rotate(-0.5deg);
-  }
-
-  75% {
-    transform: rotate(0.5deg);
-  }
-
-  100% {
-    transform: rotate(-0.5deg);
-  }
 }
 
 .SpeedDialBox {
@@ -121,7 +98,7 @@ body {
             // display         : none;
             width: 32px;
             height: 32px;
-            background-color: white;
+            background-color: transparent;
           }
 
           .word {
@@ -147,13 +124,22 @@ body {
       }
 
       .close_button {
-        // display      : none;
         width: 28px;
         height: 32px;
         position: absolute;
         top: 10px;
-        right: 10px; // background: linear-gradient(to left, rgba(255,255,255,0.3), transparent);
-        background-color: white;
+        right: 10px;
+        background: linear-gradient(
+          to left,
+          rgba(52, 52, 52, 1),
+          rgba(52, 52, 52, 0.8)
+        );
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        .iconfont {
+          color: #eb3323;
+        }
         cursor: pointer !important;
 
         img {
@@ -217,4 +203,148 @@ body {
 
 .sortable-chosen {
   opacity: 0.5;
+}
+
+.search_box {
+  max-width: 900px;
+  padding: 0 15px;
+  margin: 50px auto 0;
+  position: relative;
+
+  .search_icon {
+    position: absolute;
+    left: 30px;
+    top: 10px;
+    width: 32px;
+    height: 32px;
+  }
+
+  input {
+    border-radius: 5px;
+    max-width: 900px;
+    height: 52px;
+    padding-left: 60px;
+  }
+
+  button {
+    position: absolute;
+    right: 15px;
+    top: 0;
+    background: transparent;
+    border: none;
+    border-left: 1px solid #ccc;
+    padding-left: 15px;
+    padding-right: 18px;
+    height: 52px;
+  }
+}
+
+.topbar {
+  padding: 20px;
+  text-align: right;
+  background: linear-gradient(to bottom, rgba(1, 1, 1, 0.3), transparent);
+
+  button {
+    color: white;
+    font-size: 0;
+    text-decoration: none;
+    margin: 0 10px;
+    padding: 5px 0;
+    border: 0;
+    border-bottom: 2px solid transparent;
+    border-color: transparent;
+    background-color: transparent;
+    outline: none;
+    transition: border-color 0.2s;
+    .iconfont {
+      font-size: 24px;
+      vertical-align: middle;
+      margin-right: 5px;
+    }
+    span {
+      font-size: 18px;
+      vertical-align: middle;
+    }
+
+    &:hover {
+      border-color: white;
+    }
+
+    &:focus {
+      outline: none;
+    }
+  }
+}
+
+.iconfont {
+  font-size: 18px;
+}
+
+// 夜间模式
+@media (prefers-color-scheme: dark) {
+  .form-control {
+    background-color: rgba(38, 38, 38, 1);
+    border-color: black;
+    color: #eee;
+    &::placeholder {
+      color: #aaa;
+    }
+    &:focus {
+      background-color: rgba(52, 52, 52, 1);
+      border-color: black;
+      color: #eee;
+    }
+  }
+  .topbar {
+    button {
+      color: #eee;
+      &:hover {
+        border-color: white;
+        color: white;
+      }
+    }
+  }
+  .bg {
+    background-color: rgba(52, 52, 52, 0.5);
+    background-blend-mode: darken;
+  }
+  .search_box {
+    button {
+      color: #eee;
+      border-color: black;
+    }
+  }
+  .setting_box {
+    background-color: transparent;
+    .modal-dialog {
+      .modal-header {
+        border-color: black;
+      }
+      .modal-content {
+        color: #eee;
+        background-color: rgba(52, 52, 52, 1);
+      }
+    }
+  }
+  .SpeedDialBox {
+    .speeddial {
+      .info {
+        background-color: rgba(52, 52, 52, 1);
+        .block {
+          .title {
+            color: #eee;
+          }
+        }
+      }
+      .other {
+        background-color: rgba(52, 52, 52, 1);
+        border-color: black;
+        .drag {
+          .drag_handle {
+            color: #eee;
+          }
+        }
+      }
+    }
+  }
 }

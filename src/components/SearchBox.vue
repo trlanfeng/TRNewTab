@@ -32,37 +32,4 @@ export default {
 };
 </script>
 <style lang="less" scoped>
-.search_box {
-  max-width: 900px;
-  padding: 0 15px;
-  margin: 50px auto 0;
-  position: relative;
-
-  .search_icon {
-    position: absolute;
-    left: 30px;
-    top: 10px;
-    width: 32px;
-    height: 32px;
-  }
-
-  input {
-    border-radius: 5px;
-    max-width: 900px;
-    height: 52px;
-    padding-left: 60px;
-  }
-
-  button {
-    position: absolute;
-    right: 15px;
-    top: 0;
-    background: transparent;
-    border: none;
-    border-left: 1px solid #ccc;
-    padding-left: 15px;
-    padding-right: 18px;
-    height: 52px;
-  }
-}
 </style>

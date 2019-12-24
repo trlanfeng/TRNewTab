@@ -275,12 +275,4 @@ export default {
 };
 </script>
 <style lang="less" scoped>
-.history_item {
-  display: flex;
-  align-items: center;
-  p {
-    flex: 1;
-    margin: 0;
-  }
-}
 </style>
