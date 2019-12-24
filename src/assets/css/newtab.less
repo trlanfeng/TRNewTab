@@ -282,6 +282,16 @@ body {
 
 // 夜间模式
 @media (prefers-color-scheme: dark) {
+  .modal-dialog {
+    .modal-header,
+    .modal-footer {
+      border-color: black;
+    }
+    .modal-content {
+      color: #eee;
+      background-color: rgba(52, 52, 52, 1);
+    }
+  }
   .form-control {
     background-color: rgba(38, 38, 38, 1);
     border-color: black;
@@ -312,18 +322,6 @@ body {
     button {
       color: #eee;
       border-color: black;
-    }
-  }
-  .setting_box {
-    background-color: transparent;
-    .modal-dialog {
-      .modal-header {
-        border-color: black;
-      }
-      .modal-content {
-        color: #eee;
-        background-color: rgba(52, 52, 52, 1);
-      }
     }
   }
   .SpeedDialBox {
