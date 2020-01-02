@@ -30,7 +30,7 @@
           </div>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-default" @click="hideBox">取消</button>
+          <button type="button" class="btn btn-secondary" @click="hideBox">取消</button>
           <button type="button" class="btn btn-primary" @click="addToList">添加</button>
         </div>
       </div>
