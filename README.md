@@ -27,6 +27,10 @@
 
 将crx文件保存到本地后，打开chrome的扩展程序页面，将crx拖入安装。直接通过链接安装的话，会检测来源，非chrome.google.com/webstore官方商店来源的都装不了。
 
+## 打包说明
+
+使用`Parcel`打包，请安装`Parcel`相关依赖。请使用 `bash / Bash(windows git bash)` 类工具打包，`CMD / Powershell`打包会有问题。
+
 ## 未来目标
 
 * [x] 右键快速添加到快速拨号
