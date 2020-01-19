@@ -66,8 +66,10 @@ body {
 
     .info {
       position: relative;
-
+      display: flex;
+      align-items: center;
       .block {
+        flex: 1;
         transition: all 0.2s;
         display: flex;
         height: 52px;
@@ -126,16 +128,9 @@ body {
       .close_button {
         width: 28px;
         height: 32px;
-        position: absolute;
-        top: 10px;
-        right: 10px;
-        background: linear-gradient(
-          to left,
-          rgba(52, 52, 52, 1),
-          rgba(52, 52, 52, 0.8)
-        );
+        background: transparent;
         display: flex;
-        justify-content: flex-end;
+        justify-content: flex-start;
         align-items: center;
         .iconfont {
           color: #eb3323;

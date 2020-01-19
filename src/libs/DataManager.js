@@ -25,7 +25,7 @@ const DataManager = {
                 console.log('尝试读取 window.localStorage');
                 const config = localStorage.getItem('data');
                 console.log('TR: GetData -> config', config);
-                resolve(config || _this.defaultConfig);
+                resolve(JSON.parse(config) || _this.defaultConfig);
               } else {
                 console.log('读取 chrome.storage.local 成功');
                 resolve(resultLocal);
@@ -52,7 +52,7 @@ const DataManager = {
         chrome.storage.local.set(data, () => {
           console.log('本地备份成功');
         });
-        localStorage.setItem('data', data);
+        localStorage.setItem('data', JSON.stringify(data));
         console.log('localStorage备份成功');
       } catch (e) {
         console.log("TCL: SetData -> e", e);
