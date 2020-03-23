@@ -52,7 +52,7 @@ const DataManager = {
         chrome.storage.local.set(data, () => {
           console.log('本地备份成功');
         });
-        localStorage.setItem('data', JSON.stringify(data));
+        localStorage.setItem(new Date(), JSON.stringify(data));
         console.log('localStorage备份成功');
       } catch (e) {
         console.log("TCL: SetData -> e", e);
