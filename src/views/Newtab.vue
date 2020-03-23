@@ -56,7 +56,7 @@
 </template>
 <script>
 //iconfont
-import '/assets/icons/iconfont.css';
+import '@/assets/icons/iconfont.css';
 import draggable from "vuedraggable";
 import Vue from "vue";
 import vueSlider from "vue-slider-component";
