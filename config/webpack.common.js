@@ -2,9 +2,9 @@ const path = require("path");
 const VueLoaderPlugin = require("vue-loader/lib/plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
+const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 
 module.exports = {
-  mode: "production",
   entry: {
     newtab: "./src/newtab.js",
     background: "./src/background.js",
@@ -12,11 +12,11 @@ module.exports = {
   },
   output: {
     filename: "[name].js",
-    path: __dirname + "/dist"
+    path: path.resolve(__dirname, "../dist")
   },
   resolve: {
     alias: {
-      "@": path.resolve(__dirname, "src/")
+      "@": path.resolve(__dirname, "../src/")
     }
   },
   module: {
@@ -44,6 +44,7 @@ module.exports = {
     ]
   },
   plugins: [
+    new CleanWebpackPlugin(),
     new HtmlWebpackPlugin({
       title: "新标签页",
       filename: "newtab.html",

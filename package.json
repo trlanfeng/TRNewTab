@@ -7,8 +7,8 @@
   "author": "孤月蓝风 <trlanfeng@foxmail.com>",
   "license": "MIT",
   "scripts": {
-    "dev": "parcel ./src/newtab.html ./src/popup.html ./src/background.js",
-    "build": "rm -rf ./dist && webpack"
+    "dev": "webpack-dev-server --open --config config/webpack.dev.js",
+    "build": "webpack --config config/webpack.prod.js"
   },
   "dependencies": {
     "@babel/preset-env": "^7.7.7",
@@ -24,6 +24,7 @@
   "devDependencies": {
     "@babel/core": "^7.7.7",
     "@vue/component-compiler-utils": "^2.1.2",
+    "clean-webpack-plugin": "^3.0.0",
     "copy-webpack-plugin": "^5.1.1",
     "css-loader": "^3.4.2",
     "cssnano": "^4.1.4",
@@ -36,6 +37,8 @@
     "vue-style-loader": "^4.1.2",
     "vue-template-compiler": "^2.6.11",
     "webpack": "^4.42.0",
-    "webpack-cli": "^3.3.11"
+    "webpack-cli": "^3.3.11",
+    "webpack-dev-server": "^3.10.3",
+    "webpack-merge": "^4.2.2"
   }
 }
