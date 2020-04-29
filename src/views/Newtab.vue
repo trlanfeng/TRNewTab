@@ -84,7 +84,7 @@ export default {
       isSettingShow: false,
       isEditMode: false,
       isCreateShow: false,
-      isDraggableDisabled: false,
+      isDraggableDisabled: true,
       migrateData: "",
       settingIndex: 0,
       userdata: {},
