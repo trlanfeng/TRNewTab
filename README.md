@@ -29,7 +29,9 @@
 
 ## 打包说明
 
-使用`Parcel`打包，请安装`Parcel`相关依赖。请使用 `bash / Bash(windows git bash)` 类工具打包，`CMD / Powershell`打包会有问题。
+~~使用`Parcel`打包，请安装`Parcel`相关依赖。请使用 `bash / Bash(windows git bash)` 类工具打包，`CMD / Powershell`打包会有问题。~~
+
+使用 Webpack 4 打包！
 
 ## 未来目标
 
