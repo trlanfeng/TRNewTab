@@ -16,7 +16,7 @@
               class="form-control"
               v-model="speedDialTitle"
               placeholder="不填写则默认显示网址"
-            >
+            />
           </div>
           <div class="form-group">
             <label>网址：</label>
@@ -26,7 +26,7 @@
               v-model="speedDialUrl"
               placeholder="请填入网址"
               required="required"
-            >
+            />
           </div>
         </div>
         <div class="modal-footer">
@@ -38,6 +38,7 @@
   </div>
 </template>
 <script>
+import { ADD_ITEM } from '../store/types'
 export default {
   data() {
     return {
@@ -55,7 +56,7 @@ export default {
         name: this.speedDialTitle,
         url: this.speedDialUrl
       };
-      this.$store.commit("AddSpeedDial", speedDial);
+      this.$store.commit(ADD_ITEM, speedDial)
       this.create_name = "";
       this.create_url = "";
       this.hideBox();

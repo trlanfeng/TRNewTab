@@ -8,7 +8,7 @@
   </div>
 </template>
 <script>
-import DataManager from "../libs/DataManager";
+import { addItem } from "../libs/DataManager";
 export default {
   methods: {
     getCurrentTabInfo() {
@@ -19,7 +19,7 @@ export default {
           name: tabs[0].title,
           url: tabs[0].url
         };
-        DataManager.AddSpeedDial(speedDial)
+        addItem(speedDial)
           .then(() => {
             window.close();
           })

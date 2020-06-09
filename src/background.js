@@ -1,11 +1,12 @@
-import DataManager from './libs/DataManager';
+import { addItem } from "./libs/DataManager";
 
-function addToSpeedDial(info, tab) {
-  DataManager.AddSpeedDial({
+async function addToSpeedDial(info, tab) {
+  await addItem({
     name: tab.title,
-    url: tab.url
+    url: tab.url,
   });
 }
+
 function main() {
   var contexts = ["page"];
   for (var i = 0; i < contexts.length; i++) {
@@ -14,7 +15,7 @@ function main() {
     var id = chrome.contextMenus.create({
       title: title,
       contexts: [context],
-      onclick: addToSpeedDial
+      onclick: addToSpeedDial,
     });
   }
 }

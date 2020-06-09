@@ -2,10 +2,10 @@
   <div>
     <div class="bg" :style="[bgStyle,bgImage]"></div>
     <TopBar @on-command="topBarCommand"></TopBar>
-    <SearchBar v-show="userdata.isSearchOpen"></SearchBar>
+    <SearchBar v-show="settings.isSearchOpen"></SearchBar>
     <div id="SpeedDialContainer">
       <draggable
-        v-model="userdata.list"
+        v-model="list"
         :animation="250"
         handle=".speeddial"
         :disabled="isDraggableDisabled"
@@ -13,7 +13,7 @@
         @end="moveItem"
       >
         <div
-          v-for="(item,index) in userdata.list"
+          v-for="(item,index) in list"
           :key="item.url"
           class="col-12 col-sm-4 col-md-3 col-lg-3"
         >
@@ -59,8 +59,8 @@
 import '@/assets/icons/iconfont.css';
 import draggable from "vuedraggable";
 import Vue from "vue";
-import vueSlider from "vue-slider-component";
-import DataManager from "../libs/DataManager";
+import { mapState } from 'vuex'
+import { getData, setData, defaultSettings } from "../libs/DataManager";
 import ImageManager from "../libs/ImageManager";
 // components
 import TopBar from "../components/TopBar.vue";
@@ -68,11 +68,11 @@ import SearchBar from "../components/SearchBox.vue";
 import CreateBox from "../components/CreateBox.vue";
 import SettingBox from "../components/SettingBox.vue";
 import Icon from "../components/Icon.vue";
+import { CHANGE_SETTING, INIT_DATA } from '../store/types';
 
 export default {
   components: {
     draggable,
-    vueSlider,
     TopBar,
     SearchBar,
     CreateBox,
@@ -85,38 +85,25 @@ export default {
       isEditMode: false,
       isCreateShow: false,
       isDraggableDisabled: true,
-      migrateData: "",
-      settingIndex: 0,
-      userdata: {},
-      bgUrl: ""
     };
   },
-  created() {
-    this.userdata = this.$store.state.data;
-    DataManager.GetData()
-      .then(res => {
-        this.userdata = res;
-        this.$store.commit("SetData", res);
-        this.changeBackground(res.bgUrl);
-      })
-      .catch(err => {
-        console.log("TCL: created -> err", err);
-      });
-  },
-  watch: {
-    userdata: {
-      handler(newVal, oldVal) {
-        this.$store.commit("SetData", newVal);
-      },
-      deep: true
-    }
+  async created() {
+    this.$store.dispatch(INIT_DATA)
+    // todo change wallpaper
+    // this.changeBackground(res.bgUrl);
   },
   computed: {
+    bgUrl() {
+      return this.$store.state.settings.bgUrl
+    },
+    bgBlur() {
+      return this.$store.state.settings.bgBlur
+    },
     bgStyle: {
       get() {
-        let inner_width = -2 * parseInt(this.userdata.bgBlur) + "px";
+        let inner_width = -2 * parseInt(this.bgBlur) + "px";
         return {
-          filter: "blur(" + this.userdata.bgBlur + "px)",
+          filter: "blur(" + this.bgBlur + "px)",
           top: inner_width,
           bottom: inner_width,
           left: inner_width,
@@ -128,6 +115,20 @@ export default {
       return {
         backgroundImage: "url(" + this.bgUrl + ")"
       };
+    },
+    settings() {
+      return this.$store.state.settings
+    },
+    list: {
+      get() {
+        return this.$store.state.settings.list
+      },
+      set(value) {
+        this.$store.commit(CHANGE_SETTING, {
+          key: 'list',
+          value
+        })
+      }
     }
   },
   methods: {
@@ -144,13 +145,6 @@ export default {
           break;
       }
     },
-    settingCommand(cmd, data) {
-      switch (cmd) {
-        case "bgImage":
-          this.changeBackground(data);
-          break;
-      }
-    },
     imgLoad(e) {
       e.target.style.display = "inline-block";
     },
@@ -159,21 +153,12 @@ export default {
     },
     moveItem(e) { },
     removeItem(index) {
-      this.userdata.list.splice(index, 1);
+      this.list.splice(index, 1);
     },
     toggleEditMode(state) {
       this.isEditMode = !this.isEditMode;
       this.isDraggableDisabled = !this.isEditMode;
     },
-    changeBackground(url) {
-      ImageManager.Instance.LoadImage(url)
-        .then(() => {
-          this.bgUrl = url;
-        })
-        .catch(err => {
-          console.log("TCL: changeBackground -> err", err);
-        });
-    }
   },
 };
 </script>

@@ -47,8 +47,7 @@
                 <input
                   type="text"
                   class="form-control"
-                  :value="bgUrl"
-                  @change="bgUrlChange($event.target.value)"
+                  v-model="bgUrl"
                   placeholder="请填写网络图片地址"
                 />
               </div>
@@ -71,8 +70,7 @@
                   min="0"
                   max="100"
                   step="1"
-                  :value="bgBlur"
-                  @change="blurChange"
+                  v-model="bgBlur"
                   class="custom-range"
                   id="customRange1"
                 />
@@ -133,74 +131,105 @@
   </div>
 </template>
 <script>
-import DataManager from "../libs/DataManager";
+import { getData, setData } from "../libs/DataManager";
 import axios from "axios";
+import { CHANGE_SETTING } from '../store/types';
 export default {
   data() {
-    const isSearchOpen = this.$store.state.data.isSearchOpen;
-    const searchTitle = this.$store.state.data.searchTitle;
-    const searchUrl = this.$store.state.data.searchUrl;
-    const searchIcon = this.$store.state.data.searchIcon;
     return {
       settingIndex: 0,
       migrateData: "",
-      bgType: 1,
-      bgUrl: "",
-      bgBlur: 20,
-      bgLastCheckDate: 0,
-      isSearchOpen,
-      searchTitle,
-      searchUrl,
-      searchIcon
     };
   },
   created() {
-    this.bgType = this.$store.state.data.bgType;
-    this.bgUrl = this.$store.state.data.bgUrl;
-    if (!this.bgUrl) this.bgTypeChange();
-    this.bgBlur = this.$store.state.data.bgBlur;
+
   },
-  watch: {
-    isSearchOpen(newVal, oldVal) {
-      this.$store.commit("SetByObj", {
-        isSearchOpen: this.isSearchOpen
-      });
+  computed: {
+    isSearchOpen: {
+      get() {
+        return this.getValue('isSearchOpen')
+      },
+      set(value) {
+        this.setValue('isSearchOpen', value)
+      }
     },
-    searchTitle(newVal, oldVal) {
-      this.$store.commit("SetByObj", {
-        searchTitle: this.searchTitle
-      });
+    searchTitle: {
+      get() {
+        return this.getValue('searchTitle')
+      },
+      set(value) {
+        this.setValue('searchTitle', value)
+      }
     },
-    searchUrl(newVal, oldVal) {
-      this.$store.commit("SetByObj", {
-        searchUrl: this.searchUrl
-      });
+    searchUrl: {
+      get() {
+        return this.getValue('searchUrl')
+      },
+      set(value) {
+        this.setValue('searchUrl', value)
+      }
     },
-    searchIcon(newVal, oldVal) {
-      this.$store.commit("SetByObj", {
-        searchIcon: this.searchIcon
-      });
+    searchIcon: {
+      get() {
+        return this.getValue('searchIcon')
+      },
+      set(value) {
+        this.setValue('searchIcon', value)
+      }
     },
-    bgType(newVal, oldVal) {
-      this.bgTypeChange();
+    bgType: {
+      get() {
+        return this.getValue('bgType')
+      },
+      set(value) {
+        this.setValue('bgType', value)
+        this.onBgTypeChange()
+      }
+    },
+    bgLastCheckDate: {
+      get() {
+        return this.getValue('bgLastCheckDate')
+      },
+      set(value) {
+        this.setValue('bgLastCheckDate', value)
+      }
+    },
+    bgBlur: {
+      get() {
+        return this.getValue('bgBlur')
+      },
+      set(value) {
+        this.setValue('bgBlur', value)
+      }
+    },
+    bgUrl: {
+      get() {
+        return this.getValue('bgUrl')
+      },
+      set(value) {
+        console.log("TR: set -> value", value);
+        this.setValue('bgUrl', value)
+      }
+    },
+    bingApiUrl() {
+      return this.$store.state.settings.bingApiUrl
     }
   },
   methods: {
+    getValue(key) {
+      return this.$store.state.settings[key]
+    },
+    setValue(key, value) {
+      this.$store.commit(CHANGE_SETTING, { key, value })
+    },
     hideBox() {
       this.$emit("update:visible", false);
     },
-    exportData() {
-      this.isMigrateReadOnly = false;
-      DataManager.GetData()
-        .then(res => {
-          this.migrateData = JSON.stringify(res);
-          this.isMigrateShow = true;
-        })
-        .catch(err => {
-          console.log("TCL: exportData -> err", err);
-        });
+    async exportData() {
+      const data = await getData();
+      this.migrateData = JSON.stringify(data);
     },
-    importData() {
+    async importData() {
       let data = {};
       try {
         data = JSON.parse(this.migrateData);
@@ -209,67 +238,33 @@ export default {
         return;
       }
       if (window.confirm("导入将覆盖现有的数据，且不可恢复，是否确认操作？")) {
-        DataManager.SetData(data)
-          .then(() => {
-            this.hideBox();
-            window.location.reload();
-          })
-          .catch(err => {
-            console.log("TCL: importData -> err", err);
-          });
+        await setData(data)
+        this.hideBox();
+        window.location.reload();
       }
     },
-    bgTypeChange() {
+    async onBgTypeChange() {
       if (Number(this.bgType) < 2) {
-        this.getBingImage()
-          .then(res => {
-            this.bgUrlChange(res);
-            this.bgLastCheckDate = +new Date();
-          })
-          .catch(err => {
-            console.log("TCL: bgTypeChange -> err", err);
-          });
+        await this.getBingImage()
       } else {
         this.bgLastCheckDate = 0;
       }
     },
-    blurChange(evt) {
-      this.bgBlur = evt.target.value;
-      this.$store.commit("SetByObj", {
-        bgBlur: this.bgBlur
-      });
-    },
-    bgUrlChange(url) {
-      this.bgUrl = url;
-      this.$store.commit("SetByObj", {
-        bgUrl: this.bgUrl,
-        bgType: this.bgType,
-        bgLastCheckDate: this.bgLastCheckDate
-      });
-      this.$emit("on-command", "bgImage", url);
-    },
     localBackground(e) {
       var f = e.target.files[0];
       var src = window.URL.createObjectURL(f);
-      this.bgUrlChange(src);
+      this.bgUrl = url;
     },
-    getBingImage() {
-      if (+new Date() == this.$store.state.data.bgLastCheckDate) {
+    async getBingImage() {
+      if (new Date().getDate() === this.bgLastCheckDate) {
         return;
       }
-      const _this = this;
-      return new Promise(function (resolve, reject) {
-        try {
-          axios.get(_this.$store.state.data.bingApiUrl).then(response => {
-            var obj = response;
-            let bgUrl = "https://www.bing.com" + obj.data.images[0].url;
-            resolve(bgUrl);
-          });
-        } catch (e) {
-          console.log("TCL: getBingImage -> e", e);
-          reject(e);
-        }
-      });
+      try {
+        const res = await axios.get(this.bingApiUrl);
+        this.bgUrl = "https://www.bing.com" + res.data.images[0].url;
+      } catch (e) {
+        console.log("TR: getBingImage -> e", e);
+      }
     }
   }
 };
