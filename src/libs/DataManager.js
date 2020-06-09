@@ -15,55 +15,79 @@ const defaultSettings = {
   bgBlur: 20,
 };
 
+async function getHistory() {
+  const history = [];
+  try {
+    await localForage.iterate((value, key, index) => {
+      history.push({ key, value });
+    });
+  } catch (e) {
+    console.log("TR: getLocalHistory -> e", e);
+  }
+  return history;
+}
+
 async function getLocalData() {
-  return (await localForage.getItem("now")) || defaultSettings;
+  const data = await localForage.getItem("now");
+  return data || defaultSettings;
 }
 
 function upload(data) {
-  try {
+  return new Promise((resolve, reject) => {
     chrome.storage.sync.set(data, () => {
+      if (chrome.runtime.lastError) {
+        reject(chrome.runtime.lastError);
+        return;
+      }
       console.log("保存到远程成功");
+      resolve();
     });
-  } catch (e) {
-    console.log("TR: upload -> e", e);
-  }
+  });
 }
+
 async function download(data) {
   await localForage.setItem("now", data);
 }
+
 function compare(local, remote) {
   if (local.updateAt < remote.updateAt) {
     download(remote);
+    return remote;
   } else if (local.updateAt > remote.updateAt) {
     upload(local);
+    return local;
   }
+  return local;
 }
 
-async function syncDate() {
-  const localData = await getLocalData();
-  try {
-    chrome.storage.sync.get((result) => {
-      if (Object.keys(result).length < 1) {
+async function syncData() {
+  const local = await getLocalData();
+  return new Promise((resolve, reject) => {
+    chrome.storage.sync.get((remote) => {
+      if (chrome.runtime.lastError) {
+        reject(chrome.runtime.lastError);
+        return;
+      }
+      if (Object.keys(remote).length < 1) {
         // 远程没有数据
-        upload(localData);
-      } else if (!localData) {
+        upload(local);
+        resolve(local);
+      } else if (!local) {
         // 本地没有数据
-        download(result);
+        download(remote);
+        resolve(remote);
       } else {
-        compare(localData, result);
+        resolve(compare(local, remote));
       }
     });
-  } catch (e) {
-    console.log("TR: syncDate -> e", e);
-  }
+  });
 }
 async function getData() {
-  await syncDate();
   return await getLocalData();
 }
 async function setData(data) {
   await localForage.setItem(
-    format(new Date(), "yyyyMMdd"),
+    format(new Date(), "yyyyMMddHHmm"),
     await getLocalData()
   );
   await localForage.setItem("now", data);
@@ -81,4 +105,4 @@ async function changeSetting(key, value) {
   await setData(current);
 }
 
-export { getData, setData, addItem, changeSetting, defaultSettings };
+export { getData, setData, syncData, getHistory, addItem, changeSetting, defaultSettings };

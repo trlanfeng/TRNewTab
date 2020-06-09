@@ -207,7 +207,6 @@ export default {
         return this.getValue('bgUrl')
       },
       set(value) {
-        console.log("TR: set -> value", value);
         this.setValue('bgUrl', value)
       }
     },

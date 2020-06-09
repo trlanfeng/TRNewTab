@@ -1,7 +1,7 @@
 import Vue from "vue";
 import Vuex from "vuex";
 import _ from "lodash";
-import { defaultSettings, getData } from "../libs/DataManager";
+import { defaultSettings, getData, syncData } from "../libs/DataManager";
 import storage from "./plugins";
 import { CHANGE_SETTING, ADD_ITEM, REPLACE_SETTINGS, INIT_DATA } from "./types";
 
@@ -25,7 +25,7 @@ const store = new Vuex.Store({
   },
   actions: {
     async [INIT_DATA]({ commit }) {
-      const data = await getData();
+      const data = await syncData();
       commit(REPLACE_SETTINGS, data);
     },
   },
