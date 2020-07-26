@@ -61,13 +61,13 @@
     </div>
     <CreateBox
       v-show="isCreateShow"
-      :onShow="handleCreateBoxShow"
-      :onClose="handleCreateBoxHide"
+      :onShow="handleShowCreateBox"
+      :onClose="handleHideCreateBox"
     ></CreateBox>
     <SettingBox
-      :visible.sync="isSettingShow"
       v-show="isSettingShow"
-      @on-command="settingCommand"
+      :onShow="handleShowSettings"
+      :onClose="handleHideSettings"
     ></SettingBox>
   </div>
 </template>
@@ -149,11 +149,17 @@ export default {
       this.isEditMode = !this.isEditMode;
       this.isDraggableDisabled = !this.isEditMode;
     },
-    handleCreateBoxShow() {
+    handleShowCreateBox() {
       console.log('TR: handleCreateBoxShow -> handleCreateBoxShow');
     },
-    handleCreateBoxHide() {
+    handleHideCreateBox() {
       this.isCreateShow = false;
+    },
+    handleShowSettings() {
+
+    },
+    handleHideSettings() {
+      this.isSettingShow = false
     }
   },
 };

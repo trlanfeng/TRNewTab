@@ -135,6 +135,7 @@ import { getData, setData } from "@/libs/DataManager";
 import axios from "axios";
 import { CHANGE_SETTING } from '@/store/types';
 export default {
+  props: ['onShow', 'onClose'],
   data() {
     return {
       settingIndex: 0,
@@ -214,6 +215,9 @@ export default {
       return this.$store.state.settings.bingApiUrl
     }
   },
+  mounted() {
+    this.onShow()
+  },
   methods: {
     getValue(key) {
       return this.$store.state.settings[key]
@@ -222,7 +226,7 @@ export default {
       this.$store.commit(CHANGE_SETTING, { key, value })
     },
     hideBox() {
-      this.$emit("update:visible", false);
+      this.onClose()
     },
     async exportData() {
       const data = await getData();

@@ -33,6 +33,7 @@ async function getLocalData() {
 }
 
 function upload(data) {
+  if (!chrome.storage) return
   return new Promise((resolve, reject) => {
     chrome.storage.sync.set(data, () => {
       if (chrome.runtime.lastError) {
@@ -62,6 +63,8 @@ function compare(local, remote) {
 
 async function syncData() {
   const local = await getLocalData();
+  if (!chrome.storage) return local
+  console.log('TR: syncData -> chrome', chrome);
   return new Promise((resolve, reject) => {
     chrome.storage.sync.get((remote) => {
       if (chrome.runtime.lastError) {
