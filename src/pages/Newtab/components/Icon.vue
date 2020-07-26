@@ -9,7 +9,7 @@
   </div>
 </template>
 <script>
-import ImageManager from "../libs/ImageManager";
+import ImageManager from "@/libs/ImageManager";
 export default {
   props: ["url", "name"],
   data() {

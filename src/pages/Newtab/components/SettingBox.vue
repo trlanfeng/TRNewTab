@@ -131,9 +131,9 @@
   </div>
 </template>
 <script>
-import { getData, setData } from "../libs/DataManager";
+import { getData, setData } from "@/libs/DataManager";
 import axios from "axios";
-import { CHANGE_SETTING } from '../store/types';
+import { CHANGE_SETTING } from '@/store/types';
 export default {
   data() {
     return {

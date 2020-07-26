@@ -38,8 +38,9 @@
   </div>
 </template>
 <script>
-import { ADD_ITEM } from '../store/types'
+import { ADD_ITEM } from '@/store/types'
 export default {
+  props: ['onShow', 'onClose'],
   data() {
     return {
       speedDialTitle: "",
@@ -47,9 +48,12 @@ export default {
       speedDialIcon: ""
     };
   },
+  mounted() {
+    this.onShow()
+  },
   methods: {
     hideBox() {
-      this.$emit("update:visible", false);
+      this.onClose()
     },
     addToList() {
       let speedDial = {

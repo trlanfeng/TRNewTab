@@ -1,7 +1,20 @@
 <template>
   <div>
     <div class="bg" :style="[bgStyle,bgImage]"></div>
-    <TopBar @on-command="topBarCommand"></TopBar>
+    <div class="topbar">
+      <button @click="isCreateShow = true">
+        <i class="iconfont iconplus-circle"></i>
+        <span>新增</span>
+      </button>
+      <button @click="toggleEditMode">
+        <i class="iconfont iconcompass"></i>
+        <span>管理</span>
+      </button>
+      <button @click="isSettingShow = true">
+        <i class="iconfont iconsetting"></i>
+        <span>设置</span>
+      </button>
+    </div>
     <SearchBar v-show="settings.isSearchOpen"></SearchBar>
     <div id="SpeedDialContainer">
       <draggable
@@ -46,7 +59,11 @@
         </div>
       </draggable>
     </div>
-    <CreateBox :visible.sync="isCreateShow" v-show="isCreateShow"></CreateBox>
+    <CreateBox
+      v-show="isCreateShow"
+      :onShow="handleCreateBoxShow"
+      :onClose="handleCreateBoxHide"
+    ></CreateBox>
     <SettingBox
       :visible.sync="isSettingShow"
       v-show="isSettingShow"
@@ -60,20 +77,18 @@ import '@/assets/icons/iconfont.css';
 import draggable from "vuedraggable";
 import Vue from "vue";
 import { mapState } from 'vuex'
-import { getData, setData, defaultSettings } from "../libs/DataManager";
-import ImageManager from "../libs/ImageManager";
+import { getData, setData, defaultSettings } from "@/libs/DataManager";
+import ImageManager from "@/libs/ImageManager";
 // components
-import TopBar from "../components/TopBar.vue";
-import SearchBar from "../components/SearchBox.vue";
-import CreateBox from "../components/CreateBox.vue";
-import SettingBox from "../components/SettingBox.vue";
-import Icon from "../components/Icon.vue";
-import { CHANGE_SETTING, INIT_DATA } from '../store/types';
+import SearchBar from "./components/SearchBox.vue";
+import CreateBox from "./components/CreateBox.vue";
+import SettingBox from "./components/SettingBox.vue";
+import Icon from "./components/Icon.vue";
+import { CHANGE_SETTING, INIT_DATA } from '@/store/types';
 
 export default {
   components: {
     draggable,
-    TopBar,
     SearchBar,
     CreateBox,
     SettingBox,
@@ -93,17 +108,14 @@ export default {
     // this.changeBackground(res.bgUrl);
   },
   computed: {
-    bgUrl() {
-      return this.$store.state.settings.bgUrl
-    },
-    bgBlur() {
-      return this.$store.state.settings.bgBlur
+    settings() {
+      return this.$store.state.settings
     },
     bgStyle: {
       get() {
-        let inner_width = -2 * parseInt(this.bgBlur) + "px";
+        let inner_width = -2 * parseInt(this.settings.bgBlur) + "px";
         return {
-          filter: "blur(" + this.bgBlur + "px)",
+          filter: "blur(" + this.settings.bgBlur + "px)",
           top: inner_width,
           bottom: inner_width,
           left: inner_width,
@@ -113,11 +125,8 @@ export default {
     },
     bgImage() {
       return {
-        backgroundImage: "url(" + this.bgUrl + ")"
+        backgroundImage: "url(" + this.settings.bgUrl + ")"
       };
-    },
-    settings() {
-      return this.$store.state.settings
     },
     list: {
       get() {
@@ -132,25 +141,6 @@ export default {
     }
   },
   methods: {
-    topBarCommand(cmd) {
-      switch (cmd) {
-        case "create":
-          this.isCreateShow = true;
-          break;
-        case "setting":
-          this.isSettingShow = true;
-          break;
-        case "edit":
-          this.toggleEditMode();
-          break;
-      }
-    },
-    imgLoad(e) {
-      e.target.style.display = "inline-block";
-    },
-    imgError(e) {
-      e.target.style.display = "none";
-    },
     moveItem(e) { },
     removeItem(index) {
       this.list.splice(index, 1);
@@ -159,6 +149,12 @@ export default {
       this.isEditMode = !this.isEditMode;
       this.isDraggableDisabled = !this.isEditMode;
     },
+    handleCreateBoxShow() {
+      console.log('TR: handleCreateBoxShow -> handleCreateBoxShow');
+    },
+    handleCreateBoxHide() {
+      this.isCreateShow = false;
+    }
   },
 };
 </script>

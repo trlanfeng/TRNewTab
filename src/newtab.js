@@ -1,6 +1,6 @@
 import Vue from 'vue';
 import store from './store';
-import App from './views/Newtab.vue';
+import App from './pages/Newtab/Newtab.vue';
 import 'bootstrap/dist/css/bootstrap.min.css'
 import './assets/css/newtab.less'
 
