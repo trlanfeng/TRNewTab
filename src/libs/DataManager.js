@@ -89,8 +89,6 @@ async function getData() {
   return await getLocalData();
 }
 async function setData(data) {
-  const current = await getLocalData();
-  if (JSON.stringify(data) === JSON.stringify(current)) return
   await localForage.setItem(
     format(new Date(), "yyyyMMddHHmm"),
     await getLocalData()
@@ -106,6 +104,7 @@ async function addItem(item) {
 
 async function changeSetting(key, value) {
   const current = await getLocalData();
+  if (current[key] === value) return
   current[key] = value;
   await setData(current);
 }

@@ -133,7 +133,7 @@
             <button type="button" class="btn btn-danger" @click="importData">导入</button>
           </div>
           <div class="tab-pane" v-show="settingIndex==3">
-            <table class="table">
+            <table class="table table-borderless">
               <thead>
                 <tr>
                   <th scope="col">#</th>
@@ -148,8 +148,8 @@
                   <td>{{item.key}}</td>
                   <td>{{(item.value.list && item.value.list.length) || 0}}</td>
                   <td>
-                    <button type="button" class="btn btn-danger">删除</button>
-                    <button type="button" class="btn btn-primary">恢复</button>
+                    <button type="button" class="btn btn-danger btn-sm">删除</button>
+                    <button type="button" class="btn btn-primary btn-sm">恢复</button>
                   </td>
                 </tr>
               </tbody>
@@ -175,7 +175,7 @@ export default {
   },
   async created() {
     this.backupList = await getHistory();
-    console.log('TR: created -> this.backupList', this.backupList);
+    console.log('TR: created -> this.backupList', this.backupList.reverse());
   },
   computed: {
     isSearchOpen: {
