@@ -256,7 +256,7 @@ export default {
     localBackground(e) {
       var f = e.target.files[0];
       var src = window.URL.createObjectURL(f);
-      this.bgUrl = url;
+      this.bgUrl = src;
     },
     async getBingImage() {
       if (new Date().getDate() === this.bgLastCheckDate) {
