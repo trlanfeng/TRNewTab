@@ -54,4 +54,21 @@ export default {
 .fade-leave-to {
   opacity: 0;
 }
+.icon_img {
+  // display         : none;
+  width: 32px;
+  height: 32px;
+  background-color: transparent;
+}
+.word {
+  display: inline-block;
+  font-size: 24px;
+  background-color: #0090ff;
+  color: white;
+  width: 32px;
+  height: 32px;
+  text-align: center;
+  line-height: 32px;
+  border-radius: 3px;
+}
 </style>

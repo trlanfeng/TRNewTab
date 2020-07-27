@@ -185,6 +185,7 @@ export default {
   flex-wrap: wrap;
 
   .speeddial {
+    border: 1px solid @lightBorder;
     margin-top: 20px;
     background-color: @lightBackground;
     backdrop-filter: blur(10px);
@@ -242,25 +243,6 @@ export default {
             path {
               fill: @darkBackground;
             }
-          }
-
-          .icon_img {
-            // display         : none;
-            width: 32px;
-            height: 32px;
-            background-color: transparent;
-          }
-
-          .word {
-            display: inline-block;
-            font-size: 24px;
-            background-color: #0090ff;
-            color: white;
-            width: 32px;
-            height: 32px;
-            text-align: center;
-            line-height: 32px;
-            border-radius: 3px;
           }
         }
 
