@@ -165,4 +165,227 @@ export default {
 };
 </script>
 <style lang="less" scoped>
+@import '../../assets/css/variables.less';
+.bg {
+  position: fixed;
+  top: -20px;
+  bottom: -20px;
+  left: -20px;
+  right: -20px;
+  z-index: -1;
+  background-position: center;
+  background-size: cover;
+}
+
+.SpeedDialBox {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 50px 0 100px;
+  display: flex;
+  flex-wrap: wrap;
+
+  .speeddial {
+    margin-top: 20px;
+    background-color: @lightBackground;
+    backdrop-filter: blur(10px);
+    border-radius: 5px;
+    overflow: hidden;
+    transition: all 0.2s;
+    cursor: pointer;
+
+    &.move {
+      cursor: move !important;
+
+      a {
+        cursor: move !important;
+      }
+    }
+
+    &:hover,
+    &:focus {
+      text-decoration: none;
+      box-shadow: 0 0 10px #333;
+
+      span {
+        text-decoration: none;
+      }
+    }
+
+    .info {
+      position: relative;
+      display: flex;
+      align-items: center;
+
+      .block {
+        flex: 1;
+        transition: all 0.2s;
+        display: flex;
+        height: 52px;
+        align-items: center;
+        padding: 10px;
+        color: @darkBackground;
+        text-decoration: none;
+        overflow: hidden;
+
+        .icon {
+          width: 32px;
+          height: 32px;
+          margin-right: 10px;
+          overflow: hidden;
+
+          .drag_handle {
+            width: 32px;
+            height: 32px;
+            color: @darkBackground;
+            fill: @darkBackground;
+
+            path {
+              fill: @darkBackground;
+            }
+          }
+
+          .icon_img {
+            // display         : none;
+            width: 32px;
+            height: 32px;
+            background-color: transparent;
+          }
+
+          .word {
+            display: inline-block;
+            font-size: 24px;
+            background-color: #0090ff;
+            color: white;
+            width: 32px;
+            height: 32px;
+            text-align: center;
+            line-height: 32px;
+            border-radius: 3px;
+          }
+        }
+
+        .title {
+          flex: 1;
+          white-space: nowrap;
+          font-size: 14px;
+          text-overflow: ellipsis;
+          overflow: hidden;
+        }
+      }
+
+      .close_button {
+        width: 28px;
+        height: 32px;
+        background: transparent;
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+
+        .iconfont {
+          color: #eb3323;
+        }
+
+        cursor: pointer !important;
+
+        img {
+          width: 32px;
+          height: 32px;
+        }
+      }
+    }
+
+    .other {
+      height: 30px;
+      display: flex;
+      border-top: 1px solid @lightBorder;
+
+      .drag {
+        width: 40px;
+        padding-left: 10px;
+
+        .drag_handle {
+          max-width: 16px;
+          max-height: 16px;
+        }
+      }
+
+      .link {
+        flex: 1;
+        font-size: 12px;
+        line-height: 28px;
+        color: #999;
+      }
+    }
+  }
+}
+
+.my-modal {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  // background-color: rgba(0, 0, 0, 0.7);
+}
+
+.switcher_box {
+  display: flex;
+  align-items: center;
+
+  label {
+    flex: 1;
+  }
+
+  .switcher {
+    display: flex !important;
+    justify-content: flex-end;
+  }
+}
+
+.nav-item {
+  cursor: pointer;
+}
+
+.sortable-chosen {
+  opacity: 0.5;
+}
+
+.topbar {
+  padding: 20px;
+  text-align: right;
+  background: linear-gradient(to bottom, rgba(1, 1, 1, 0.3), transparent);
+
+  button {
+    color: white;
+    font-size: 0;
+    text-decoration: none;
+    margin: 0 10px;
+    padding: 5px 0;
+    border: 0;
+    border-bottom: 2px solid transparent;
+    border-color: transparent;
+    background-color: transparent;
+    outline: none;
+    transition: border-color 0.2s;
+
+    .iconfont {
+      font-size: 24px;
+      vertical-align: middle;
+      margin-right: 5px;
+    }
+
+    span {
+      font-size: 18px;
+      vertical-align: middle;
+    }
+
+    &:hover {
+      border-color: white;
+    }
+
+    &:focus {
+      outline: none;
+    }
+  }
+}
 </style>
