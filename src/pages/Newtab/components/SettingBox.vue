@@ -25,6 +25,13 @@
                 @click="settingIndex=2"
               >导入 / 导出</span>
             </li>
+            <li class="nav-item">
+              <span
+                class="nav-link"
+                :class="{active:settingIndex==3}"
+                @click="settingIndex=3"
+              >备份</span>
+            </li>
           </ul>
           <button type="button" class="close" @click="hideBox">
             <span aria-hidden="true">&times;</span>
@@ -125,13 +132,36 @@
             <button type="button" class="btn btn-primary" @click="exportData">导出</button>
             <button type="button" class="btn btn-danger" @click="importData">导入</button>
           </div>
+          <div class="tab-pane" v-show="settingIndex==3">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th scope="col">#</th>
+                  <th scope="col">时间</th>
+                  <th scope="col">数量</th>
+                  <th scope="col">操作</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr v-for="(item,index) in backupList" :key="item.key">
+                  <th scope="row">{{index}}</th>
+                  <td>{{item.key}}</td>
+                  <td>{{(item.value.list && item.value.list.length) || 0}}</td>
+                  <td>
+                    <button type="button" class="btn btn-danger">删除</button>
+                    <button type="button" class="btn btn-primary">恢复</button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
     </div>
   </div>
 </template>
 <script>
-import { getData, setData } from "@/libs/DataManager";
+import { getData, setData, getHistory } from "@/libs/DataManager";
 import axios from "axios";
 import { CHANGE_SETTING } from '@/store/types';
 export default {
@@ -140,10 +170,12 @@ export default {
     return {
       settingIndex: 0,
       migrateData: "",
+      backupList: []
     };
   },
-  created() {
-
+  async created() {
+    this.backupList = await getHistory();
+    console.log('TR: created -> this.backupList', this.backupList);
   },
   computed: {
     isSearchOpen: {
@@ -273,4 +305,8 @@ export default {
 };
 </script>
 <style lang="less" scoped>
+.tab-pane {
+  max-height: 400px;
+  overflow: auto;
+}
 </style>
