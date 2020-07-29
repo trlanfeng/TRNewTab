@@ -71,11 +71,11 @@
     ></SettingBox>
   </div>
 </template>
-<script>
+<script lang='ts'>
 //iconfont
+import Vue from "vue";
 import '@/assets/icons/iconfont.css';
 import draggable from "vuedraggable";
-import Vue from "vue";
 import { mapState } from 'vuex'
 import { getData, setData, defaultSettings } from "@/libs/DataManager";
 import ImageManager from "@/libs/ImageManager";
@@ -86,7 +86,7 @@ import SettingBox from "./components/SettingBox.vue";
 import Icon from "./components/Icon.vue";
 import { CHANGE_SETTING, INIT_DATA } from '@/store/types';
 
-export default {
+export default Vue.extend({
   components: {
     draggable,
     SearchBar,
@@ -162,7 +162,7 @@ export default {
       this.isSettingShow = false
     }
   },
-};
+});
 </script>
 <style lang="less" scoped>
 @import '../../assets/css/variables.less';
