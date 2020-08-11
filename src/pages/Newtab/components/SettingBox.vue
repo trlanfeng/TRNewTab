@@ -45,7 +45,7 @@
                 <!-- <option value="0">使用第三方壁纸（每日更换）</option> -->
                 <option :value="1">使用必应官方地址（每日更换）</option>
                 <option :value="2">使用网络图片地址</option>
-                <option :value="3">使用本地图片</option>
+                <!-- <option :value="3">使用本地图片</option> -->
               </select>
             </div>
             <div class="networkImage" v-show="bgType==2">
@@ -132,7 +132,7 @@
             <button type="button" class="btn btn-primary" @click="exportData">导出</button>
             <button type="button" class="btn btn-danger" @click="importData">导入</button>
           </div>
-          <div class="tab-pane" v-show="settingIndex==3">
+          <div class="tab-pane history-pane" v-show="settingIndex==3">
             <table class="table table-borderless">
               <thead>
                 <tr>
@@ -307,6 +307,8 @@ export default {
 <style lang="less" scoped>
 .tab-pane {
   max-height: 400px;
+}
+.history-pane {
   overflow: auto;
 }
 </style>
