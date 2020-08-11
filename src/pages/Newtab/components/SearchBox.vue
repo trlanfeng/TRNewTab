@@ -49,7 +49,7 @@ export default {
   }
 
   input {
-    border-radius: 5px;
+    border-radius: 0.25rem;
     max-width: 900px;
     height: 52px;
     padding-left: 60px;

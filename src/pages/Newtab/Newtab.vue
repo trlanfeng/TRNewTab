@@ -185,11 +185,11 @@ export default Vue.extend({
   flex-wrap: wrap;
 
   .speeddial {
-    border: 1px solid @lightBorder;
+    border: 1px solid white;
     margin-top: 20px;
     background-color: @lightBackground;
-    backdrop-filter: blur(10px);
-    border-radius: 5px;
+    // backdrop-filter: blur(10px);
+    border-radius: .25rem;
     overflow: hidden;
     transition: all 0.2s;
     cursor: pointer;
@@ -205,7 +205,8 @@ export default Vue.extend({
     &:hover,
     &:focus {
       text-decoration: none;
-      box-shadow: 0 0 10px #333;
+      box-shadow: 0 0 5px darken(@lightBorder, 50%);
+      border: 1px solid darken(@lightBorder, 50%);
 
       span {
         text-decoration: none;
@@ -307,7 +308,8 @@ export default Vue.extend({
   bottom: 0;
   left: 0;
   right: 0;
-  // background-color: rgba(0, 0, 0, 0.7);
+  z-index: 99;
+  background-color: rgba(0, 0, 0, 0.7);
 }
 
 .switcher_box {
