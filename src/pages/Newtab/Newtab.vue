@@ -27,7 +27,7 @@
       >
         <div
           v-for="(item,index) in list"
-          :key="item.url"
+          :key="index"
           class="col-12 col-sm-4 col-md-3 col-lg-3"
         >
           <div class="speeddial" :class="{move:isEditMode}">
