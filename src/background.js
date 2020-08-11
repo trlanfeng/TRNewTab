@@ -1,4 +1,4 @@
-import { addItem } from "./libs/DataManager";
+import { addItem } from "./services/data";
 
 async function addToSpeedDial(info, tab) {
   await addItem({

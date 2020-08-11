@@ -1,7 +1,7 @@
 import Vue from "vue";
 import Vuex from "vuex";
 import _ from "lodash";
-import { defaultSettings, getData, syncData } from "../libs/DataManager";
+import { defaultSettings, getData, syncData } from "../services/data";
 import storage from "./plugins";
 import { CHANGE_SETTING, ADD_ITEM, REPLACE_SETTINGS, INIT_DATA } from "./types";
 

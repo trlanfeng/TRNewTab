@@ -9,7 +9,6 @@
   </div>
 </template>
 <script>
-import ImageManager from "@/libs/ImageManager";
 export default {
   props: ["url", "name"],
   data() {
@@ -19,18 +18,17 @@ export default {
     };
   },
   mounted() {
-    window.addEventListener("load", () => {
-      const iconUrl = this.getFavIconUrl(this.url);
-      ImageManager.Instance.LoadImage(iconUrl)
-        .then(() => {
-          this.iconUrl = iconUrl;
-          this.isIconShow = true;
-        })
-        .catch(err => {
-          console.log("TCL: mounted -> err", err);
-          this.isIconShow = false;
-        });
-    });
+    const iconUrl = this.getFavIconUrl(this.url);
+    const img = new Image();
+    img.onload = () => {
+      this.iconUrl = iconUrl;
+      this.isIconShow = true;
+    }
+    img.onerror = () => {
+      console.log("TCL: mounted -> err", err);
+      this.isIconShow = false;
+    }
+    img.src = iconUrl
   },
   methods: {
     getFavIconUrl(url) {

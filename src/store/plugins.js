@@ -1,4 +1,4 @@
-import { setData, getData } from "../libs/DataManager";
+import { setData, getData } from "../services/data";
 import _ from "lodash";
 
 const storage = (store) => {

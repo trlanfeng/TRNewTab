@@ -161,7 +161,7 @@
   </div>
 </template>
 <script>
-import { getData, setData, getHistory } from "@/libs/DataManager";
+import { getData, setData, getHistory } from "@/services/data";
 import axios from "axios";
 import { CHANGE_SETTING } from '@/store/types';
 export default {

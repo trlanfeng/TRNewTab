@@ -8,7 +8,7 @@
   </div>
 </template>
 <script>
-import { addItem } from "@/libs/DataManager";
+import { addItem } from "@/services/data";
 export default {
   methods: {
     getCurrentTabInfo() {

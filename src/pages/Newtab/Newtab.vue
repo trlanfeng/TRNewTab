@@ -77,8 +77,7 @@ import Vue from "vue";
 import '@/assets/icons/iconfont.css';
 import draggable from "vuedraggable";
 import { mapState } from 'vuex'
-import { getData, setData, defaultSettings } from "@/libs/DataManager";
-import ImageManager from "@/libs/ImageManager";
+import { getData, setData, defaultSettings } from "@/services/data";
 // components
 import SearchBar from "./components/SearchBox.vue";
 import CreateBox from "./components/CreateBox.vue";
