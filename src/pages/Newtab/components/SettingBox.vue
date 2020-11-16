@@ -7,30 +7,34 @@
             <li class="nav-item">
               <span
                 class="nav-link"
-                :class="{active:settingIndex==0}"
-                @click="settingIndex=0"
-              >壁纸</span>
+                :class="{ active: settingIndex == 0 }"
+                @click="settingIndex = 0"
+                >壁纸</span
+              >
             </li>
             <li class="nav-item">
               <span
                 class="nav-link"
-                :class="{active:settingIndex==1}"
-                @click="settingIndex=1"
-              >搜索</span>
+                :class="{ active: settingIndex == 1 }"
+                @click="settingIndex = 1"
+                >搜索</span
+              >
             </li>
             <li class="nav-item">
               <span
                 class="nav-link"
-                :class="{active:settingIndex==2}"
-                @click="settingIndex=2"
-              >导入 / 导出</span>
+                :class="{ active: settingIndex == 2 }"
+                @click="settingIndex = 2"
+                >导入 / 导出</span
+              >
             </li>
             <li class="nav-item">
               <span
                 class="nav-link"
-                :class="{active:settingIndex==3}"
-                @click="settingIndex=3"
-              >备份</span>
+                :class="{ active: settingIndex == 3 }"
+                @click="settingIndex = 3"
+                >备份</span
+              >
             </li>
           </ul>
           <button type="button" class="close" @click="hideBox">
@@ -38,7 +42,7 @@
           </button>
         </div>
         <div class="modal-body">
-          <div class="tab-pane" v-show="settingIndex==0">
+          <div class="tab-pane" v-show="settingIndex == 0">
             <div class="form-group">
               <label>壁纸类型：</label>
               <select class="form-control" v-model="bgType">
@@ -48,7 +52,7 @@
                 <!-- <option :value="3">使用本地图片</option> -->
               </select>
             </div>
-            <div class="networkImage" v-show="bgType==2">
+            <div class="networkImage" v-show="bgType == 2">
               <div class="form-group">
                 <label>网络图片地址：</label>
                 <input
@@ -59,7 +63,7 @@
                 />
               </div>
             </div>
-            <div class="localImage" v-show="bgType==3">
+            <div class="localImage" v-show="bgType == 3">
               <div class="form-group">
                 <label>选择本地图片：</label>
                 <input
@@ -71,7 +75,7 @@
             </div>
             <div class="blur_range">
               <div class="form-group">
-                <label for="customRange1">模糊度：{{bgBlur}}</label>
+                <label for="customRange1">模糊度：{{ bgBlur }}</label>
                 <input
                   type="range"
                   min="0"
@@ -84,7 +88,7 @@
               </div>
             </div>
           </div>
-          <div class="tab-pane" v-show="settingIndex==1">
+          <div class="tab-pane" v-show="settingIndex == 1">
             <div class="form-group switcher_box">
               <label for="switcher">是否开启搜索：</label>
               <input id="switcher" type="checkbox" v-model="isSearchOpen" />
@@ -119,20 +123,24 @@
               </div>
             </div>
           </div>
-          <div class="tab-pane" v-show="settingIndex==2">
+          <div class="tab-pane" v-show="settingIndex == 2">
             <textarea
               name="migrateData"
               id="migrateData"
               class="form-control"
               cols="30"
               rows="10"
-              style="margin-bottom:10px;"
+              style="margin-bottom: 10px"
               v-model="migrateData"
             ></textarea>
-            <button type="button" class="btn btn-primary" @click="exportData">导出</button>
-            <button type="button" class="btn btn-danger" @click="importData">导入</button>
+            <button type="button" class="btn btn-primary" @click="exportData">
+              导出
+            </button>
+            <button type="button" class="btn btn-danger" @click="importData">
+              导入
+            </button>
           </div>
-          <div class="tab-pane history-pane" v-show="settingIndex==3">
+          <div class="tab-pane history-pane" v-show="settingIndex == 3">
             <table class="table table-borderless">
               <thead>
                 <tr>
@@ -143,13 +151,19 @@
                 </tr>
               </thead>
               <tbody>
-                <tr v-for="(item,index) in backupList" :key="item.key">
-                  <th scope="row">{{index}}</th>
-                  <td>{{item.key}}</td>
-                  <td>{{(item.value.list && item.value.list.length) || 0}}</td>
+                <tr v-for="(item, index) in backupList" :key="item.key">
+                  <th scope="row">{{ index }}</th>
+                  <td>{{ item.key }}</td>
                   <td>
-                    <button type="button" class="btn btn-danger btn-sm">删除</button>
-                    <button type="button" class="btn btn-primary btn-sm">恢复</button>
+                    {{ (item.value.list && item.value.list.length) || 0 }}
+                  </td>
+                  <td>
+                    <button type="button" class="btn btn-danger btn-sm">
+                      删除
+                    </button>
+                    <button type="button" class="btn btn-primary btn-sm">
+                      恢复
+                    </button>
                   </td>
                 </tr>
               </tbody>
@@ -161,16 +175,17 @@
   </div>
 </template>
 <script>
-import { getData, setData, getHistory } from "@/services/data";
-import axios from "axios";
+import axios from 'axios';
+import { getData, setData, getHistory } from '@/services/data';
 import { CHANGE_SETTING } from '@/store/types';
+
 export default {
   props: ['onShow', 'onClose'],
   data() {
     return {
       settingIndex: 0,
-      migrateData: "",
-      backupList: []
+      migrateData: '',
+      backupList: [],
     };
   },
   async created() {
@@ -180,85 +195,85 @@ export default {
   computed: {
     isSearchOpen: {
       get() {
-        return this.getValue('isSearchOpen')
+        return this.getValue('isSearchOpen');
       },
       set(value) {
-        this.setValue('isSearchOpen', value)
-      }
+        this.setValue('isSearchOpen', value);
+      },
     },
     searchTitle: {
       get() {
-        return this.getValue('searchTitle')
+        return this.getValue('searchTitle');
       },
       set(value) {
-        this.setValue('searchTitle', value)
-      }
+        this.setValue('searchTitle', value);
+      },
     },
     searchUrl: {
       get() {
-        return this.getValue('searchUrl')
+        return this.getValue('searchUrl');
       },
       set(value) {
-        this.setValue('searchUrl', value)
-      }
+        this.setValue('searchUrl', value);
+      },
     },
     searchIcon: {
       get() {
-        return this.getValue('searchIcon')
+        return this.getValue('searchIcon');
       },
       set(value) {
-        this.setValue('searchIcon', value)
-      }
+        this.setValue('searchIcon', value);
+      },
     },
     bgType: {
       get() {
-        return this.getValue('bgType')
+        return this.getValue('bgType');
       },
       set(value) {
-        this.setValue('bgType', value)
-        this.onBgTypeChange()
-      }
+        this.setValue('bgType', value);
+        this.onBgTypeChange();
+      },
     },
     bgLastCheckDate: {
       get() {
-        return this.getValue('bgLastCheckDate')
+        return this.getValue('bgLastCheckDate');
       },
       set(value) {
-        this.setValue('bgLastCheckDate', value)
-      }
+        this.setValue('bgLastCheckDate', value);
+      },
     },
     bgBlur: {
       get() {
-        return this.getValue('bgBlur')
+        return this.getValue('bgBlur');
       },
       set(value) {
-        this.setValue('bgBlur', value)
-      }
+        this.setValue('bgBlur', value);
+      },
     },
     bgUrl: {
       get() {
-        return this.getValue('bgUrl')
+        return this.getValue('bgUrl');
       },
       set(value) {
-        this.setValue('bgUrl', value)
-      }
+        this.setValue('bgUrl', value);
+      },
     },
     bingApiUrl() {
-      return this.$store.state.settings.bingApiUrl
-    }
+      return this.$store.state.settings.bingApiUrl;
+    },
   },
   mounted() {
-    this.onShow()
+    this.onShow();
   },
   methods: {
     getValue(key) {
-      return this.$store.state.settings[key]
+      return this.$store.state.settings[key];
     },
     setValue(key, value) {
-      this.$store.commit(CHANGE_SETTING, { key, value })
+      this.$store.commit(CHANGE_SETTING, { key, value });
     },
     hideBox() {
-      this.onClose()
+      this.onClose();
     },
     async exportData() {
       const data = await getData();
@@ -269,18 +284,18 @@ export default {
       try {
         data = JSON.parse(this.migrateData);
       } catch (e) {
-        window.alert("需要导入的数据有误，请检查");
+        window.alert('需要导入的数据有误，请检查');
         return;
       }
-      if (window.confirm("导入将覆盖现有的数据，且不可恢复，是否确认操作？")) {
-        await setData(data)
+      if (window.confirm('导入将覆盖现有的数据，且不可恢复，是否确认操作？')) {
+        await setData(data);
         this.hideBox();
         window.location.reload();
       }
     },
     async onBgTypeChange() {
       if (Number(this.bgType) < 2) {
-        await this.getBingImage()
+        await this.getBingImage();
       } else {
         this.bgLastCheckDate = 0;
       }
@@ -296,12 +311,12 @@ export default {
       }
       try {
         const res = await axios.get(this.bingApiUrl);
-        this.bgUrl = "https://www.bing.com" + res.data.images[0].url;
+        this.bgUrl = 'https://www.bing.com' + res.data.images[0].url;
       } catch (e) {
-        console.log("TR: getBingImage -> e", e);
+        console.log('TR: getBingImage -> e', e);
       }
-    }
-  }
+    },
+  },
 };
 </script>
 <style lang="less" scoped>

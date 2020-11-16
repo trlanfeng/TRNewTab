@@ -30,42 +30,46 @@
           </div>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" @click="hideBox">取消</button>
-          <button type="button" class="btn btn-primary" @click="addToList">添加</button>
+          <button type="button" class="btn btn-secondary" @click="hideBox">
+            取消
+          </button>
+          <button type="button" class="btn btn-primary" @click="addToList">
+            添加
+          </button>
         </div>
       </div>
     </div>
   </div>
 </template>
 <script>
-import { ADD_ITEM } from '@/store/types'
+import { ADD_ITEM } from '@/store/types';
 export default {
   props: ['onShow', 'onClose'],
   data() {
     return {
-      speedDialTitle: "",
-      speedDialUrl: "",
-      speedDialIcon: ""
+      speedDialTitle: '',
+      speedDialUrl: '',
+      speedDialIcon: '',
     };
   },
   mounted() {
-    this.onShow()
+    this.onShow();
   },
   methods: {
     hideBox() {
-      this.onClose()
+      this.onClose();
     },
     addToList() {
       let speedDial = {
         name: this.speedDialTitle,
-        url: this.speedDialUrl
+        url: this.speedDialUrl,
       };
-      this.$store.commit(ADD_ITEM, speedDial)
-      this.create_name = "";
-      this.create_url = "";
+      this.$store.commit(ADD_ITEM, speedDial);
+      this.create_name = '';
+      this.create_url = '';
       this.hideBox();
-    }
-  }
+    },
+  },
 };
 </script>
 <style lang="less" scoped>
