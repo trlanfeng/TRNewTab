@@ -42,14 +42,14 @@
   </div>
 </template>
 <script>
-import { ADD_ITEM } from '@/store/types';
+import { ADD_ITEM } from "@/store/types";
 export default {
-  props: ['onShow', 'onClose'],
+  props: ["onShow", "onClose"],
   data() {
     return {
-      speedDialTitle: '',
-      speedDialUrl: '',
-      speedDialIcon: '',
+      speedDialTitle: "",
+      speedDialUrl: "",
+      speedDialIcon: "",
     };
   },
   mounted() {
@@ -65,8 +65,8 @@ export default {
         url: this.speedDialUrl,
       };
       this.$store.commit(ADD_ITEM, speedDial);
-      this.create_name = '';
-      this.create_url = '';
+      this.create_name = "";
+      this.create_url = "";
       this.hideBox();
     },
   },

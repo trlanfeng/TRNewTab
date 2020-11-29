@@ -4,7 +4,7 @@
       <img class="icon_img" :src="iconUrl" :alt="name" v-show="isIconShow" />
     </transition>
     <transition name="fade">
-      <span class="word" v-show="!isIconShow">{{name | getFirstWord}}</span>
+      <span class="word" v-show="!isIconShow">{{ name | getFirstWord }}</span>
     </transition>
   </div>
 </template>
@@ -14,7 +14,7 @@ export default {
   data() {
     return {
       iconUrl: "",
-      isIconShow: false
+      isIconShow: false,
     };
   },
   mounted() {
@@ -23,24 +23,24 @@ export default {
     img.onload = () => {
       this.iconUrl = iconUrl;
       this.isIconShow = true;
-    }
+    };
     img.onerror = () => {
       console.log("TCL: mounted -> err", err);
       this.isIconShow = false;
-    }
-    img.src = iconUrl
+    };
+    img.src = iconUrl;
   },
   methods: {
     getFavIconUrl(url) {
       let domainArr = url.split("/");
       return `http://trlanfeng.xicp.net/${domainArr[2]}/144`;
-    }
+    },
   },
   filters: {
     getFirstWord(title) {
       return title.substr(0, 1).toUpperCase();
-    }
-  }
+    },
+  },
 };
 </script>
 <style lang="less" scoped>

@@ -46,10 +46,8 @@
             <div class="form-group">
               <label>壁纸类型：</label>
               <select class="form-control" v-model="bgType">
-                <!-- <option value="0">使用第三方壁纸（每日更换）</option> -->
                 <option :value="1">使用必应官方地址（每日更换）</option>
                 <option :value="2">使用网络图片地址</option>
-                <!-- <option :value="3">使用本地图片</option> -->
               </select>
             </div>
             <div class="networkImage" v-show="bgType == 2">
@@ -60,16 +58,6 @@
                   class="form-control"
                   v-model="bgUrl"
                   placeholder="请填写网络图片地址"
-                />
-              </div>
-            </div>
-            <div class="localImage" v-show="bgType == 3">
-              <div class="form-group">
-                <label>选择本地图片：</label>
-                <input
-                  type="file"
-                  @change="localBackground($event)"
-                  class="form-control-file"
                 />
               </div>
             </div>
@@ -175,87 +163,87 @@
   </div>
 </template>
 <script>
-import axios from 'axios';
-import { getData, setData, getHistory } from '@/services/data';
-import { CHANGE_SETTING } from '@/store/types';
+import axios from "axios";
+import { getData, setData, getHistory } from "@/services/data";
+import { CHANGE_SETTING } from "@/store/types";
 
 export default {
-  props: ['onShow', 'onClose'],
+  props: ["onShow", "onClose"],
   data() {
     return {
       settingIndex: 0,
-      migrateData: '',
+      migrateData: "",
       backupList: [],
     };
   },
   async created() {
     this.backupList = await getHistory();
-    console.log('TR: created -> this.backupList', this.backupList.reverse());
+    console.log("TR: created -> this.backupList", this.backupList.reverse());
   },
   computed: {
     isSearchOpen: {
       get() {
-        return this.getValue('isSearchOpen');
+        return this.getValue("isSearchOpen");
       },
       set(value) {
-        this.setValue('isSearchOpen', value);
+        this.setValue("isSearchOpen", value);
       },
     },
     searchTitle: {
       get() {
-        return this.getValue('searchTitle');
+        return this.getValue("searchTitle");
       },
       set(value) {
-        this.setValue('searchTitle', value);
+        this.setValue("searchTitle", value);
       },
     },
     searchUrl: {
       get() {
-        return this.getValue('searchUrl');
+        return this.getValue("searchUrl");
       },
       set(value) {
-        this.setValue('searchUrl', value);
+        this.setValue("searchUrl", value);
       },
     },
     searchIcon: {
       get() {
-        return this.getValue('searchIcon');
+        return this.getValue("searchIcon");
       },
       set(value) {
-        this.setValue('searchIcon', value);
+        this.setValue("searchIcon", value);
       },
     },
     bgType: {
       get() {
-        return this.getValue('bgType');
+        return this.getValue("bgType");
       },
       set(value) {
-        this.setValue('bgType', value);
+        this.setValue("bgType", value);
         this.onBgTypeChange();
       },
     },
     bgLastCheckDate: {
       get() {
-        return this.getValue('bgLastCheckDate');
+        return this.getValue("bgLastCheckDate");
       },
       set(value) {
-        this.setValue('bgLastCheckDate', value);
+        this.setValue("bgLastCheckDate", value);
       },
     },
     bgBlur: {
       get() {
-        return this.getValue('bgBlur');
+        return this.getValue("bgBlur");
       },
       set(value) {
-        this.setValue('bgBlur', value);
+        this.setValue("bgBlur", value);
       },
     },
     bgUrl: {
       get() {
-        return this.getValue('bgUrl');
+        return this.getValue("bgUrl");
       },
       set(value) {
-        this.setValue('bgUrl', value);
+        this.setValue("bgUrl", value);
       },
     },
     bingApiUrl() {
@@ -284,10 +272,10 @@ export default {
       try {
         data = JSON.parse(this.migrateData);
       } catch (e) {
-        window.alert('需要导入的数据有误，请检查');
+        window.alert("需要导入的数据有误，请检查");
         return;
       }
-      if (window.confirm('导入将覆盖现有的数据，且不可恢复，是否确认操作？')) {
+      if (window.confirm("导入将覆盖现有的数据，且不可恢复，是否确认操作？")) {
         await setData(data);
         this.hideBox();
         window.location.reload();
@@ -311,9 +299,9 @@ export default {
       }
       try {
         const res = await axios.get(this.bingApiUrl);
-        this.bgUrl = 'https://www.bing.com' + res.data.images[0].url;
+        this.bgUrl = "https://www.bing.com" + res.data.images[0].url;
       } catch (e) {
-        console.log('TR: getBingImage -> e', e);
+        console.log("TR: getBingImage -> e", e);
       }
     },
   },
