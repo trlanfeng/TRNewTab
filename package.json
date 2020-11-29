@@ -12,7 +12,7 @@
     "build": "webpack --config config/webpack.prod.js"
   },
   "dependencies": {
-    "@babel/preset-env": "^7.12.1",
+    "@babel/preset-env": "^7.12.7",
     "assets": "^3.0.0",
     "axios": "^0.19.2",
     "bootstrap": "^4.5.3",
@@ -24,27 +24,20 @@
     "vue-hot-reload-api": "^2.3.4",
     "vue-slider-component": "^2.7.8",
     "vuedraggable": "^2.24.3",
-    "vuex": "^3.5.1"
+    "vuex": "^3.6.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.12.3",
-    "@typescript-eslint/eslint-plugin": "^4.7.0",
-    "@typescript-eslint/parser": "^4.7.0",
+    "@babel/core": "^7.12.9",
     "@vue/component-compiler-utils": "^2.1.2",
     "babel-plugin-component": "^1.1.1",
     "clean-webpack-plugin": "^3.0.0",
     "copy-webpack-plugin": "^5.1.2",
     "css-loader": "^3.6.0",
     "cssnano": "^4.1.4",
-    "eslint": "^7.13.0",
-    "eslint-config-airbnb-base": "^14.2.1",
-    "eslint-plugin-import": "^2.22.1",
-    "eslint-plugin-vue": "^7.1.0",
     "file-loader": "^6.2.0",
     "html-webpack-plugin": "^3.2.0",
     "less": "^3.12.2",
     "less-loader": "^5.0.0",
-    "typescript": "^3.9.7",
     "vue-loader": "^15.9.5",
     "vue-style-loader": "^4.1.2",
     "vue-template-compiler": "^2.6.12",

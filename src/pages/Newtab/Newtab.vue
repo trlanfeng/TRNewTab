@@ -85,17 +85,17 @@
     ></SettingBox>
   </div>
 </template>
-<script lang='ts'>
-import Vue from 'vue';
-import '@/assets/icons/iconfont.css';
-import draggable from 'vuedraggable';
-import { mapState } from 'vuex';
-import { getData, setData, defaultSettings } from '@/services/data';
-import { Button } from 'element-ui';
-import CreateBox from './components/CreateBox.vue';
-import SettingBox from './components/SettingBox.vue';
-import Icon from './components/Icon.vue';
-import { CHANGE_SETTING, INIT_DATA } from '@/store/types';
+<script>
+import Vue from "vue";
+import "@/assets/icons/iconfont.css";
+import draggable from "vuedraggable";
+import { mapState } from "vuex";
+import { getData, setData, defaultSettings } from "@/services/data";
+import { Button } from "element-ui";
+import CreateBox from "./components/CreateBox";
+import SettingBox from "./components/SettingBox";
+import Icon from "./components/Icon";
+import { CHANGE_SETTING, INIT_DATA } from "@/store/types";
 
 Vue.use(Button);
 
@@ -112,7 +112,7 @@ export default Vue.extend({
       isEditMode: false,
       isCreateShow: false,
       isDraggableDisabled: true,
-      keywords: '',
+      keywords: "",
     };
   },
   async created() {
@@ -126,9 +126,9 @@ export default Vue.extend({
     },
     bgStyle: {
       get() {
-        let inner_width = -2 * parseInt(this.settings.bgBlur) + 'px';
+        let inner_width = -2 * parseInt(this.settings.bgBlur) + "px";
         return {
-          filter: 'blur(' + this.settings.bgBlur + 'px)',
+          filter: "blur(" + this.settings.bgBlur + "px)",
           top: inner_width,
           bottom: inner_width,
           left: inner_width,
@@ -138,7 +138,7 @@ export default Vue.extend({
     },
     bgImage() {
       return {
-        backgroundImage: 'url(' + this.settings.bgUrl + ')',
+        backgroundImage: "url(" + this.settings.bgUrl + ")",
       };
     },
     list: {
@@ -147,7 +147,7 @@ export default Vue.extend({
       },
       set(value) {
         this.$store.commit(CHANGE_SETTING, {
-          key: 'list',
+          key: "list",
           value,
         });
       },
@@ -163,7 +163,7 @@ export default Vue.extend({
       this.isDraggableDisabled = !this.isEditMode;
     },
     handleShowCreateBox() {
-      console.log('TR: handleCreateBoxShow -> handleCreateBoxShow');
+      console.log("TR: handleCreateBoxShow -> handleCreateBoxShow");
     },
     handleHideCreateBox() {
       this.isCreateShow = false;
