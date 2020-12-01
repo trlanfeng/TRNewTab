@@ -1,7 +1,7 @@
 import localForage from 'localforage';
 import { format } from 'date-fns';
 
-const defaultSettings = {
+export const defaultSettings = {
   list: [],
   isSearchOpen: true,
   bgType: 1,
@@ -15,7 +15,7 @@ const defaultSettings = {
   bgBlur: 20,
 };
 
-async function getHistory() {
+export async function getHistory() {
   const history = [];
   try {
     await localForage.iterate((value, key, index) => {
@@ -27,13 +27,13 @@ async function getHistory() {
   return history;
 }
 
-async function getLocalData() {
+export async function getLocalData() {
   const data = await localForage.getItem('now');
   return data || defaultSettings;
 }
 
-function upload(data) {
-  if (!chrome.storage) return;
+export function upload(data) {
+  if (!chrome.storage || !data) return;
   return new Promise((resolve, reject) => {
     chrome.storage.sync.set(data, () => {
       if (chrome.runtime.lastError) {
@@ -46,11 +46,7 @@ function upload(data) {
   });
 }
 
-async function download(data) {
-  await localForage.setItem('now', data);
-}
-
-function compare(local, remote) {
+export function compare(local, remote) {
   if (local.updateAt < remote.updateAt) {
     download(remote);
     return remote;
@@ -61,10 +57,8 @@ function compare(local, remote) {
   return local;
 }
 
-async function syncData() {
-  const local = await getLocalData();
-  if (!chrome.storage) return local;
-  console.log('TR: syncData -> chrome', chrome);
+export async function getRemoteData() {
+  if (!chrome.storage) return;
   return new Promise((resolve, reject) => {
     chrome.storage.sync.get((remote) => {
       if (chrome.runtime.lastError) {
@@ -73,22 +67,14 @@ async function syncData() {
       }
       if (Object.keys(remote).length < 1) {
         // 远程没有数据
-        upload(local);
-        resolve(local);
-      } else if (!local) {
-        // 本地没有数据
-        download(remote);
-        resolve(remote);
-      } else {
-        resolve(compare(local, remote));
+        return;
       }
+      resolve(remote);
     });
   });
 }
-async function getData() {
-  return await getLocalData();
-}
-async function setData(data) {
+
+export async function setData(data) {
   await localForage.setItem(
     format(new Date(), 'yyyyMMddHHmm'),
     await getLocalData()
@@ -96,25 +82,16 @@ async function setData(data) {
   await localForage.setItem('now', data);
   upload(data);
 }
-async function addItem(item) {
+
+export async function addItem(item) {
   const current = await getLocalData();
   current.list.push(item);
   await setData(current);
 }
 
-async function changeSetting(key, value) {
+export async function changeSetting(key, value) {
   const current = await getLocalData();
   if (current[key] === value) return;
   current[key] = value;
   await setData(current);
 }
-
-export {
-  getData,
-  setData,
-  syncData,
-  getHistory,
-  addItem,
-  changeSetting,
-  defaultSettings,
-};
