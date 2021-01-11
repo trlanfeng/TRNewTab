@@ -2,10 +2,10 @@
   <div>
     <div class="bg" :style="[bgStyle, bgImage]"></div>
     <div class="topbar">
-      <el-button type="text" @click="isCreateShow = true">
+      <button type="text" @click="isCreateShow = true">
         <i class="iconfont iconplus-circle"></i>
-        <span>新增4</span>
-      </el-button>
+        <span>新增</span>
+      </button>
       <button @click="toggleEditMode">
         <i class="iconfont iconcompass"></i>
         <span>管理</span>
@@ -31,8 +31,18 @@
       <button class="search_button" @click="search">搜索</button>
     </div>
     <div id="SpeedDialContainer">
+      <div class="tabs col-12 col-sm-4 col-md-3 col-lg-3">
+        <div
+          class="tab"
+          v-for="(tab, key) in settings.links"
+          :key="key"
+          @click="changeTabKey(key)"
+        >
+          {{ tab.title }}
+        </div>
+      </div>
       <draggable
-        v-model="list"
+        v-model="settings.links[curTabKey].list"
         :animation="250"
         handle=".speeddial"
         :disabled="isDraggableDisabled"
@@ -40,8 +50,8 @@
         @end="moveItem"
       >
         <div
-          v-for="(item, index) in list"
-          :key="index"
+          v-for="(item, index) in settings.links[curTabKey].list"
+          :key="item.name"
           class="col-12 col-sm-4 col-md-3 col-lg-3"
         >
           <div class="speeddial" :class="{ move: isEditMode }">
@@ -99,7 +109,7 @@ import { CHANGE_SETTING, INIT_DATA } from "@/store/types";
 
 Vue.use(Button);
 
-export default Vue.extend({
+export default {
   components: {
     draggable,
     CreateBox,
@@ -113,6 +123,7 @@ export default Vue.extend({
       isCreateShow: false,
       isDraggableDisabled: true,
       keywords: "",
+      curTabKey: "default",
     };
   },
   async created() {
@@ -178,6 +189,9 @@ export default Vue.extend({
         encodeURIComponent(this.keywords);
       location.href = searchUrl;
     },
+    changeTabKey(key) {
+      this.curTabKey = key;
+    },
   },
-});
+};
 </script>

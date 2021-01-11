@@ -1,7 +1,7 @@
 @import './variables.less';
 
 * {
-  font-family: Helvetica, "Hiragino Sans GB", "Microsoft Yahei", "微软雅黑",
+  font-family: Helvetica, 'Hiragino Sans GB', 'Microsoft Yahei', '微软雅黑',
     Arial, sans-serif;
 }
 
@@ -11,7 +11,7 @@ body {
 }
 
 body {
-  background-color   : black;
+  background-color: black;
   background-position: center center;
 }
 
@@ -26,22 +26,21 @@ body {
 // 夜间模式
 @media (prefers-color-scheme: dark) {
   .modal-dialog {
-
     .modal-header,
     .modal-footer {
       border-color: black;
     }
 
     .modal-content {
-      color           : #eee;
+      color: #eee;
       background-color: rgba(52, 52, 52, 1);
     }
   }
 
   .form-control {
     background-color: rgba(38, 38, 38, 1);
-    border-color    : black;
-    color           : #eee;
+    border-color: black;
+    color: #eee;
 
     &::placeholder {
       color: #aaa;
@@ -49,8 +48,8 @@ body {
 
     &:focus {
       background-color: rgba(52, 52, 52, 1);
-      border-color    : black;
-      color           : #eee;
+      border-color: black;
+      color: #eee;
     }
   }
 
@@ -60,19 +59,19 @@ body {
 
       &:hover {
         border-color: white;
-        color       : white;
+        color: white;
       }
     }
   }
 
   .bg {
-    background-color     : rgba(52, 52, 52, 0.5);
+    background-color: rgba(52, 52, 52, 0.5);
     background-blend-mode: darken;
   }
 
   .search_box {
     button {
-      color       : #eee;
+      color: #eee;
       border-color: black;
     }
   }
@@ -91,7 +90,7 @@ body {
 
       .other {
         background-color: rgba(52, 52, 52, 1);
-        border-color    : black;
+        border-color: black;
 
         .drag {
           .drag_handle {
@@ -102,8 +101,6 @@ body {
     }
   }
 }
-
-
 
 .modal-dialog {
   margin-top: 200px;
@@ -347,5 +344,24 @@ body {
     padding-left: 15px;
     padding-right: 18px;
     height: 52px;
+  }
+}
+
+#SpeedDialContainer {
+  .tabs {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    .tab {
+      color: white;
+      height: 50px;
+      border-bottom: 0px solid white;
+      display: flex;
+      align-items: center;
+      margin-right: 10px;
+      &:hover {
+        border-bottom-width: 2px;
+      }
+    }
   }
 }
