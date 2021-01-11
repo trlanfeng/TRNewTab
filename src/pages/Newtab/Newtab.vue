@@ -36,6 +36,7 @@
           class="tab"
           v-for="(tab, key) in state.links"
           :key="key"
+          :class="{ active: key === curTabKey }"
           @click="changeTabKey(key)"
         >
           {{ tab.title }}
