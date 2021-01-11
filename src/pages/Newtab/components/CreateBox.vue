@@ -10,11 +10,20 @@
         </div>
         <div class="modal-body">
           <div class="form-group">
+            <label>分类：</label>
+            <input
+              type="text"
+              class="form-control"
+              v-model="category"
+              placeholder="不填写则默认显示网址"
+            />
+          </div>
+          <div class="form-group">
             <label>名称：</label>
             <input
               type="text"
               class="form-control"
-              v-model="speedDialTitle"
+              v-model="title"
               placeholder="不填写则默认显示网址"
             />
           </div>
@@ -23,7 +32,7 @@
             <input
               type="url"
               class="form-control"
-              v-model="speedDialUrl"
+              v-model="url"
               placeholder="请填入网址"
               required="required"
             />
@@ -42,14 +51,14 @@
   </div>
 </template>
 <script>
-import { ADD_ITEM } from "@/store/types";
 export default {
   props: ["onShow", "onClose"],
   data() {
     return {
-      speedDialTitle: "",
-      speedDialUrl: "",
-      speedDialIcon: "",
+      category: "",
+      title: "",
+      url: "",
+      icon: "",
     };
   },
   mounted() {
@@ -61,12 +70,16 @@ export default {
     },
     addToList() {
       let speedDial = {
-        name: this.speedDialTitle,
-        url: this.speedDialUrl,
+        category: this.category,
+        item: {
+          name: this.title,
+          url: this.url,
+        },
       };
-      this.$store.commit(ADD_ITEM, speedDial);
-      this.create_name = "";
-      this.create_url = "";
+      this.$store.commit("ADD_ITEM", speedDial);
+      this.category = "";
+      this.title = "";
+      this.url = "";
       this.hideBox();
     },
   },

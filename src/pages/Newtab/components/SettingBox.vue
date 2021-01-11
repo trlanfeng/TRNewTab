@@ -45,31 +45,33 @@
           <div class="tab-pane" v-show="settingIndex == 0">
             <div class="form-group">
               <label>壁纸类型：</label>
-              <select class="form-control" v-model="bgType">
+              <select class="form-control" v-model="state.background.type">
                 <option :value="1">使用必应官方地址（每日更换）</option>
                 <option :value="2">使用网络图片地址</option>
               </select>
             </div>
-            <div class="networkImage" v-show="bgType == 2">
+            <div class="networkImage" v-show="state.background.type == 2">
               <div class="form-group">
                 <label>网络图片地址：</label>
                 <input
                   type="text"
                   class="form-control"
-                  v-model="bgUrl"
+                  v-model="state.background.url"
                   placeholder="请填写网络图片地址"
                 />
               </div>
             </div>
             <div class="blur_range">
               <div class="form-group">
-                <label for="customRange1">模糊度：{{ bgBlur }}</label>
+                <label for="customRange1"
+                  >模糊度：{{ state.background.blur }}</label
+                >
                 <input
                   type="range"
                   min="0"
                   max="100"
                   step="1"
-                  v-model="bgBlur"
+                  v-model="state.background.blur"
                   class="custom-range"
                   id="customRange1"
                 />
@@ -79,7 +81,11 @@
           <div class="tab-pane" v-show="settingIndex == 1">
             <div class="form-group switcher_box">
               <label for="switcher">是否开启搜索：</label>
-              <input id="switcher" type="checkbox" v-model="isSearchOpen" />
+              <input
+                id="switcher"
+                type="checkbox"
+                v-model="state.search.show"
+              />
             </div>
             <div class="search_settings">
               <div class="form-group">
@@ -87,7 +93,7 @@
                 <input
                   type="text"
                   class="form-control"
-                  v-model="searchTitle"
+                  v-model="state.search.title"
                   placeholder="请填写搜索名称"
                 />
               </div>
@@ -96,7 +102,7 @@
                 <input
                   type="text"
                   class="form-control"
-                  v-model="searchUrl"
+                  v-model="state.search.url"
                   placeholder="请填写搜索地址（例如：https://www.baidu.com/s?wd=）"
                 />
               </div>
@@ -105,7 +111,7 @@
                 <input
                   type="text"
                   class="form-control"
-                  v-model="searchIcon"
+                  v-model="state.search.icon"
                   placeholder="请填写图标地址（例如：https://www.baidu.com/favicon.ico）"
                 />
               </div>
@@ -165,7 +171,6 @@
 <script>
 import axios from "axios";
 import { getData, setData, getHistory } from "@/services/data";
-import { CHANGE_SETTING } from "@/store/types";
 
 export default {
   props: ["onShow", "onClose"],
@@ -180,86 +185,10 @@ export default {
     this.backupList = await getHistory();
     console.log("TR: created -> this.backupList", this.backupList.reverse());
   },
-  computed: {
-    isSearchOpen: {
-      get() {
-        return this.getValue("isSearchOpen");
-      },
-      set(value) {
-        this.setValue("isSearchOpen", value);
-      },
-    },
-    searchTitle: {
-      get() {
-        return this.getValue("searchTitle");
-      },
-      set(value) {
-        this.setValue("searchTitle", value);
-      },
-    },
-    searchUrl: {
-      get() {
-        return this.getValue("searchUrl");
-      },
-      set(value) {
-        this.setValue("searchUrl", value);
-      },
-    },
-    searchIcon: {
-      get() {
-        return this.getValue("searchIcon");
-      },
-      set(value) {
-        this.setValue("searchIcon", value);
-      },
-    },
-    bgType: {
-      get() {
-        return this.getValue("bgType");
-      },
-      set(value) {
-        this.setValue("bgType", value);
-        this.onBgTypeChange();
-      },
-    },
-    bgLastCheckDate: {
-      get() {
-        return this.getValue("bgLastCheckDate");
-      },
-      set(value) {
-        this.setValue("bgLastCheckDate", value);
-      },
-    },
-    bgBlur: {
-      get() {
-        return this.getValue("bgBlur");
-      },
-      set(value) {
-        this.setValue("bgBlur", value);
-      },
-    },
-    bgUrl: {
-      get() {
-        return this.getValue("bgUrl");
-      },
-      set(value) {
-        this.setValue("bgUrl", value);
-      },
-    },
-    bingApiUrl() {
-      return this.$store.state.settings.bingApiUrl;
-    },
-  },
   mounted() {
     this.onShow();
   },
   methods: {
-    getValue(key) {
-      return this.$store.state.settings[key];
-    },
-    setValue(key, value) {
-      this.$store.commit(CHANGE_SETTING, { key, value });
-    },
     hideBox() {
       this.onClose();
     },
@@ -282,24 +211,20 @@ export default {
       }
     },
     async onBgTypeChange() {
-      if (Number(this.bgType) < 2) {
+      if (Number(this.state.background.type) < 2) {
         await this.getBingImage();
       } else {
-        this.bgLastCheckDate = 0;
+        this.state.background.lastCheckDays = 0;
       }
     },
-    localBackground(e) {
-      var f = e.target.files[0];
-      var src = window.URL.createObjectURL(f);
-      this.bgUrl = src;
-    },
     async getBingImage() {
-      if (new Date().getDate() === this.bgLastCheckDate) {
+      if (new Date().getDate() === this.state.background.lastCheckDays) {
         return;
       }
       try {
-        const res = await axios.get(this.bingApiUrl);
-        this.bgUrl = "https://www.bing.com" + res.data.images[0].url;
+        const res = await axios.get(this.state.background.bingApi);
+        this.state.background.url =
+          "https://www.bing.com" + res.data.images[0].url;
       } catch (e) {
         console.log("TR: getBingImage -> e", e);
       }

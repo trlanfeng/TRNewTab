@@ -6,12 +6,12 @@ import storage from './plugins';
 
 Vue.use(Vuex);
 
-const ADD_ITEM = 'ADD_ITEM';
-const CHANGE_SETTING = 'CHANGE_SETTING';
-const CHANGE_SEARCH = 'CHANGE_SEARCH';
-const CHANGE_BACKGROUND = 'CHANGE_BACKGROUND';
-const REPLACE_ALL_SETTINGS = 'REPLACE_SETTINGS';
-const INIT_DATA = 'INIT_DATA';
+export const ADD_ITEM = 'ADD_ITEM';
+export const CHANGE_SETTING = 'CHANGE_SETTING';
+export const CHANGE_SEARCH = 'CHANGE_SEARCH';
+export const CHANGE_BACKGROUND = 'CHANGE_BACKGROUND';
+export const REPLACE_ALL_SETTINGS = 'REPLACE_SETTINGS';
+export const INIT_DATA = 'INIT_DATA';
 
 const store = new Vuex.Store({
   plugins: [storage],

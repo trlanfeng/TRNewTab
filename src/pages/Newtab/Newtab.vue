@@ -17,8 +17,8 @@
     </div>
     <div class="search_box">
       <img
-        :src="$store.state.settings.searchIcon"
-        :alt="$store.state.settings.searchTitle"
+        :src="$store.state.search.icon"
+        :alt="$store.state.search.title"
         class="search_icon"
       />
       <input
@@ -26,7 +26,7 @@
         @keyup.enter="search"
         class="form-control"
         v-model="keywords"
-        :placeholder="'通过 ' + $store.state.settings.searchTitle + ' 来搜索'"
+        :placeholder="'通过 ' + $store.state.search.title + ' 来搜索'"
       />
       <button class="search_button" @click="search">搜索</button>
     </div>
@@ -34,7 +34,7 @@
       <div class="tabs col-12 col-sm-4 col-md-3 col-lg-3">
         <div
           class="tab"
-          v-for="(tab, key) in settings.links"
+          v-for="(tab, key) in state.links"
           :key="key"
           @click="changeTabKey(key)"
         >
@@ -42,7 +42,7 @@
         </div>
       </div>
       <draggable
-        v-model="settings.links[curTabKey].list"
+        v-model="state.links[curTabKey].list"
         :animation="250"
         handle=".speeddial"
         :disabled="isDraggableDisabled"
@@ -50,7 +50,7 @@
         @end="moveItem"
       >
         <div
-          v-for="(item, index) in settings.links[curTabKey].list"
+          v-for="(item, index) in state.links[curTabKey].list"
           :key="item.name"
           class="col-12 col-sm-4 col-md-3 col-lg-3"
         >
@@ -105,7 +105,6 @@ import { Button } from "element-ui";
 import CreateBox from "./components/CreateBox";
 import SettingBox from "./components/SettingBox";
 import Icon from "./components/Icon";
-import { CHANGE_SETTING, INIT_DATA } from "@/store/types";
 
 Vue.use(Button);
 
@@ -127,19 +126,19 @@ export default {
     };
   },
   async created() {
-    this.$store.dispatch(INIT_DATA);
+    this.$store.dispatch("INIT_DATA");
     // todo change wallpaper
     // this.changeBackground(res.bgUrl);
   },
   computed: {
-    settings() {
-      return this.$store.state.settings;
+    state() {
+      return this.$store.state;
     },
     bgStyle: {
       get() {
-        let inner_width = -2 * parseInt(this.settings.bgBlur) + "px";
+        let inner_width = -2 * parseInt(this.state.background.blur) + "px";
         return {
-          filter: "blur(" + this.settings.bgBlur + "px)",
+          filter: "blur(" + this.state.background.blur + "px)",
           top: inner_width,
           bottom: inner_width,
           left: inner_width,
@@ -149,19 +148,8 @@ export default {
     },
     bgImage() {
       return {
-        backgroundImage: "url(" + this.settings.bgUrl + ")",
+        backgroundImage: "url(" + this.state.background.url + ")",
       };
-    },
-    list: {
-      get() {
-        return this.$store.state.settings.list;
-      },
-      set(value) {
-        this.$store.commit(CHANGE_SETTING, {
-          key: "list",
-          value,
-        });
-      },
     },
   },
   methods: {
@@ -185,8 +173,7 @@ export default {
     },
     search() {
       let searchUrl =
-        this.$store.state.settings.searchUrl +
-        encodeURIComponent(this.keywords);
+        this.$store.state.search.url + encodeURIComponent(this.keywords);
       location.href = searchUrl;
     },
     changeTabKey(key) {
