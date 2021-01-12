@@ -10,7 +10,7 @@
   </div>
 </template>
 <script>
-import { addItem } from "@/services/data";
+import { addItem } from "../../services/data";
 export default {
   methods: {
     getCurrentTabInfo() {

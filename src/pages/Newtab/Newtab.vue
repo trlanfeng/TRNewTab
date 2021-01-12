@@ -34,17 +34,25 @@
       />
       <button class="search_button" @click="search">搜索</button>
     </div>
-    <div id="SpeedDialContainer">
-      <div class="tabs col-12 col-sm-4 col-md-3 col-lg-3">
-        <div
-          class="tab"
-          v-for="(tab, key) in state.links"
-          :key="key"
-          :class="{ active: key === curTabKey }"
-          @click="changeTabKey(key)"
+    <div class="SpeedDialContainer">
+      <div class="col-12 col-sm-4 col-md-3 col-lg-3">
+        <draggable
+          v-model="tabs"
+          :animation="250"
+          handle=".tab"
+          class="tabs"
+          @end="moveCategory"
         >
-          {{ tab.title }}
-        </div>
+          <div
+            class="tab"
+            v-for="tab in tabs"
+            :key="tab"
+            :class="{ active: tab === curTabKey }"
+            @click="changeTabKey(tab)"
+          >
+            {{ state.links[tab].title }}
+          </div>
+        </draggable>
       </div>
       <draggable
         v-model="state.links[curTabKey].list"
@@ -107,7 +115,7 @@
 </template>
 <script>
 import Vue from "vue";
-import "@/assets/icons/iconfont.css";
+import "../../assets/icons/iconfont.css";
 import draggable from "vuedraggable";
 import { mapState } from "vuex";
 import { getData, saveDate, defaultSettings } from "../../services/data";
@@ -136,12 +144,19 @@ export default {
       isDraggableDisabled: true,
       keywords: "",
       curTabKey: "default",
+      tabs: [],
     };
   },
   async created() {
     this.$store.dispatch("INIT_DATA");
     // todo change wallpaper
     // this.changeBackground(res.bgUrl);
+  },
+  mounted() {
+    this.tabs = Object.keys(this.$store.state.links);
+    setTimeout(() => {
+      console.log("TR: mounted -> this.tabs", this.$store.state.links);
+    }, 1000);
   },
   computed: {
     state() {
@@ -166,7 +181,16 @@ export default {
       };
     },
   },
+  watch: {
+    "$store.state.links": function (val) {
+      this.tabs = Object.keys(val);
+    },
+  },
   methods: {
+    moveCategory(e) {
+      console.log("TR: moveCategory -> e", e);
+      console.log("TR: moveCategory -> tabs", this.tabs);
+    },
     moveItem(e) {},
     removeItem(index) {
       this.list.splice(index, 1);

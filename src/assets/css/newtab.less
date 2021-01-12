@@ -1,4 +1,5 @@
 @import './variables.less';
+@import './newtab_dark.less';
 
 * {
   font-family: Helvetica, 'Hiragino Sans GB', 'Microsoft Yahei', '微软雅黑',
@@ -23,85 +24,6 @@ body {
   font-size: 18px;
 }
 
-// 夜间模式
-@media (prefers-color-scheme: dark) {
-  .modal-dialog {
-    .modal-header,
-    .modal-footer {
-      border-color: black;
-    }
-
-    .modal-content {
-      color: #eee;
-      background-color: rgba(52, 52, 52, 1);
-    }
-  }
-
-  .form-control {
-    background-color: rgba(38, 38, 38, 1);
-    border-color: black;
-    color: #eee;
-
-    &::placeholder {
-      color: #aaa;
-    }
-
-    &:focus {
-      background-color: rgba(52, 52, 52, 1);
-      border-color: black;
-      color: #eee;
-    }
-  }
-
-  .topbar {
-    button {
-      color: #eee;
-
-      &:hover {
-        border-color: white;
-        color: white;
-      }
-    }
-  }
-
-  .bg {
-    background-color: rgba(52, 52, 52, 0.5);
-    background-blend-mode: darken;
-  }
-
-  .search_box {
-    button {
-      color: #eee;
-      border-color: black;
-    }
-  }
-
-  .SpeedDialBox {
-    .speeddial {
-      .info {
-        background-color: rgba(52, 52, 52, 1);
-
-        .block {
-          .title {
-            color: #eee;
-          }
-        }
-      }
-
-      .other {
-        background-color: rgba(52, 52, 52, 1);
-        border-color: black;
-
-        .drag {
-          .drag_handle {
-            color: #eee;
-          }
-        }
-      }
-    }
-  }
-}
-
 .modal-dialog {
   margin-top: 200px;
 }
@@ -120,13 +42,12 @@ body {
 .SpeedDialBox {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 50px 0 100px;
+  padding: 20px 0 100px;
   display: flex;
   flex-wrap: wrap;
 
   .speeddial {
     border: 1px solid white;
-    margin-top: 20px;
     background-color: @lightBackground;
     // backdrop-filter: blur(10px);
     border-radius: 0.25rem;
@@ -347,7 +268,8 @@ body {
   }
 }
 
-#SpeedDialContainer {
+.SpeedDialContainer {
+  margin-top: 50px;
   .tabs {
     max-width: 1200px;
     margin: 0 auto;
@@ -358,7 +280,8 @@ body {
       border-bottom: 0px solid white;
       display: flex;
       align-items: center;
-      margin-right: 10px;
+      margin-right: 20px;
+      cursor: pointer;
       &.active,
       &:hover {
         border-bottom-width: 2px;
