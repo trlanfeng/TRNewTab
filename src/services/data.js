@@ -16,6 +16,7 @@ export const defaultSettings_v1 = {
 };
 
 export const defaultSettings = {
+  categories: ['default', 'game'],
   links: {
     game: {
       title: '游戏',
@@ -168,6 +169,14 @@ export async function addCategory(category) {
     title,
     list: [],
   };
+  current.categories.push(key);
+  await saveData(current);
+  return current;
+}
+
+export async function sortCategories(categories) {
+  const current = await getData();
+  current.categories = categories;
   await saveData(current);
   return current;
 }

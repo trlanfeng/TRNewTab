@@ -37,7 +37,7 @@
     <div class="SpeedDialContainer">
       <div class="col-12 col-sm-4 col-md-3 col-lg-3">
         <draggable
-          v-model="tabs"
+          v-model="state.categories"
           :animation="250"
           handle=".tab"
           class="tabs"
@@ -45,7 +45,7 @@
         >
           <div
             class="tab"
-            v-for="tab in tabs"
+            v-for="tab in state.categories"
             :key="tab"
             :class="{ active: tab === curTabKey }"
             @click="changeTabKey(tab)"
@@ -118,7 +118,12 @@ import Vue from "vue";
 import "../../assets/icons/iconfont.css";
 import draggable from "vuedraggable";
 import { mapState } from "vuex";
-import { getData, saveDate, defaultSettings } from "../../services/data";
+import {
+  getData,
+  saveDate,
+  defaultSettings,
+  sortCategories,
+} from "../../services/data";
 import { Button } from "element-ui";
 import CreateBox from "./components/CreateBox";
 import CreateCategory from "./components/CreateCategory";
@@ -143,20 +148,13 @@ export default {
       isCreateCategoryShow: false,
       isDraggableDisabled: true,
       keywords: "",
-      curTabKey: "default",
-      tabs: [],
+      curTabKey: this.$store.state.categories[0],
     };
   },
   async created() {
     this.$store.dispatch("INIT_DATA");
     // todo change wallpaper
     // this.changeBackground(res.bgUrl);
-  },
-  mounted() {
-    this.tabs = Object.keys(this.$store.state.links);
-    setTimeout(() => {
-      console.log("TR: mounted -> this.tabs", this.$store.state.links);
-    }, 1000);
   },
   computed: {
     state() {
@@ -188,8 +186,7 @@ export default {
   },
   methods: {
     moveCategory(e) {
-      console.log("TR: moveCategory -> e", e);
-      console.log("TR: moveCategory -> tabs", this.tabs);
+      sortCategories(this.tabs);
     },
     moveItem(e) {},
     removeItem(index) {
