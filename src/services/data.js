@@ -77,7 +77,7 @@ export async function deleteHistory(key) {
 
 export async function recoveryHistory(key) {
   const history = await localForage.getItem(key);
-  setData(history);
+  saveData(history);
 }
 
 export async function initData() {
@@ -89,6 +89,7 @@ export async function initData() {
 
 export async function getData() {
   const data = await localForage.getItem('now');
+  console.log('TR: getData -> data', data);
   return data || defaultSettings;
 }
 
@@ -107,13 +108,15 @@ export function upload(data) {
 }
 
 export function getRecent(local, remote) {
-  if (local.updateAt < remote.updateAt) {
+  const remoteUpdateAt = (remote && remote.updateAt) || 0;
+  console.log('TR: getRecent -> remoteUpdateAt', remoteUpdateAt);
+  const localUpdateAt = (local && local.updateAt) || 0;
+  console.log('TR: getRecent -> localUpdateAt', localUpdateAt);
+  if (localUpdateAt < remoteUpdateAt) {
     download(remote);
     return remote;
-  } else if (local.updateAt > remote.updateAt) {
-    upload(local);
-    return local;
   }
+  upload(local);
   return local;
 }
 
@@ -134,32 +137,37 @@ export async function getRemoteData() {
   });
 }
 
-export async function setData(data) {
+export async function saveData(data) {
+  console.log('TR: saveData -> data', data);
   await localForage.setItem(format(new Date(), 'yyyyMMdd'), await getData());
   data.updateAt = +new Date();
   await localForage.setItem('now', data);
   upload(data);
 }
 
-export async function addItem(data, isSave = true) {
+export async function addItem(data) {
   const { category = 'default', item } = data;
   const current = await getData();
   current.links[category].list.push(item);
-  if (isSave) await setData(current);
+  await saveData(current);
+  return current;
 }
 
-export async function addItemToDefault(item, isSave = true) {
+export async function addItemToDefault(item) {
   const current = await getData();
   current.links.default.list.push(item);
-  if (isSave) await setData(current);
+  await saveData(current);
+  return current;
 }
 
-export async function addCategory(category, isSave = true) {
+export async function addCategory(category) {
+  console.log('TR: addCategory -> category', category);
   const { title, key } = category;
   const current = await getData();
   current.links[key] = {
     title,
     list: [],
   };
-  if (isSave) await setData(current);
+  await saveData(current);
+  return current;
 }

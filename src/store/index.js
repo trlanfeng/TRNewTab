@@ -1,34 +1,49 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
 import _ from 'lodash';
-import { addItem, defaultSettings, getData } from '../services/data';
-import storage from './plugins';
+import {
+  addCategory,
+  addItem,
+  defaultSettings,
+  initData,
+  saveData,
+} from '../services/data';
 
 Vue.use(Vuex);
 
 const store = new Vuex.Store({
-  plugins: [storage],
   state: defaultSettings,
   mutations: {
     CHANGE_SETTING(state, { key, value }) {
       state.settings[key] = value;
+      saveData(state);
     },
     CHANGE_SEARCH(state, { key, value }) {
       state.search[key] = value;
+      saveData(state);
     },
     CHANGE_BACKGROUND(state, { key, value }) {
       state.background[key] = value;
-    },
-    ADD_ITEM(state, payload) {
-      addItem(payload, false);
+      saveData(state);
     },
     REPLACE_ALL_SETTINGS(state, payload) {
-      state = payload;
+      Object.keys(payload).forEach((key) => {
+        state[key] = payload[key];
+      });
     },
   },
   actions: {
+    async ADD_ITEM({ commit }, payload) {
+      const data = await addItem(payload);
+      commit('REPLACE_ALL_SETTINGS', data);
+    },
+    async ADD_CATEGORY({ commit }, payload) {
+      const data = await addCategory(payload);
+      commit('REPLACE_ALL_SETTINGS', data);
+    },
     async INIT_DATA({ commit }) {
-      const data = await getData();
+      const data = await initData();
+      console.log('TR: INIT_DATA -> data', data);
       commit('REPLACE_ALL_SETTINGS', data);
     },
   },

@@ -4,7 +4,11 @@
     <div class="topbar">
       <button type="text" @click="isCreateShow = true">
         <i class="iconfont iconplus-circle"></i>
-        <span>新增</span>
+        <span>网站</span>
+      </button>
+      <button type="text" @click="isCreateCategoryShow = true">
+        <i class="iconfont iconplus-circle"></i>
+        <span>分类</span>
       </button>
       <button @click="toggleEditMode">
         <i class="iconfont iconcompass"></i>
@@ -89,6 +93,11 @@
       :onShow="handleShowCreateBox"
       :onClose="handleHideCreateBox"
     ></CreateBox>
+    <CreateCategory
+      v-show="isCreateCategoryShow"
+      :onShow="handleShowCreateCategory"
+      :onClose="handleHideCreateCategory"
+    ></CreateCategory>
     <SettingBox
       v-show="isSettingShow"
       :onShow="handleShowSettings"
@@ -101,9 +110,10 @@ import Vue from "vue";
 import "@/assets/icons/iconfont.css";
 import draggable from "vuedraggable";
 import { mapState } from "vuex";
-import { getData, setData, defaultSettings } from "@/services/data";
+import { getData, saveDate, defaultSettings } from "../../services/data";
 import { Button } from "element-ui";
 import CreateBox from "./components/CreateBox";
+import CreateCategory from "./components/CreateCategory";
 import SettingBox from "./components/SettingBox";
 import Icon from "./components/Icon";
 
@@ -113,6 +123,7 @@ export default {
   components: {
     draggable,
     CreateBox,
+    CreateCategory,
     SettingBox,
     Icon,
   },
@@ -121,6 +132,7 @@ export default {
       isSettingShow: false,
       isEditMode: false,
       isCreateShow: false,
+      isCreateCategoryShow: false,
       isDraggableDisabled: true,
       keywords: "",
       curTabKey: "default",
@@ -133,6 +145,7 @@ export default {
   },
   computed: {
     state() {
+      console.log("TR: state -> this.$store.state", this.$store.state);
       return this.$store.state;
     },
     bgStyle: {
@@ -162,11 +175,13 @@ export default {
       this.isEditMode = !this.isEditMode;
       this.isDraggableDisabled = !this.isEditMode;
     },
-    handleShowCreateBox() {
-      console.log("TR: handleCreateBoxShow -> handleCreateBoxShow");
-    },
+    handleShowCreateBox() {},
     handleHideCreateBox() {
       this.isCreateShow = false;
+    },
+    handleShowCreateCategory() {},
+    handleHideCreateCategory() {
+      this.isCreateCategoryShow = false;
     },
     handleShowSettings() {},
     handleHideSettings() {

@@ -180,10 +180,10 @@
 import axios from "axios";
 import {
   getData,
-  setData,
   getHistory,
   deleteHistory,
   recoveryHistory,
+  saveData,
 } from "../../../services/data";
 
 export default {
@@ -224,7 +224,7 @@ export default {
         return;
       }
       if (window.confirm("导入将覆盖现有的数据，且不可恢复，是否确认操作？")) {
-        await setData(data);
+        await saveData(data);
         this.hideBox();
         window.location.reload();
       }

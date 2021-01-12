@@ -1,5 +1,5 @@
 <template>
-  <div class="create_box my-modal">
+  <div class="create_category my-modal">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
@@ -10,12 +10,12 @@
         </div>
         <div class="modal-body">
           <div class="form-group">
-            <label>分类：</label>
+            <label>标识：</label>
             <input
               type="text"
               class="form-control"
-              v-model="category"
-              placeholder="不填写则默认显示网址"
+              v-model="key"
+              placeholder="如：game"
             />
           </div>
           <div class="form-group">
@@ -24,17 +24,7 @@
               type="text"
               class="form-control"
               v-model="title"
-              placeholder="不填写则默认显示网址"
-            />
-          </div>
-          <div class="form-group">
-            <label>网址：</label>
-            <input
-              type="url"
-              class="form-control"
-              v-model="url"
-              placeholder="请填入网址"
-              required="required"
+              placeholder="如：游戏"
             />
           </div>
         </div>
@@ -42,7 +32,7 @@
           <button type="button" class="btn btn-secondary" @click="hideBox">
             取消
           </button>
-          <button type="button" class="btn btn-primary" @click="addToList">
+          <button type="button" class="btn btn-primary" @click="addToCategory">
             添加
           </button>
         </div>
@@ -55,10 +45,8 @@ export default {
   props: ["onShow", "onClose"],
   data() {
     return {
-      category: "",
+      key: "",
       title: "",
-      url: "",
-      icon: "",
     };
   },
   mounted() {
@@ -68,18 +56,10 @@ export default {
     hideBox() {
       this.onClose();
     },
-    addToList() {
-      let speedDial = {
-        category: this.category,
-        item: {
-          name: this.title,
-          url: this.url,
-        },
-      };
-      this.$store.dispatch("ADD_ITEM", speedDial);
-      this.category = "";
+    addToCategory() {
+      this.$store.dispatch("ADD_CATEGORY", { key: this.key, title: this.title });
+      this.key = "";
       this.title = "";
-      this.url = "";
       this.hideBox();
     },
   },
