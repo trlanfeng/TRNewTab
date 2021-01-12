@@ -71,6 +71,15 @@ export async function getHistory() {
   return history;
 }
 
+export async function deleteHistory(key) {
+  localForage.removeItem(key);
+}
+
+export async function recoveryHistory(key) {
+  const history = await localForage.getItem(key);
+  setData(history);
+}
+
 export async function initData() {
   const cur = await getData();
   const remote = await getRemoteData();
@@ -126,10 +135,7 @@ export async function getRemoteData() {
 }
 
 export async function setData(data) {
-  await localForage.setItem(
-    format(new Date(), 'yyyyMMddHHmm'),
-    await getData()
-  );
+  await localForage.setItem(format(new Date(), 'yyyyMMdd'), await getData());
   data.updateAt = +new Date();
   await localForage.setItem('now', data);
   upload(data);

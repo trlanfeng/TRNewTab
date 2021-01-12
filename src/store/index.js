@@ -6,37 +6,30 @@ import storage from './plugins';
 
 Vue.use(Vuex);
 
-export const ADD_ITEM = 'ADD_ITEM';
-export const CHANGE_SETTING = 'CHANGE_SETTING';
-export const CHANGE_SEARCH = 'CHANGE_SEARCH';
-export const CHANGE_BACKGROUND = 'CHANGE_BACKGROUND';
-export const REPLACE_ALL_SETTINGS = 'REPLACE_SETTINGS';
-export const INIT_DATA = 'INIT_DATA';
-
 const store = new Vuex.Store({
   plugins: [storage],
   state: defaultSettings,
   mutations: {
-    [CHANGE_SETTING](state, { key, value }) {
+    CHANGE_SETTING(state, { key, value }) {
       state.settings[key] = value;
     },
-    [CHANGE_SEARCH](state, { key, value }) {
+    CHANGE_SEARCH(state, { key, value }) {
       state.search[key] = value;
     },
-    [CHANGE_BACKGROUND](state, { key, value }) {
+    CHANGE_BACKGROUND(state, { key, value }) {
       state.background[key] = value;
     },
-    [ADD_ITEM](state, payload) {
+    ADD_ITEM(state, payload) {
       addItem(payload, false);
     },
-    [REPLACE_ALL_SETTINGS](state, payload) {
+    REPLACE_ALL_SETTINGS(state, payload) {
       state = payload;
     },
   },
   actions: {
-    async [INIT_DATA]({ commit }) {
+    async INIT_DATA({ commit }) {
       const data = await getData();
-      commit(REPLACE_ALL_SETTINGS, data);
+      commit('REPLACE_ALL_SETTINGS', data);
     },
   },
 });

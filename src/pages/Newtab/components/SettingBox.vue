@@ -152,10 +152,18 @@
                     {{ (item.value.list && item.value.list.length) || 0 }}
                   </td>
                   <td>
-                    <button type="button" class="btn btn-danger btn-sm">
+                    <button
+                      type="button"
+                      class="btn btn-danger btn-sm"
+                      @click="deleteHistory(item.key)"
+                    >
                       删除
                     </button>
-                    <button type="button" class="btn btn-primary btn-sm">
+                    <button
+                      type="button"
+                      class="btn btn-primary btn-sm"
+                      @click="recoveryHistory(item.key)"
+                    >
                       恢复
                     </button>
                   </td>
@@ -170,7 +178,13 @@
 </template>
 <script>
 import axios from "axios";
-import { getData, setData, getHistory } from "@/services/data";
+import {
+  getData,
+  setData,
+  getHistory,
+  deleteHistory,
+  recoveryHistory,
+} from "../../../services/data";
 
 export default {
   props: ["onShow", "onClose"],
@@ -184,6 +198,11 @@ export default {
   async created() {
     this.backupList = await getHistory();
     console.log("TR: created -> this.backupList", this.backupList.reverse());
+  },
+  computed: {
+    state() {
+      return this.$store.state;
+    },
   },
   mounted() {
     this.onShow();
@@ -227,6 +246,17 @@ export default {
           "https://www.bing.com" + res.data.images[0].url;
       } catch (e) {
         console.log("TR: getBingImage -> e", e);
+      }
+    },
+    async deleteHistory(key) {
+      if (window.confirm("删除后将不可恢复，是否确认操作？")) {
+        deleteHistory(key);
+      }
+    },
+    async recoveryHistory(key) {
+      if (window.confirm("恢复将覆盖现有的数据，是否确认操作？")) {
+        recoveryHistory(key);
+        window.location.reload();
       }
     },
   },
