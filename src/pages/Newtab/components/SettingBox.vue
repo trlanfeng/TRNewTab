@@ -219,6 +219,7 @@ export default {
   },
   async created() {
     this.backupList = await getHistory();
+    this.backupList = this.backupList.reverse();
   },
   computed: {
     state() {
@@ -275,6 +276,8 @@ export default {
     async deleteHistory(key) {
       if (window.confirm("删除后将不可恢复，是否确认操作？")) {
         deleteHistory(key);
+        this.backupList = await getHistory();
+        this.backupList = this.backupList.reverse();
       }
     },
     async recoveryHistory(key) {

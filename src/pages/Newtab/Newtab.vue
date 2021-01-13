@@ -34,7 +34,7 @@
       />
       <button class="search_button" @click="search">搜索</button>
     </div>
-    <div class="SpeedDialContainer ">
+    <div class="SpeedDialContainer">
       <div class="TabContainer col-12">
         <draggable
           v-model="state.categories"
@@ -49,6 +49,7 @@
             :key="tab"
             :class="{ active: tab === curTabKey }"
             @click="changeTabKey(tab)"
+            @drop="dropOnTitle(tab)"
           >
             {{ state.links[tab].title }}
           </div>
@@ -67,7 +68,12 @@
           :key="item.name"
           class="col-12 col-sm-4 col-md-3 col-lg-3"
         >
-          <div class="speeddial" :class="{ move: isEditMode }">
+          <div
+            class="speeddial"
+            :class="{ move: isEditMode }"
+            draggable
+            @dragstart="onDragStart(curTabKey, index, item)"
+          >
             <div class="info">
               <a :href="item.url" class="block" :title="item.name">
                 <Icon :name="item.name" :url="item.url"></Icon>
@@ -144,6 +150,7 @@ export default {
       isDraggableDisabled: true,
       keywords: "",
       curTabKey: this.$store.state.categories[0],
+      dragItem: null,
     };
   },
   async created() {
@@ -209,6 +216,14 @@ export default {
     },
     changeTabKey(key) {
       this.curTabKey = key;
+    },
+    dropOnTitle(to) {
+      const { from, index, item } = this.dragItem;
+      this.$store.commit("MOVE_ITEM", { from, to, index, item });
+    },
+    onDragStart(from, index, item) {
+      console.log('TR: onDragStart -> item', item);
+      this.dragItem = { from, index, item };
     },
   },
 };

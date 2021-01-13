@@ -11,12 +11,21 @@
         <div class="modal-body">
           <div class="form-group">
             <label>分类：</label>
-            <input
+            <!-- <input
               type="text"
               class="form-control"
               v-model="category"
               placeholder="不填写则默认显示网址"
-            />
+            /> -->
+            <select
+              class="form-control"
+              v-model="category"
+              placeholder="不填写则默认分类"
+            >
+              <option v-for="cat in state.categories" :value="cat" :key="cat">
+                {{ state.links[cat].title }}
+              </option>
+            </select>
           </div>
           <div class="form-group">
             <label>名称：</label>
@@ -55,7 +64,7 @@ export default {
   props: ["onShow", "onClose"],
   data() {
     return {
-      category: "",
+      category: "default",
       title: "",
       url: "",
       icon: "",
@@ -63,6 +72,11 @@ export default {
   },
   mounted() {
     this.onShow();
+  },
+  computed: {
+    state() {
+      return this.$store.state;
+    },
   },
   methods: {
     hideBox() {

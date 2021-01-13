@@ -9,6 +9,11 @@ Vue.use(Vuex);
 const store = new Vuex.Store({
   state: defaultSettings[curVersion],
   mutations: {
+    MOVE_ITEM(state, { from, to, index, item }) {
+      state.links[to].list.push(item);
+      state.links[from].list.splice(index, 1);
+      saveData(state);
+    },
     CHANGE_SETTING(state, { key, value }) {
       state.settings[key] = value;
       saveData(state);
