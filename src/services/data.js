@@ -1,64 +1,6 @@
 import localForage from 'localforage';
 import { format } from 'date-fns';
-
-export const defaultSettings_v1 = {
-  list: [],
-  isSearchOpen: true,
-  bgType: 1,
-  bingApiUrl:
-    'https://www.bing.com/HPImageArchive.aspx?format=js&idx=0&n=1&mkt=en-US',
-  bgUrl: '',
-  searchUrl: 'https://www.baidu.com/s?wd=',
-  searchIcon: 'https://www.baidu.com/favicon.ico',
-  searchTitle: '百度',
-  bgLastCheckDate: 0,
-  bgBlur: 20,
-};
-
-export const defaultSettings = {
-  categories: ['default', 'game'],
-  links: {
-    game: {
-      title: '游戏',
-      list: [
-        {
-          name: 'IT之家（博客版） - 数码，科技，生活 - 软媒旗下',
-          url: 'https://www.ithome.com/blog/',
-        },
-        {
-          name:
-            '篝火营地-单机游戏主机游戏媒体，独家主机游戏单机游戏攻略，游戏评测，新闻资讯，全球游戏展会-gouhuo.qq.com',
-          url: 'https://gouhuo.qq.com/',
-        },
-        { name: '游戏时光 - vgtime.com', url: 'http://www.vgtime.com/' },
-        {
-          name: '游民星空 - 大型单机游戏媒体 提供特色单机游戏资讯、下载',
-          url: 'https://www.gamersky.com/',
-        },
-      ],
-    },
-    default: {
-      title: '默认',
-      list: [{ name: '网易新闻', url: 'https://news.163.com/' }],
-    },
-  },
-  settings: {},
-  search: {
-    show: true,
-    url: 'https://www.baidu.com/s?wd=',
-    icon: 'https://www.baidu.com/favicon.ico',
-    title: '百度',
-  },
-  background: {
-    blur: 20,
-    lastCheckDays: 0,
-    url: '',
-    bingApi:
-      'https://www.bing.com/HPImageArchive.aspx?format=js&idx=0&n=1&mkt=en-US',
-    type: 1,
-  },
-  version: 3,
-};
+import { defaultSettings, curVersion } from './upgrade';
 
 export async function getHistory() {
   const history = [];
@@ -91,7 +33,7 @@ export async function initData() {
 export async function getData() {
   const data = await localForage.getItem('now');
   console.log('TR: getData -> data', data);
-  return data || defaultSettings;
+  return data || defaultSettings[curVersion];
 }
 
 export function upload(data) {

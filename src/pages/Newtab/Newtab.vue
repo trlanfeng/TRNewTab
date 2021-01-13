@@ -121,7 +121,6 @@ import { mapState } from "vuex";
 import {
   getData,
   saveDate,
-  defaultSettings,
   sortCategories,
 } from "../../services/data";
 import { Button } from "element-ui";

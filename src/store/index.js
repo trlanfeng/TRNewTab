@@ -1,18 +1,13 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
 import _ from 'lodash';
-import {
-  addCategory,
-  addItem,
-  defaultSettings,
-  initData,
-  saveData,
-} from '../services/data';
+import { addCategory, addItem, initData, saveData } from '../services/data';
+import { curVersion, defaultSettings } from '../services/upgrade';
 
 Vue.use(Vuex);
 
 const store = new Vuex.Store({
-  state: defaultSettings,
+  state: defaultSettings[curVersion],
   mutations: {
     CHANGE_SETTING(state, { key, value }) {
       state.settings[key] = value;
