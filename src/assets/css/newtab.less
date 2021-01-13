@@ -269,22 +269,29 @@ body {
 }
 
 .SpeedDialContainer {
-  margin-top: 50px;
-  .tabs {
-    max-width: 1200px;
-    margin: 0 auto;
-    display: flex;
-    .tab {
-      color: white;
+  max-width: 1200px;
+  margin: 50px auto 0;
+  .TabContainer {
+    width: 100%;
+    .tabs {
+      width: 100%;
+      margin: 0 auto;
       height: 50px;
-      border-bottom: 0px solid white;
       display: flex;
-      align-items: center;
-      margin-right: 20px;
-      cursor: pointer;
-      &.active,
-      &:hover {
-        border-bottom-width: 2px;
+      border-bottom: 2px solid rgba(200, 200, 200, 0.3);
+      .tab {
+        color: white;
+        height: 50px;
+        border-bottom: 2px solid transparent;
+        display: flex;
+        align-items: center;
+        margin-right: 20px;
+        transition: all 0.5s;
+        cursor: pointer;
+        &.active,
+        &:hover {
+          border-bottom-color: white;
+        }
       }
     }
   }

@@ -34,8 +34,8 @@
       />
       <button class="search_button" @click="search">搜索</button>
     </div>
-    <div class="SpeedDialContainer">
-      <div class="col-12 col-sm-4 col-md-3 col-lg-3">
+    <div class="SpeedDialContainer ">
+      <div class="TabContainer col-12">
         <draggable
           v-model="state.categories"
           :animation="250"
@@ -118,11 +118,7 @@ import Vue from "vue";
 import "../../assets/icons/iconfont.css";
 import draggable from "vuedraggable";
 import { mapState } from "vuex";
-import {
-  getData,
-  saveDate,
-  sortCategories,
-} from "../../services/data";
+import { getData, saveDate, sortCategories } from "../../services/data";
 import { Button } from "element-ui";
 import CreateBox from "./components/CreateBox";
 import CreateCategory from "./components/CreateCategory";
