@@ -45,7 +45,13 @@
           <div class="tab-pane" v-show="settingIndex == 0">
             <div class="form-group">
               <label>壁纸类型：</label>
-              <select class="form-control" v-model="state.background.type">
+              <select
+                class="form-control"
+                :value="state.background.type"
+                @change="
+                  mutation('CHANGE_BACKGROUND', 'type', $event.target.value)
+                "
+              >
                 <option :value="1">使用必应官方地址（每日更换）</option>
                 <option :value="2">使用网络图片地址</option>
               </select>
@@ -56,7 +62,10 @@
                 <input
                   type="text"
                   class="form-control"
-                  v-model="state.background.url"
+                  :value="state.background.url"
+                  @change="
+                    mutation('CHANGE_BACKGROUND', 'url', $event.target.value)
+                  "
                   placeholder="请填写网络图片地址"
                 />
               </div>
@@ -71,7 +80,10 @@
                   min="0"
                   max="100"
                   step="1"
-                  v-model="state.background.blur"
+                  :value="state.background.blur"
+                  @change="
+                    mutation('CHANGE_BACKGROUND', 'blur', $event.target.value)
+                  "
                   class="custom-range"
                   id="customRange1"
                 />
@@ -84,7 +96,8 @@
               <input
                 id="switcher"
                 type="checkbox"
-                v-model="state.search.show"
+                :value="state.search.show"
+                @change="mutation('CHANGE_SEARCH', 'show', $event.target.value)"
               />
             </div>
             <div class="search_settings">
@@ -93,7 +106,10 @@
                 <input
                   type="text"
                   class="form-control"
-                  v-model="state.search.title"
+                  :value="state.search.title"
+                  @change="
+                    mutation('CHANGE_SEARCH', 'title', $event.target.value)
+                  "
                   placeholder="请填写搜索名称"
                 />
               </div>
@@ -102,7 +118,10 @@
                 <input
                   type="text"
                   class="form-control"
-                  v-model="state.search.url"
+                  :value="state.search.url"
+                  @change="
+                    mutation('CHANGE_SEARCH', 'url', $event.target.value)
+                  "
                   placeholder="请填写搜索地址（例如：https://www.baidu.com/s?wd=）"
                 />
               </div>
@@ -111,7 +130,10 @@
                 <input
                   type="text"
                   class="form-control"
-                  v-model="state.search.icon"
+                  :value="state.search.icon"
+                  @change="
+                    mutation('CHANGE_SEARCH', 'icon', $event.target.value)
+                  "
                   placeholder="请填写图标地址（例如：https://www.baidu.com/favicon.ico）"
                 />
               </div>
@@ -203,6 +225,9 @@ export default {
     state() {
       return this.$store.state;
     },
+    commit() {
+      return this.$store.commit;
+    },
   },
   mounted() {
     this.onShow();
@@ -258,6 +283,12 @@ export default {
         recoveryHistory(key);
         window.location.reload();
       }
+    },
+    mutation(action, key, value) {
+      this.commit(action, {
+        key,
+        value,
+      });
     },
   },
 };
