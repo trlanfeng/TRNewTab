@@ -219,7 +219,6 @@ export default {
   },
   async created() {
     this.backupList = await getHistory();
-    console.log("TR: created -> this.backupList", this.backupList.reverse());
   },
   computed: {
     state() {

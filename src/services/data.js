@@ -1,6 +1,6 @@
 import localForage from 'localforage';
 import { format } from 'date-fns';
-import { defaultSettings, curVersion } from './upgrade';
+import { defaultSettings, curVersion, upgrade } from './upgrade';
 
 export async function getHistory() {
   const history = [];
@@ -32,7 +32,6 @@ export async function initData() {
 
 export async function getData() {
   const data = await localForage.getItem('now');
-  console.log('TR: getData -> data', data);
   return data || defaultSettings[curVersion];
 }
 
@@ -52,9 +51,7 @@ export function upload(data) {
 
 export function getRecent(local, remote) {
   const remoteUpdateAt = (remote && remote.updateAt) || 0;
-  console.log('TR: getRecent -> remoteUpdateAt', remoteUpdateAt);
   const localUpdateAt = (local && local.updateAt) || 0;
-  console.log('TR: getRecent -> localUpdateAt', localUpdateAt);
   if (localUpdateAt < remoteUpdateAt) {
     download(remote);
     return remote;
@@ -81,11 +78,11 @@ export async function getRemoteData() {
 }
 
 export async function saveData(data) {
-  console.log('TR: saveData -> data', data);
   await localForage.setItem(format(new Date(), 'yyyyMMdd'), await getData());
   data.updateAt = +new Date();
-  await localForage.setItem('now', data);
-  upload(data);
+  const nowData = upgrade(data.version || 1, data);
+  await localForage.setItem('now', nowData);
+  upload(nowData);
 }
 
 export async function addItem(data) {
@@ -104,7 +101,6 @@ export async function addItemToDefault(item) {
 }
 
 export async function addCategory(category) {
-  console.log('TR: addCategory -> category', category);
   const { title, key } = category;
   const current = await getData();
   current.links[key] = {

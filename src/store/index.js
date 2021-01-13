@@ -38,7 +38,6 @@ const store = new Vuex.Store({
     },
     async INIT_DATA({ commit }) {
       const data = await initData();
-      console.log('TR: INIT_DATA -> data', data);
       commit('REPLACE_ALL_SETTINGS', data);
     },
   },

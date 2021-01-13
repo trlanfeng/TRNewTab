@@ -153,7 +153,6 @@ export default {
   },
   computed: {
     state() {
-      console.log("TR: state -> this.$store.state", this.$store.state);
       return this.$store.state;
     },
     bgStyle: {

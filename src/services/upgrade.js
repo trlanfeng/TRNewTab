@@ -55,6 +55,7 @@ export function upgrade(version, data) {
     newData.background.url = data.bgUrl;
     newData.background.bingApi = data.bingApiUrl;
     newData.background.type = data.bgType;
+    console.log(`从版本 ${version} 升级到 3 成功`);
     return upgrade(3, newData);
   }
 }
