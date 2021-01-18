@@ -53,7 +53,7 @@ export function getRecent(local, remote) {
   const remoteUpdateAt = (remote && remote.updateAt) || 0;
   const localUpdateAt = (local && local.updateAt) || 0;
   if (localUpdateAt < remoteUpdateAt) {
-    download(remote);
+    saveData(remote);
     return remote;
   }
   upload(local);

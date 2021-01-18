@@ -222,7 +222,6 @@ export default {
       this.$store.commit("MOVE_ITEM", { from, to, index, item });
     },
     onDragStart(from, index, item) {
-      console.log('TR: onDragStart -> item', item);
       this.dragItem = { from, index, item };
     },
   },
