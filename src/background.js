@@ -2,8 +2,10 @@ import { addItem } from './services/data';
 
 async function addToSpeedDial(info, tab) {
   await addItem({
-    name: tab.title,
-    url: tab.url,
+    item: {
+      name: tab.title,
+      url: tab.url,
+    },
   });
 }
 
