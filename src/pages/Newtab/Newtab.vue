@@ -192,7 +192,7 @@ export default {
     },
     moveItem(e) {},
     removeItem(index) {
-      this.list.splice(index, 1);
+      this.$store.commit("REMOVE_ITEM", { category: this.curTabKey, index });
     },
     toggleEditMode(state) {
       this.isEditMode = !this.isEditMode;

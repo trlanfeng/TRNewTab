@@ -14,6 +14,10 @@ const store = new Vuex.Store({
       state.links[from].list.splice(index, 1);
       saveData(state);
     },
+    REMOVE_ITEM(state, { category, index }) {
+      state.links[category].list.splice(index, 1);
+      saveData(state);
+    },
     CHANGE_SETTING(state, { key, value }) {
       state.settings[key] = value;
       saveData(state);
