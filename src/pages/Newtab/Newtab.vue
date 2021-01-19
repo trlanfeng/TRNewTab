@@ -69,6 +69,7 @@
           class="col-12 col-sm-4 col-md-3 col-lg-3"
         >
           <div
+            v-if="item"
             class="speeddial"
             :class="{ move: isEditMode }"
             draggable
