@@ -65,11 +65,11 @@
       >
         <div
           v-for="(item, index) in state.links[curTabKey].list"
-          :key="item.name"
+          :key="(item && item.name) || Math.random()"
           class="col-12 col-sm-4 col-md-3 col-lg-3"
         >
           <div
-            v-if="item"
+            v-if="!!item && !!item.name && !!item.url"
             class="speeddial"
             :class="{ move: isEditMode }"
             draggable
