@@ -1,7 +1,7 @@
 /* eslint-disable import/order */
 /* eslint-disable import/no-extraneous-dependencies */
 const path = require('path');
-const VueLoaderPlugin = require('vue-loader/lib/plugin');
+const { VueLoaderPlugin } = require('vue-loader');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 
@@ -59,12 +59,16 @@ module.exports = {
       template: './template/template.html',
     }),
     new VueLoaderPlugin(),
-    new CopyWebpackPlugin([
-      {
-        from: 'template',
-        to: '',
-        ignore: ['.DS_Store', 'template.html'],
-      },
-    ]),
+    new CopyWebpackPlugin({
+      patterns: [
+        {
+          from: 'template',
+          to: '',
+          globOptions: {
+            ignore: ['.DS_Store', 'template.html'],
+          },
+        },
+      ],
+    }),
   ],
 };

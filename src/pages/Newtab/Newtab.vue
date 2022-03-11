@@ -126,13 +126,11 @@ import "../../assets/icons/iconfont.css";
 import draggable from "vuedraggable";
 import { mapState } from "vuex";
 import { getData, saveDate, sortCategories } from "../../services/data";
-import { Button } from "element-ui";
 import CreateBox from "./components/CreateBox";
 import CreateCategory from "./components/CreateCategory";
 import SettingBox from "./components/SettingBox";
 import Icon from "./components/Icon";
 
-Vue.use(Button);
 
 export default {
   components: {
