@@ -1,5 +1,5 @@
 {
-  "manifest_version": 2,
+  "manifest_version": 3,
   "name": "幻蓝新标签页",
   "version": "3.0.5",
   "description": "开源、简洁、快速、易用、可同步、无广告的新标签页。",
@@ -11,17 +11,19 @@
   "chrome_url_overrides": {
     "newtab": "newtab.html"
   },
-  "browser_action": {
+  "action": {
     "default_popup": "popup.html"
   },
   "background": {
-    "scripts": ["background.js"]
+    "service_worker": "background.js"
   },
   "permissions": [
     "storage",
-    "*://*.bing.com/*",
     "activeTab",
     "tabs",
     "contextMenus"
+  ],
+  "host_permissions": [
+    "*://*.bing.com/*"
   ]
 }
