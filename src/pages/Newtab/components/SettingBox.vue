@@ -9,32 +9,28 @@
                 class="nav-link"
                 :class="{ active: settingIndex == 0 }"
                 @click="settingIndex = 0"
-                >壁纸</span
-              >
+              >壁纸</span>
             </li>
             <li class="nav-item">
               <span
                 class="nav-link"
                 :class="{ active: settingIndex == 1 }"
                 @click="settingIndex = 1"
-                >搜索</span
-              >
+              >搜索</span>
             </li>
             <li class="nav-item">
               <span
                 class="nav-link"
                 :class="{ active: settingIndex == 2 }"
                 @click="settingIndex = 2"
-                >导入 / 导出</span
-              >
+              >导入 / 导出</span>
             </li>
             <li class="nav-item">
               <span
                 class="nav-link"
                 :class="{ active: settingIndex == 3 }"
                 @click="settingIndex = 3"
-                >备份</span
-              >
+              >备份</span>
             </li>
           </ul>
           <button type="button" class="close" @click="hideBox">
@@ -47,7 +43,7 @@
               <label>壁纸类型：</label>
               <select
                 class="form-control"
-                :value="state.background.type"
+                :value="store.background.type"
                 @change="
                   mutation('CHANGE_BACKGROUND', 'type', $event.target.value)
                 "
@@ -56,13 +52,13 @@
                 <option :value="2">使用网络图片地址</option>
               </select>
             </div>
-            <div class="networkImage" v-show="state.background.type == 2">
+            <div class="networkImage" v-show="store.background.type == 2">
               <div class="form-group">
                 <label>网络图片地址：</label>
                 <input
                   type="text"
                   class="form-control"
-                  :value="state.background.url"
+                  :value="store.background.url"
                   @change="
                     mutation('CHANGE_BACKGROUND', 'url', $event.target.value)
                   "
@@ -72,15 +68,13 @@
             </div>
             <div class="blur_range">
               <div class="form-group">
-                <label for="customRange1"
-                  >模糊度：{{ state.background.blur }}</label
-                >
+                <label for="customRange1">模糊度：{{ store.background.blur }}</label>
                 <input
                   type="range"
                   min="0"
                   max="100"
                   step="1"
-                  :value="state.background.blur"
+                  :value="store.background.blur"
                   @change="
                     mutation('CHANGE_BACKGROUND', 'blur', $event.target.value)
                   "
@@ -96,7 +90,7 @@
               <input
                 id="switcher"
                 type="checkbox"
-                :value="state.search.show"
+                :value="store.search.show"
                 @change="mutation('CHANGE_SEARCH', 'show', $event.target.value)"
               />
             </div>
@@ -106,7 +100,7 @@
                 <input
                   type="text"
                   class="form-control"
-                  :value="state.search.title"
+                  :value="store.search.title"
                   @change="
                     mutation('CHANGE_SEARCH', 'title', $event.target.value)
                   "
@@ -118,7 +112,7 @@
                 <input
                   type="text"
                   class="form-control"
-                  :value="state.search.url"
+                  :value="store.search.url"
                   @change="
                     mutation('CHANGE_SEARCH', 'url', $event.target.value)
                   "
@@ -130,7 +124,7 @@
                 <input
                   type="text"
                   class="form-control"
-                  :value="state.search.icon"
+                  :value="store.search.icon"
                   @change="
                     mutation('CHANGE_SEARCH', 'icon', $event.target.value)
                   "
@@ -149,12 +143,8 @@
               style="margin-bottom: 10px"
               v-model="migrateData"
             ></textarea>
-            <button type="button" class="btn btn-primary" @click="exportData">
-              导出
-            </button>
-            <button type="button" class="btn btn-danger" @click="importData">
-              导入
-            </button>
+            <button type="button" class="btn btn-primary" @click="exportData">导出</button>
+            <button type="button" class="btn btn-danger" @click="importData">导入</button>
           </div>
           <div class="tab-pane history-pane" v-show="settingIndex == 3">
             <table class="table table-borderless">
@@ -170,24 +160,18 @@
                 <tr v-for="(item, index) in backupList" :key="item.key">
                   <th scope="row">{{ index }}</th>
                   <td>{{ item.key }}</td>
-                  <td>
-                    {{ (item.value.list && item.value.list.length) || 0 }}
-                  </td>
+                  <td>{{ (item.value.list && item.value.list.length) || 0 }}</td>
                   <td>
                     <button
                       type="button"
                       class="btn btn-danger btn-sm"
                       @click="deleteHistory(item.key)"
-                    >
-                      删除
-                    </button>
+                    >删除</button>
                     <button
                       type="button"
                       class="btn btn-primary btn-sm"
                       @click="recoveryHistory(item.key)"
-                    >
-                      恢复
-                    </button>
+                    >恢复</button>
                   </td>
                 </tr>
               </tbody>
@@ -198,102 +182,91 @@
     </div>
   </div>
 </template>
-<script>
+<script setup>
 import axios from "axios";
-import {
-  getData,
-  getHistory,
-  deleteHistory,
-  recoveryHistory,
-  saveData,
-} from "../../../services/data";
+import { onMounted, ref } from 'vue';
+import * as services from "../../../services/data";
+// import {
+//   getData,
+//   getHistory,
+//   deleteHistory,
+//   recoveryHistory,
+//   saveData,
+// } from "../../../services/data";
+import { useStore } from '../../../store';
 
-export default {
-  props: ["onShow", "onClose"],
-  data() {
-    return {
-      settingIndex: 0,
-      migrateData: "",
-      backupList: [],
-    };
-  },
-  async created() {
-    this.backupList = await getHistory();
+
+const props = defineProps(["onShow", "onClose"]);
+const store = useStore();
+const settingIndex = ref(0);
+const migrateData = ref("");
+const backupList = ref([]);
+
+onMounted(async () => {
+  backupList.value = await services.getHistory();
+  backupList.value = backupList.value.reverse();
+  props.onShow();
+})
+
+function hideBox() {
+  props.onClose();
+}
+
+async function exportData() {
+  const data = await services.getData();
+  migrateData.value = JSON.stringify(data);
+}
+
+async function importData() {
+  let data = {};
+  try {
+    data = JSON.parse(migrateData.value);
+  } catch (e) {
+    window.alert("需要导入的数据有误，请检查");
+    return;
+  }
+  if (window.confirm("导入将覆盖现有的数据，且不可恢复，是否确认操作？")) {
+    await services.saveData(data);
+    hideBox();
+    window.location.reload();
+  }
+}
+
+async function onBgTypeChange() {
+  if (Number(store.background.type) < 2) {
+    await getBingImage();
+  } else {
+    store.background.lastCheckDays = 0;
+  }
+}
+
+async function getBingImage() {
+  if (new Date().getDate() === store.background.lastCheckDays) {
+    return;
+  }
+  try {
+    const res = await axios.get(store.background.bingApi);
+    store.background.url =
+      "https://www.bing.com" + res.data.images[0].url;
+  } catch (e) {
+    console.log("TR: getBingImage -> e", e);
+  }
+}
+
+async function deleteHistory(key) {
+  if (window.confirm("删除后将不可恢复，是否确认操作？")) {
+    services.deleteHistory(key);
+    this.backupList = await services.getHistory();
     this.backupList = this.backupList.reverse();
-  },
-  computed: {
-    state() {
-      return this.$store.state;
-    },
-    commit() {
-      return this.$store.commit;
-    },
-  },
-  mounted() {
-    this.onShow();
-  },
-  methods: {
-    hideBox() {
-      this.onClose();
-    },
-    async exportData() {
-      const data = await getData();
-      this.migrateData = JSON.stringify(data);
-    },
-    async importData() {
-      let data = {};
-      try {
-        data = JSON.parse(this.migrateData);
-      } catch (e) {
-        window.alert("需要导入的数据有误，请检查");
-        return;
-      }
-      if (window.confirm("导入将覆盖现有的数据，且不可恢复，是否确认操作？")) {
-        await saveData(data);
-        this.hideBox();
-        window.location.reload();
-      }
-    },
-    async onBgTypeChange() {
-      if (Number(this.state.background.type) < 2) {
-        await this.getBingImage();
-      } else {
-        this.state.background.lastCheckDays = 0;
-      }
-    },
-    async getBingImage() {
-      if (new Date().getDate() === this.state.background.lastCheckDays) {
-        return;
-      }
-      try {
-        const res = await axios.get(this.state.background.bingApi);
-        this.state.background.url =
-          "https://www.bing.com" + res.data.images[0].url;
-      } catch (e) {
-        console.log("TR: getBingImage -> e", e);
-      }
-    },
-    async deleteHistory(key) {
-      if (window.confirm("删除后将不可恢复，是否确认操作？")) {
-        deleteHistory(key);
-        this.backupList = await getHistory();
-        this.backupList = this.backupList.reverse();
-      }
-    },
-    async recoveryHistory(key) {
-      if (window.confirm("恢复将覆盖现有的数据，是否确认操作？")) {
-        recoveryHistory(key);
-        window.location.reload();
-      }
-    },
-    mutation(action, key, value) {
-      this.commit(action, {
-        key,
-        value,
-      });
-    },
-  },
-};
+  }
+}
+
+async function recoveryHistory(key) {
+  if (window.confirm("恢复将覆盖现有的数据，是否确认操作？")) {
+    services.recoveryHistory(key);
+    window.location.reload();
+  }
+}
 </script>
 <style lang="less" scoped>
 .tab-pane {

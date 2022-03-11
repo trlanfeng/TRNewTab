@@ -1,55 +1,45 @@
-import Vue from 'vue';
-import Vuex from 'vuex';
+import { defineStore } from 'pinia';
 import _ from 'lodash';
-import { addCategory, addItem, initData, saveData } from '../services/data';
+import * as services from '../services/data';
 import { curVersion, defaultSettings } from '../services/upgrade';
 
-Vue.use(Vuex);
-
-const store = new Vuex.Store({
-  state: defaultSettings[curVersion],
-  mutations: {
-    MOVE_ITEM(state, { from, to, index, item }) {
-      state.links[to].list.push(item);
-      state.links[from].list.splice(index, 1);
-      saveData(state);
+export const useStore = defineStore('main', {
+  state: () => defaultSettings[curVersion],
+  actions: {
+    moveItem({ from, to, index, item }) {
+      this.links[to].list.push(item);
+      this.links[from].list.splice(index, 1);
+      console.log('TR: moveItem -> this', this);
     },
-    REMOVE_ITEM(state, { category, index }) {
-      state.links[category].list.splice(index, 1);
-      saveData(state);
+    removeItem({ category, index }) {
+      this.$state.links[category].list.splice(index, 1);
     },
-    CHANGE_SETTING(state, { key, value }) {
-      state.settings[key] = value;
-      saveData(state);
+    changeSetting({ key, value }) {
+      this.$state.settings[key] = value;
     },
-    CHANGE_SEARCH(state, { key, value }) {
-      state.search[key] = value;
-      saveData(state);
+    changeSearch({ key, value }) {
+      this.$state.search[key] = value;
     },
-    CHANGE_BACKGROUND(state, { key, value }) {
-      state.background[key] = value;
-      saveData(state);
+    changeBackground({ key, value }) {
+      this.$state.background[key] = value;
     },
-    REPLACE_ALL_SETTINGS(state, payload) {
+    replaceAllSettings(payload) {
       Object.keys(payload).forEach((key) => {
-        state[key] = payload[key];
+        this.$state[key] = payload[key];
       });
     },
-  },
-  actions: {
-    async ADD_ITEM({ commit }, payload) {
-      const data = await addItem(payload);
-      commit('REPLACE_ALL_SETTINGS', data);
+    async addItem(payload) {
+      const data = await services.addItem(payload);
+      this.replaceAllSettings(data);
     },
-    async ADD_CATEGORY({ commit }, payload) {
-      const data = await addCategory(payload);
-      commit('REPLACE_ALL_SETTINGS', data);
+    async addCategory(payload) {
+      const data = await services.addCategory(payload);
+      this.replaceAllSettings(data);
     },
-    async INIT_DATA({ commit }) {
-      const data = await initData();
-      commit('REPLACE_ALL_SETTINGS', data);
+    async init() {
+      console.log('TR: init -> this', this.$state);
+      const data = await services.initData();
+      this.replaceAllSettings(data);
     },
   },
 });
-
-export default store;

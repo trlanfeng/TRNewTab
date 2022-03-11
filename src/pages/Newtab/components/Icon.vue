@@ -4,44 +4,39 @@
       <img class="icon_img" :src="iconUrl" :alt="name" v-show="isIconShow" />
     </transition>
     <transition name="fade">
-      <span class="word" v-show="!isIconShow">{{ name | getFirstWord }}</span>
+      <span class="word" v-show="!isIconShow">{{ getFirstWord(name) }}</span>
     </transition>
   </div>
 </template>
-<script>
-export default {
-  props: ["url", "name"],
-  data() {
-    return {
-      iconUrl: "",
-      isIconShow: false,
-    };
-  },
-  mounted() {
-    const iconUrl = this.getFavIconUrl(this.url);
-    const img = new Image();
-    img.onload = () => {
-      this.iconUrl = iconUrl;
-      this.isIconShow = true;
-    };
-    img.onerror = () => {
-      console.log("TCL: mounted -> err", err);
-      this.isIconShow = false;
-    };
-    img.src = iconUrl;
-  },
-  methods: {
-    getFavIconUrl(url) {
-      let domainArr = url.split("/");
-      return `http://trlanfeng.xicp.net/${domainArr[2]}/144`;
-    },
-  },
-  filters: {
-    getFirstWord(title) {
-      return title.substr(0, 1).toUpperCase();
-    },
-  },
-};
+<script setup>
+const { onMounted, ref } = require('vue');
+
+const props = defineProps(["url", "name"]);
+const iconUrl = ref("");
+const isIconShow = ref(false);
+
+onMounted(() => {
+  const icon = getFavIconUrl(props.url);
+  const img = new Image();
+  img.onload = () => {
+    iconUrl.value = icon;
+    isIconShow.value = true;
+  };
+  img.onerror = () => {
+    console.log("TCL: mounted -> err", err);
+    isIconShow.value = false;
+  };
+  img.src = iconUrl;
+});
+
+function getFavIconUrl(url) {
+  let domainArr = url.split("/");
+  return `http://trlanfeng.xicp.net/${domainArr[2]}/144`;
+}
+
+function getFirstWord(title) {
+  return title.substr(0, 1).toUpperCase();
+}
 </script>
 <style lang="less" scoped>
 .fade-enter-active,

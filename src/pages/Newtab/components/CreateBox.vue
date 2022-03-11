@@ -16,25 +16,18 @@
               class="form-control"
               v-model="category"
               placeholder="不填写则默认显示网址"
-            /> -->
-            <select
-              class="form-control"
-              v-model="category"
-              placeholder="不填写则默认分类"
-            >
-              <option v-for="cat in state.categories" :value="cat" :key="cat">
-                {{ state.links[cat].title }}
-              </option>
+            />-->
+            <select class="form-control" v-model="category" placeholder="不填写则默认分类">
+              <option
+                v-for="cat in store.categories"
+                :value="cat"
+                :key="cat"
+              >{{ store.links[cat].title }}</option>
             </select>
           </div>
           <div class="form-group">
             <label>名称：</label>
-            <input
-              type="text"
-              class="form-control"
-              v-model="title"
-              placeholder="不填写则默认显示网址"
-            />
+            <input type="text" class="form-control" v-model="title" placeholder="不填写则默认显示网址" />
           </div>
           <div class="form-group">
             <label>网址：</label>
@@ -48,56 +41,44 @@
           </div>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" @click="hideBox">
-            取消
-          </button>
-          <button type="button" class="btn btn-primary" @click="addToList">
-            添加
-          </button>
+          <button type="button" class="btn btn-secondary" @click="hideBox">取消</button>
+          <button type="button" class="btn btn-primary" @click="addToList">添加</button>
         </div>
       </div>
     </div>
   </div>
 </template>
-<script>
-export default {
-  props: ["onShow", "onClose"],
-  data() {
-    return {
-      category: "default",
-      title: "",
-      url: "",
-      icon: "",
-    };
-  },
-  mounted() {
-    this.onShow();
-  },
-  computed: {
-    state() {
-      return this.$store.state;
+<script setup>
+import { onMounted, ref } from 'vue';
+import { useStore } from '../../../store';
+
+const store = useStore();
+const props = defineProps(["onShow", "onClose"]);
+const category = ref("default")
+const title = ref("");
+const url = ref("");
+const icon = ref("");
+
+onMounted(() => props.onShow());
+
+function hideBox() {
+  props.onClose();
+}
+
+function addToList() {
+  let speedDial = {
+    category: category.value,
+    item: {
+      name: title.value,
+      url: url.value,
     },
-  },
-  methods: {
-    hideBox() {
-      this.onClose();
-    },
-    addToList() {
-      let speedDial = {
-        category: this.category,
-        item: {
-          name: this.title,
-          url: this.url,
-        },
-      };
-      this.$store.dispatch("ADD_ITEM", speedDial);
-      this.category = "";
-      this.title = "";
-      this.url = "";
-      this.hideBox();
-    },
-  },
-};
+  };
+  store.addItem(speedDial);
+  category.value = "";
+  title.value = "";
+  url.value = "";
+  hideBox();
+}
 </script>
 <style lang="less" scoped>
 </style>
