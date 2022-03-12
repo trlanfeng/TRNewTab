@@ -31,7 +31,7 @@
       <button class="search_button" @click="search">搜索</button>
     </div>
     <div class="SpeedDialContainer">
-      <div class="TabContainer col-12">
+      <div class="TabContainer col-12 ps-3 pe-3">
         <draggable
           v-model="store.categories"
           :animation="250"
@@ -59,7 +59,7 @@
         @end="moveItem"
       >
         <template #item="{ element, index }">
-          <div class="col-12 col-sm-4 col-md-3 col-lg-3">
+          <div class="col-12 col-sm-4 col-md-3 col-lg-3 ps-3 pe-3">
             <div
               v-if="!!element && !!element.name && !!element.url"
               class="speeddial"
