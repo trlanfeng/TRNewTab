@@ -4,17 +4,21 @@
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title">添加</h5>
-          <button type="button" class="close" @click="hideBox">
-            <span aria-hidden="true">&times;</span>
-          </button>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+            @click="hideBox"
+          ></button>
         </div>
         <div class="modal-body">
-          <div class="form-group">
-            <label>标识：</label>
+          <div class="mb-3">
+            <label class="form-label">标识：</label>
             <input type="text" class="form-control" v-model="key" placeholder="如：game" />
           </div>
-          <div class="form-group">
-            <label>名称：</label>
+          <div class="mb-3">
+            <label class="form-label">名称：</label>
             <input type="text" class="form-control" v-model="title" placeholder="如：游戏" />
           </div>
         </div>

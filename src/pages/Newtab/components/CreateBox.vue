@@ -4,13 +4,17 @@
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title">添加</h5>
-          <button type="button" class="close" @click="hideBox">
-            <span aria-hidden="true">&times;</span>
-          </button>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+            @click="hideBox"
+          ></button>
         </div>
         <div class="modal-body">
-          <div class="form-group">
-            <label>分类：</label>
+          <div class="mb-3">
+            <label class="form-label">分类：</label>
             <!-- <input
               type="text"
               class="form-control"
@@ -25,12 +29,12 @@
               >{{ store.links[cat].title }}</option>
             </select>
           </div>
-          <div class="form-group">
-            <label>名称：</label>
+          <div class="mb-3">
+            <label class="form-label">名称：</label>
             <input type="text" class="form-control" v-model="title" placeholder="不填写则默认显示网址" />
           </div>
-          <div class="form-group">
-            <label>网址：</label>
+          <div class="mb-3">
+            <label class="form-label">网址：</label>
             <input
               type="url"
               class="form-control"

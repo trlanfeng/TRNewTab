@@ -33,14 +33,18 @@
               >备份</span>
             </li>
           </ul>
-          <button type="button" class="close" @click="hideBox">
-            <span aria-hidden="true">&times;</span>
-          </button>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+            @click="hideBox"
+          ></button>
         </div>
         <div class="modal-body">
           <div class="tab-pane" v-show="settingIndex == 0">
-            <div class="form-group">
-              <label>壁纸类型：</label>
+            <div class="mb-3">
+              <label class="form-label">壁纸类型：</label>
               <select
                 class="form-control"
                 :value="store.background.type"
@@ -53,8 +57,8 @@
               </select>
             </div>
             <div class="networkImage" v-show="store.background.type == 2">
-              <div class="form-group">
-                <label>网络图片地址：</label>
+              <div class="mb-3">
+                <label class="form-label">网络图片地址：</label>
                 <input
                   type="text"
                   class="form-control"
@@ -67,8 +71,8 @@
               </div>
             </div>
             <div class="blur_range">
-              <div class="form-group">
-                <label for="customRange1">模糊度：{{ store.background.blur }}</label>
+              <div class="mb-3">
+                <label class="form-label" for="customRange1">模糊度：{{ store.background.blur }}</label>
                 <input
                   type="range"
                   min="0"
@@ -78,25 +82,27 @@
                   @change="
                     mutation('CHANGE_BACKGROUND', 'blur', $event.target.value)
                   "
-                  class="custom-range"
+                  class="form-range"
                   id="customRange1"
                 />
               </div>
             </div>
           </div>
           <div class="tab-pane" v-show="settingIndex == 1">
-            <div class="form-group switcher_box">
-              <label for="switcher">是否开启搜索：</label>
+            <div class="mb-3 switcher_box form-check form-switch">
+              <label class="form-check-label" for="switcher">是否开启搜索：</label>
               <input
                 id="switcher"
                 type="checkbox"
+                role="switch"
+                class="form-check-input"
                 :value="store.search.show"
                 @change="mutation('CHANGE_SEARCH', 'show', $event.target.value)"
               />
             </div>
             <div class="search_settings">
-              <div class="form-group">
-                <label>搜索名称：</label>
+              <div class="mb-3">
+                <label class="form-label">搜索名称：</label>
                 <input
                   type="text"
                   class="form-control"
@@ -107,8 +113,8 @@
                   placeholder="请填写搜索名称"
                 />
               </div>
-              <div class="form-group">
-                <label>搜索地址：</label>
+              <div class="mb-3">
+                <label class="form-label">搜索地址：</label>
                 <input
                   type="text"
                   class="form-control"
@@ -119,8 +125,8 @@
                   placeholder="请填写搜索地址（例如：https://www.baidu.com/s?wd=）"
                 />
               </div>
-              <div class="form-group">
-                <label>图标地址：</label>
+              <div class="mb-3">
+                <label class="form-label">图标地址：</label>
                 <input
                   type="text"
                   class="form-control"
