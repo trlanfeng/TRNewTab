@@ -1,0 +1,297 @@
+@import './variables.less';
+@import './newtab_dark.less';
+
+* {
+  font-family: Helvetica, 'Hiragino Sans GB', 'Microsoft Yahei', '微软雅黑',
+    Arial, sans-serif;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  background-color: #555;
+  background-position: center center;
+}
+
+.danger-border {
+  border-color: #d9534f !important;
+}
+
+.iconfont {
+  font-size: 18px;
+}
+
+.modal-dialog {
+  margin-top: 200px;
+}
+
+.bg {
+  position: fixed;
+  top: -20px;
+  bottom: -20px;
+  left: -20px;
+  right: -20px;
+  z-index: -1;
+  background-position: center;
+  background-size: cover;
+}
+
+.my-modal {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 99;
+  background-color: rgba(0, 0, 0, 0.7);
+}
+
+.switcher_box {
+  padding-left: 0;
+  .form-check-input {
+    float: right;
+  }
+}
+
+.nav-item {
+  cursor: pointer;
+}
+
+.sortable-chosen {
+  opacity: 0.5;
+}
+
+.topbar {
+  padding: 20px;
+  text-align: right;
+  background: linear-gradient(to bottom, rgba(1, 1, 1, 0.3), transparent);
+
+  button {
+    color: white;
+    font-size: 0;
+    text-decoration: none;
+    margin: 0 10px;
+    padding: 5px 0;
+    border: 0;
+    border-bottom: 2px solid transparent;
+    border-color: transparent;
+    background-color: transparent;
+    outline: none;
+    transition: border-color 0.2s;
+
+    .iconfont {
+      font-size: 24px;
+      vertical-align: middle;
+      margin-right: 5px;
+    }
+
+    span {
+      font-size: 18px;
+      vertical-align: middle;
+    }
+
+    &:hover {
+      border-color: white;
+    }
+
+    &:focus {
+      outline: none;
+    }
+  }
+}
+.search_box {
+  max-width: 900px;
+  padding: 0 15px;
+  margin: 50px auto 0;
+  position: relative;
+
+  .search_icon {
+    position: absolute;
+    left: 30px;
+    top: 10px;
+    width: 32px;
+    height: 32px;
+    z-index: 10;
+  }
+
+  input {
+    border-radius: 0.25rem;
+    max-width: 900px;
+    height: 52px;
+    padding-left: 60px;
+  }
+
+  button {
+    position: absolute;
+    right: 15px;
+    top: 0;
+    background: transparent;
+    border: none;
+    border-left: 1px solid @lightBorder;
+    padding-left: 15px;
+    padding-right: 18px;
+    height: 52px;
+  }
+}
+
+.SpeedDialContainer {
+  max-width: 1200px;
+  margin: 50px auto 0;
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  border-radius: 5px;
+  .TabContainer {
+    width: 100%;
+    .tabs {
+      width: 100%;
+      margin: 0 auto;
+      height: 50px;
+      display: flex;
+      border-bottom: 2px solid rgba(200, 200, 200, 0.3);
+      .tab {
+        color: white;
+        height: 50px;
+        border-bottom: 2px solid transparent;
+        display: flex;
+        align-items: center;
+        margin-right: 20px;
+        transition: all 0.5s;
+        cursor: pointer;
+        width: 120px;
+        justify-content: center;
+        &.active,
+        &:hover {
+          border-bottom-color: white;
+        }
+      }
+    }
+  }
+  .SpeedDialBox {
+    max-width: 1200px;
+    margin: 0 auto;
+    // padding: 20px 0 100px;
+    display: flex;
+    flex-wrap: wrap;
+
+    .speeddial {
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      // background-color: @lightBackground;
+      // backdrop-filter: blur(10px);
+      // border-radius: 0.25rem;
+      // margin-bottom: 15px;
+      overflow: hidden;
+      transition: all 0.2s;
+      cursor: pointer;
+
+      &.move {
+        cursor: move !important;
+
+        a {
+          cursor: move !important;
+        }
+      }
+
+      &:hover,
+      &:focus {
+        text-decoration: none;
+        // box-shadow: 0 0 5px darken(@lightBorder, 50%);
+        border: 1px solid darken(@lightBorder, 50%);
+
+        span {
+          text-decoration: none;
+        }
+      }
+
+      .info {
+        position: relative;
+        display: flex;
+        align-items: center;
+
+        .block {
+          flex: 1;
+          transition: all 0.2s;
+          display: flex;
+          height: 52px;
+          align-items: center;
+          padding: 10px;
+          color: @darkBackground;
+          text-decoration: none;
+          overflow: hidden;
+
+          .icon {
+            width: 32px;
+            height: 32px;
+            margin-right: 10px;
+            overflow: hidden;
+
+            .drag_handle {
+              width: 32px;
+              height: 32px;
+              color: @darkBackground;
+              fill: @darkBackground;
+
+              path {
+                fill: @darkBackground;
+              }
+            }
+          }
+
+          .title {
+            flex: 1;
+            white-space: nowrap;
+            font-size: 14px;
+            text-overflow: ellipsis;
+            overflow: hidden;
+            color: white;
+          }
+        }
+
+        .close_button {
+          width: 28px;
+          height: 32px;
+          background: transparent;
+          display: flex;
+          justify-content: flex-start;
+          align-items: center;
+
+          .iconfont {
+            color: #eb3323;
+          }
+
+          cursor: pointer !important;
+
+          img {
+            width: 32px;
+            height: 32px;
+          }
+        }
+      }
+
+      .other {
+        height: 30px;
+        display: flex;
+        border-top: 1px solid @lightBorder;
+
+        .drag {
+          width: 40px;
+          padding-left: 10px;
+
+          .drag_handle {
+            max-width: 16px;
+            max-height: 16px;
+          }
+        }
+
+        .link {
+          flex: 1;
+          font-size: 12px;
+          line-height: 28px;
+          color: #999;
+        }
+      }
+    }
+  }
+}
