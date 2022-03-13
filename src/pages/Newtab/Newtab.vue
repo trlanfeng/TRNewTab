@@ -66,7 +66,7 @@
               v-if="!!element && !!element.name && !!element.url"
               class="speeddial"
               :class="{ move: isEditMode }"
-              draggable
+              draggable="true"
               @dragstart="onDragStart(curTabKey, index, element)"
             >
               <div class="info">
@@ -112,7 +112,11 @@ import { useStore } from '../../store';
 import { ref } from 'vue';
 
 const store = useStore();
-console.log('TR: store.categories', store.categories);
+
+store.$subscribe((mutation, state) => {
+  const data = JSON.parse(JSON.stringify(state));
+  saveData(data);
+})
 
 const isSettingShow = ref(false)
 const isEditMode = ref(false)
@@ -152,10 +156,6 @@ const bgImage = computed(() => {
   };
 });
 
-watch("store.links", function (val) {
-  this.tabs = Object.keys(val);
-});
-
 watch(curTabKey, function (val) {
   cleanList();
 })
@@ -165,11 +165,11 @@ function generateRandomKey() {
 }
 
 function moveCategory(e) {
-  sortCategories(this.tabs);
+
 }
 function moveItem(e) { }
 function removeItem(index) {
-  store.commit("REMOVE_ITEM", { category: curTabKey.value, index });
+  store.removeItem({ category: curTabKey.value, index });
 }
 function toggleEditMode(state) {
   isEditMode.value = !isEditMode.value;
@@ -197,7 +197,7 @@ function changeTabKey(key) {
 }
 function dropOnTitle(to) {
   const { from, index, item } = dragItem.value;
-  store.commit("MOVE_ITEM", { from, to, index, item });
+  store.moveItem({ from, to, index, item })
 }
 function onDragStart(from, index, item) {
   dragItem.value = { from, index, item };
