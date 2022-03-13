@@ -52,6 +52,7 @@
       </div>
       <draggable
         v-model="store.links[curTabKey].list"
+        :itemKey="generateRandomKey"
         :animation="250"
         handle=".speeddial"
         :disabled="isDraggableDisabled"
@@ -157,6 +158,10 @@ watch("store.links", function (val) {
 watch(curTabKey, function (val) {
   cleanList();
 })
+
+function generateRandomKey() {
+  return Math.random();
+}
 
 function moveCategory(e) {
   sortCategories(this.tabs);
