@@ -79,11 +79,6 @@
               <div class="other" v-if="isEditMode">
                 <div class="drag">
                   <i class="drag_handle iconfont icondrag"></i>
-                  <!-- <img
-                  class="drag_handle"
-                  src="../assets/icons/drag.svg"
-                  alt="拖拽移动"
-                  />-->
                 </div>
                 <div class="link">{{ element.url }}</div>
               </div>
@@ -126,8 +121,16 @@ const keywords = ref("")
 const curTabKey = ref(store.categories[0])
 const dragItem = ref(null)
 
-onMounted(() => {
-  store.init();
+function cleanList() {
+  const list = store.links[curTabKey.value].list;
+  // 清理不合法数据
+  store.links[curTabKey.value].list = list.filter(item => !!item?.url);
+  console.log('TR: cleanList -> store.links[curTabKey.value].list', store.links[curTabKey.value].list);
+}
+
+onMounted(async () => {
+  await store.init();
+  cleanList();
 });
 
 const bgStyle = computed(() => {
@@ -150,6 +153,10 @@ const bgImage = computed(() => {
 watch("store.links", function (val) {
   this.tabs = Object.keys(val);
 });
+
+watch(curTabKey, function (val) {
+  cleanList();
+})
 
 function moveCategory(e) {
   sortCategories(this.tabs);

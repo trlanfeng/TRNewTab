@@ -170,7 +170,7 @@
                   <td>
                     <button
                       type="button"
-                      class="btn btn-danger btn-sm"
+                      class="btn btn-danger btn-sm me-1"
                       @click="deleteHistory(item.key)"
                     >删除</button>
                     <button
