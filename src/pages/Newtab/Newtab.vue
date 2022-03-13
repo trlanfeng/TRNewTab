@@ -37,6 +37,7 @@
           :animation="250"
           handle=".tab"
           class="tabs"
+          :disabled="isDraggableDisabled"
           @end="moveCategory"
         >
           <template #item="{ element }">
@@ -172,7 +173,7 @@ function removeItem(index) {
 }
 function toggleEditMode(state) {
   isEditMode.value = !isEditMode.value;
-  this.isDraggableDisabled = !isEditMode.value;
+  isDraggableDisabled.value = !isEditMode.value;
 }
 function handleShowCreateBox() { }
 function handleHideCreateBox() {
