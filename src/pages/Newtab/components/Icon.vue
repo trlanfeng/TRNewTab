@@ -22,11 +22,11 @@ onMounted(() => {
     iconUrl.value = icon;
     isIconShow.value = true;
   };
-  img.onerror = () => {
+  img.onerror = (err) => {
     console.log("TCL: mounted -> err", err);
     isIconShow.value = false;
   };
-  img.src = iconUrl;
+  img.src = icon;
 });
 
 function getFavIconUrl(url) {
