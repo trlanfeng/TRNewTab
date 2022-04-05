@@ -9,17 +9,11 @@ async function addToSpeedDial(info, tab) {
   });
 }
 
-function main() {
-  var contexts = ['page'];
-  for (var i = 0; i < contexts.length; i++) {
-    var context = contexts[i];
-    var title = '添加到新标签页';
-    var id = chrome.contextMenus.create({
-      title: title,
-      contexts: [context],
-      onclick: addToSpeedDial,
-    });
-  }
-}
-
-main();
+chrome.runtime.onInstalled.addListener(() => {
+  chrome.contextMenus.create({
+    id: 'test',
+    title: '添加到新标签页',
+    contexts: ['page'],
+  });
+  chrome.contextMenus.onClicked.addListener(addToSpeedDial);
+});
