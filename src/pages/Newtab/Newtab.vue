@@ -40,13 +40,19 @@
           :disabled="isDraggableDisabled"
           @end="moveCategory"
         >
-          <template #item="{ element }">
+          <template #item="{ element, index }">
             <div
+              :id="'tab' + index"
               class="tab"
-              :title="element"
               :class="{ active: element === curTabKey }"
               @click="changeTabKey(element)"
               @drop="dropOnTitle(element)"
+              @dragenter="dragToCategory(index)"
+              @dragleave="hideDragTitle()"
+              data-bs-trigger="manual"
+              title="移动到此分类"
+              data-bs-toggle="tooltip"
+              data-bs-placement="top"
             >{{ store.links[element].title }}</div>
           </template>
         </draggable>
@@ -100,6 +106,7 @@
 </template>
 <script setup>
 import "../../assets/icons/iconfont.css";
+import { Tooltip } from 'bootstrap';
 import draggable from "vuedraggable";
 import { getData, saveData, sortCategories } from "../../services/data";
 import CreateBox from "./components/CreateBox";
@@ -126,6 +133,14 @@ const isDraggableDisabled = ref(true)
 const keywords = ref("")
 const curTabKey = ref(store.categories[0])
 const dragItem = ref(null)
+const tooltipList = reactive({});
+
+function initTooltip() {
+  const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+  tooltipTriggerList.map((el, index) => {
+    tooltipList[index] = new Tooltip(el)
+  })
+}
 
 function cleanList() {
   const list = store.links[curTabKey.value].list;
@@ -137,6 +152,7 @@ function cleanList() {
 onMounted(async () => {
   await store.init();
   cleanList();
+  initTooltip();
 });
 
 const bgStyle = computed(() => {
@@ -201,5 +217,12 @@ function dropOnTitle(to) {
 }
 function onDragStart(from, index, item) {
   dragItem.value = { from, index, item };
+}
+function dragToCategory(index) {
+  hideDragTitle();
+  if (isEditMode.value) tooltipList[index].show();
+}
+function hideDragTitle() {
+  Object.keys(tooltipList).map((item) => tooltipList[item].hide())
 }
 </script>
