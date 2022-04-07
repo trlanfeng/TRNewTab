@@ -212,6 +212,7 @@ function changeTabKey(key) {
   curTabKey.value = key;
 }
 function dropOnTitle(to) {
+  hideDragTitle();
   const { from, index, item } = dragItem.value;
   store.moveItem({ from, to, index, item })
 }
