@@ -23,7 +23,7 @@ function getCurrentTabInfo() {
         window.close();
       })
       .catch((err) => {
-        console.log("TCL: getCurrentTabInfo -> err", err);
+        console.log("TR: getCurrentTabInfo -> err", err);
       });
   });
 }

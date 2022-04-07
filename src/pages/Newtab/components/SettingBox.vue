@@ -151,6 +151,7 @@
             ></textarea>
             <button type="button" class="btn btn-primary" @click="exportData">导出</button>
             <button type="button" class="btn btn-danger" @click="importData">导入</button>
+            <button type="button" class="btn btn-danger" @click="clearRemote">清除远程数据</button>
           </div>
           <div class="tab-pane history-pane" v-show="settingIndex == 3">
             <table class="table table-borderless">
@@ -236,6 +237,11 @@ async function importData() {
     hideBox();
     window.location.reload();
   }
+}
+
+async function clearRemote() {
+  if (!chrome.storage) return;
+  chrome.storage.sync.clear();
 }
 
 async function onBgTypeChange() {

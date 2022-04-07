@@ -131,7 +131,7 @@ function cleanList() {
   const list = store.links[curTabKey.value].list;
   // 清理不合法数据
   store.links[curTabKey.value].list = list.filter(item => !!item?.url);
-  console.log('TR: cleanList -> store.links[curTabKey.value].list', store.links[curTabKey.value].list);
+  // console.log('TR: cleanList -> store.links[curTabKey.value].list', store.links[curTabKey.value].list);
 }
 
 onMounted(async () => {
@@ -189,7 +189,7 @@ function handleHideSettings() {
 }
 function search() {
   let searchUrl =
-    store.search.url + encodeURIComponent(this.keywords);
+    store.search.url + encodeURIComponent(keywords.value);
   location.href = searchUrl;
 }
 function changeTabKey(key) {

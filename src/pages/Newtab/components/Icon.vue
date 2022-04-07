@@ -23,7 +23,7 @@ onMounted(() => {
     isIconShow.value = true;
   };
   img.onerror = (err) => {
-    console.log("TCL: mounted -> err", err);
+    console.log("TR: mounted -> err", err);
     isIconShow.value = false;
   };
   img.src = icon;

@@ -45,7 +45,7 @@ export const defaultSettings = {
 export function upgrade(version, data) {
   if (version >= curVersion) return data;
   if (version < 2) {
-    const newData = defaultSettings['2'];
+    const newData = _.cloneDeep(defaultSettings['2']);
     newData.links.default.list = data.list;
     newData.search.show = data.isSearchOpen;
     newData.search.icon = data.searchIcon;
@@ -62,7 +62,7 @@ export function upgrade(version, data) {
 }
 
 function from1to2(data) {
-  const newData = defaultSettings['2'];
+  const newData = _.cloneDeep(defaultSettings['2']);
   newData.links.default.list = data.list;
   newData.search.show = data.isSearchOpen;
   newData.search.icon = data.searchIcon;

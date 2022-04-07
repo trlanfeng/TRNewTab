@@ -4,12 +4,11 @@ import * as services from '../services/data';
 import { curVersion, defaultSettings } from '../services/upgrade';
 
 export const useStore = defineStore('main', {
-  state: () => defaultSettings[curVersion],
+  state: () => _.cloneDeep(defaultSettings[curVersion]),
   actions: {
     moveItem({ from, to, index, item }) {
       this.links[to].list.push(item);
       this.links[from].list.splice(index, 1);
-      console.log('TR: moveItem -> this', this);
     },
     removeItem({ category, index }) {
       this.$state.links[category].list.splice(index, 1);
@@ -37,7 +36,6 @@ export const useStore = defineStore('main', {
       this.replaceAllSettings(data);
     },
     async init() {
-      console.log('TR: init -> this', this.$state);
       const data = await services.initData();
       this.replaceAllSettings(data);
     },
