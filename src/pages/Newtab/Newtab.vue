@@ -77,7 +77,7 @@
             >
               <div class="info">
                 <a :href="element.url" class="block" :title="element.name">
-                  <Icon :name="element.name" :url="element.url"></Icon>
+                  <Icon :icon="element.icon" :name="element.name" :url="element.url"></Icon>
                   <span class="title">{{ element.name }}</span>
                 </a>
                 <div @click="removeItem(index)" v-if="isEditMode" class="close_button">

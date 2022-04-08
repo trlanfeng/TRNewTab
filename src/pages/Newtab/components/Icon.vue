@@ -11,12 +11,12 @@
 <script setup>
 const { onMounted, ref } = require('vue');
 
-const props = defineProps(["url", "name"]);
+const props = defineProps(["url", "name", "icon"]);
 const iconUrl = ref("");
 const isIconShow = ref(false);
 
 onMounted(() => {
-  const icon = getFavIconUrl(props.url);
+  const icon = props.icon || getFavIconUrl(props.url);
   const img = new Image();
   img.onload = () => {
     iconUrl.value = icon;
