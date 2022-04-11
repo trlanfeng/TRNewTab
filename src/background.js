@@ -23,17 +23,23 @@ chrome.runtime.onInstalled.addListener(() => {
     contexts: ['page'],
   });
   chrome.contextMenus.onClicked.addListener(addToSpeedDial);
-  chrome.runtime.onMessage.addListener(
-    async (message, sender, sendResponse) => {
-      if (message === 'getCurrentTab') {
-        const tab = await getCurrentTab();
-        let speedDial = {
-          name: tab.title,
-          url: tab.url,
-          icon: tab.favIconUrl,
-        };
-        sendResponse(speedDial);
-      }
+  chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+    if (message === 'getCurrentTab') {
+      getCurrentTab()
+        .then((tab) => {
+          const speedDial = {
+            name: tab.title,
+            url: tab.url,
+            icon: tab.favIconUrl,
+          };
+          sendResponse(speedDial);
+          return true;
+        })
+        .catch((e) => {
+          console.log('TR: e', e);
+          return;
+        });
+      return true;
     }
-  );
+  });
 });
