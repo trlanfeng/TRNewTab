@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "幻蓝新标签页",
-  "version": "3.0.12",
+  "version": "3.0.14",
   "description": "开源、简洁、快速、易用、可同步、无广告的新标签页。",
   "icons": {
     "16": "images/icon16.png",
@@ -24,6 +24,6 @@
     "contextMenus"
   ],
   "host_permissions": [
-    "*://*.bing.com/*"
+    "https://www.bing.com/HPImageArchive.aspx"
   ]
 }

@@ -25,7 +25,7 @@ export async function recoveryHistory(key) {
   saveData(history);
 }
 
-export async function initBackground(data) {
+export async function getBackgroundUrl(data) {
   try {
     const res = await axios.get(data.background.bingApi);
     return 'https://www.bing.com' + res.data.images[0].url;
@@ -38,8 +38,14 @@ export async function initData() {
   const cur = await getData();
   const remote = await getRemoteData();
   const res = getRecent(cur, remote);
-  if (!res.background.url) {
-    res.background.url = await initBackground(res);
+  const lastCheckDays = new Date().getDate();
+  if (
+    !res.background.url ||
+    !res.background.lastCheckDays ||
+    res.background.lastCheckDays !== lastCheckDays
+  ) {
+    res.background.url = await getBackgroundUrl(res);
+    res.background.lastCheckDays = lastCheckDays;
   }
   return res;
 }
